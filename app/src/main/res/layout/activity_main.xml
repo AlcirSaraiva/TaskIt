@@ -136,6 +136,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/add_task_master_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
@@ -146,6 +147,7 @@
                     android:layout_marginBottom="15dp"/>
 
                 <TextView
+                    android:id="@+id/add_task_master_id_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ID"
@@ -155,7 +157,7 @@
                     android:textSize="18sp" />
 
                 <Button
-                    android:id="@+id/generate_task_master_id_button"
+                    android:id="@+id/add_task_master_generate_id_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Generate new ID"/>
@@ -167,6 +169,7 @@
                     android:gravity="bottom">
 
                     <Button
+                        android:id="@+id/add_task_master_add_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add" />

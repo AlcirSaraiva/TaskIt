@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private final int  TASK_MASTER_NEW_TASK = 7;
     private int currentScreen;
 
-    private TextView info, addTaskerIdField;
+    private TextView info, addTaskerIdField, addTaskMasterIdField;
     private LinearLayout loginCard, addTaskMasterCard, taskMasterCard, taskerCard, addTaskerCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton, addTaskerGenerateIdButton, addTaskerAddButton;
-    private EditText addTaskerNameField;
+    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton, addTaskerGenerateIdButton, addTaskerAddButton, addTaskMasterGenerateIdButton, addTaskMasterAddButton;
+    private EditText addTaskerNameField, addTaskMasterNameField;
 
     private TextView taskersList;
 
@@ -116,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         addTaskMasterCardButton = findViewById(R.id.add_task_master_card_button);
 
+        addTaskMasterNameField = findViewById(R.id.add_task_master_name_field);
+        addTaskMasterIdField = findViewById(R.id.add_task_master_id_field);
+        addTaskMasterGenerateIdButton = findViewById(R.id.add_task_master_generate_id_button);
+        addTaskMasterAddButton = findViewById(R.id.add_task_master_add_button);
+
         taskMasterTaskersCardButton = findViewById(R.id.task_master_taskers_card_button);
         addTaskerCardButton = findViewById(R.id.add_tasker_card_button);
 
@@ -149,6 +154,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_ADD);
+            }
+        });
+
+        addTaskMasterGenerateIdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTaskMasterIdField.setText(generateID());
+            }
+        });
+        addTaskMasterAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskMasterAdd();
             }
         });
 
@@ -243,10 +261,13 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_ADD:
                 loginCard.setVisibility(View.GONE);
                 addTaskMasterCard.setVisibility(View.VISIBLE);
+                addTaskMasterNameField.setText("");
+                addTaskMasterIdField.setText(generateID());
                 break;
             case TASKER_ADD:
                 taskMasterTaskersCard.setVisibility(View.GONE);
                 addTaskerCard.setVisibility(View.VISIBLE);
+                addTaskerNameField.setText("");
                 addTaskerIdField.setText(generateID());
                 break;
             case TASK_MASTER_NEW_TASK:
@@ -385,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         addTaskerAddButton.setEnabled(true);
+                        info.setText("");
                         changeScreen(TASK_MASTER_TASKERS);
                         loadTaskers();
                     }
@@ -405,6 +427,43 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     info.setText("");
                     addTaskerAddButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
+
+    private void taskMasterAdd() {
+        addTaskMasterAddButton.setEnabled(false);
+        if (!addTaskMasterNameField.getText().toString().isEmpty()) {
+            String rawData = addTaskMasterNameField.getText().toString() + fS + addTaskMasterIdField.getText().toString();
+            String response = contactServer(addTaskMasterPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            info.setText(response);
+            if (response.contains("New record created successfully")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addTaskMasterAddButton.setEnabled(true);
+                        info.setText("");
+                        changeScreen(LOGIN);
+                    }
+                }, 1500);
+            } else if (response.contains("Task Master name already registered")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setText("");
+                        addTaskMasterAddButton.setEnabled(true);
+                    }
+                }, 2000);
+            }
+        } else {
+            info.setText("ERROR\nName field cannot be empty");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                    addTaskMasterAddButton.setEnabled(true);
                 }
             }, 2000);
         }
