@@ -77,6 +77,8 @@
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
                     android:hint="username"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:padding="5dp"
                     android:layout_marginBottom="15dp"/>
 
@@ -85,6 +87,8 @@
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
                     android:hint="password"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:padding="5dp"
                     android:layout_marginBottom="15dp" />
 
@@ -136,6 +140,8 @@
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
                     android:hint="name"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:padding="5dp"
                     android:layout_marginBottom="15dp"/>
 
@@ -360,14 +366,18 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/add_tasker_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
                     android:hint="name"
+                    android:singleLine="true"
+                    android:lines="1"
                     android:padding="5dp"
                     android:layout_marginBottom="15dp"/>
 
                 <TextView
+                    android:id="@+id/add_tasker_id_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ID"
@@ -377,7 +387,7 @@
                     android:textSize="18sp" />
 
                 <Button
-                    android:id="@+id/generate_tasker_id_button"
+                    android:id="@+id/add_tasker_generate_id_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Generate new ID"/>
@@ -389,6 +399,7 @@
                     android:gravity="bottom">
 
                     <Button
+                        android:id="@+id/add_tasker_add_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add" />

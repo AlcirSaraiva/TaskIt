@@ -13,6 +13,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,8 +31,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -53,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private final int  TASK_MASTER_NEW_TASK = 7;
     private int currentScreen;
 
-    private TextView info;
+    private TextView info, addTaskerIdField;
     private LinearLayout loginCard, addTaskMasterCard, taskMasterCard, taskerCard, addTaskerCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton;
+    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton, addTaskerGenerateIdButton, addTaskerAddButton;
+    private EditText addTaskerNameField;
 
     private TextView taskersList;
 
@@ -64,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isOnline;
     private BroadcastReceiver receiver;
     private final String emptyData = "emptyData";
-    private final String insertTaskMasterPHP = "https://www.solvaelys.com/taskit/insert_task_master.php";
-    private final String insertTaskerPHP = "https://www.solvaelys.com/taskit/insert_tasker.php";
+    private final String addTaskMasterPHP = "https://www.solvaelys.com/taskit/add_task_master.php";
+    private final String addTaskerPHP = "https://www.solvaelys.com/taskit/add_tasker.php";
     private final String loadTaskersPHP = "https://www.solvaelys.com/taskit/load_taskers.php";
 
     @Override
@@ -121,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
 
         taskersList = findViewById(R.id.taskers_list);
 
+        addTaskerNameField = findViewById(R.id.add_tasker_name_field);
+        addTaskerIdField = findViewById(R.id.add_tasker_id_field);
+        addTaskerGenerateIdButton = findViewById(R.id.add_tasker_generate_id_button);
+        addTaskerAddButton = findViewById(R.id.add_tasker_add_button);
     }
 
     private void assignViewListeners() {
@@ -148,18 +156,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKERS);
-                info.setText("Contacting server...  ");
-                taskersList.setText("");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String response = contactServer(loadTaskersPHP, Java_AES_Cipher.encryptSimple(emptyData));
-                        response = response.replaceAll(newLine, "\n");
-                        response = response.replaceAll(fS, " - ");
-                        taskersList.setText(response);
-                        info.setText("");
-                    }
-                }, 100);
+                loadTaskers();
             }
         });
         addTaskerCardButton.setOnClickListener(new View.OnClickListener() {
@@ -196,10 +193,22 @@ public class MainActivity extends AppCompatActivity {
                 }, 100);
             }
         });
+
+        addTaskerGenerateIdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTaskerIdField.setText(generateID());
+            }
+        });
+        addTaskerAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskerAdd();
+            }
+        });
     }
     
     private void changeScreen(int newScreen) {
-        System.out.println(TAG + "currentScreen: " + getCurrentScreen());
         switch (newScreen) {
             case LOGIN:
                 taskMasterCard.setVisibility(View.GONE);
@@ -229,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
             case TASKER_TASKS:
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
-
                 taskerTasksCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_ADD:
@@ -239,13 +247,12 @@ public class MainActivity extends AppCompatActivity {
             case TASKER_ADD:
                 taskMasterTaskersCard.setVisibility(View.GONE);
                 addTaskerCard.setVisibility(View.VISIBLE);
+                addTaskerIdField.setText(generateID());
                 break;
             case TASK_MASTER_NEW_TASK:
                 break;
         }
         currentScreen = newScreen;
-        System.out.println(TAG + "newScreen: " + getCurrentScreen());
-        System.out.println(TAG);
     }
 
     private void backButtonPressed() {
@@ -333,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
+            //connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             rawData = rawData.replace("'", "''");
 
@@ -346,6 +354,7 @@ public class MainActivity extends AppCompatActivity {
             outputStream.close();
 
             int responseCode = connection.getResponseCode();
+            //System.out.println(TAG + responseCode);
             String line;
             InputStream inputStream = connection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -362,5 +371,61 @@ public class MainActivity extends AppCompatActivity {
         return response;
     }
 
+    // general
 
+    private void taskerAdd() {
+        addTaskerAddButton.setEnabled(false);
+        if (!addTaskerNameField.getText().toString().isEmpty()) {
+            String rawData = addTaskerNameField.getText().toString() + fS + addTaskerIdField.getText().toString();
+            String response = contactServer(addTaskerPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            info.setText(response);
+            if (response.contains("New record created successfully")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addTaskerAddButton.setEnabled(true);
+                        changeScreen(TASK_MASTER_TASKERS);
+                        loadTaskers();
+                    }
+                }, 1500);
+            } else if (response.contains("Tasker name already registered")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setText("");
+                        addTaskerAddButton.setEnabled(true);
+                    }
+                }, 2000);
+            }
+        } else {
+            info.setText("ERROR\nName field cannot be empty");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                    addTaskerAddButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
+
+    private void loadTaskers() {
+        info.setText("Contacting server...  ");
+        taskersList.setText("");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String response = contactServer(loadTaskersPHP, Java_AES_Cipher.encryptSimple(emptyData));
+                response = response.replaceAll(newLine, "\n");
+                response = response.replaceAll(fS, " - ");
+                taskersList.setText(response);
+                info.setText("");
+            }
+        }, 100);
+    }
+
+    private String generateID() {
+        return UUID.randomUUID().toString().substring(9, 28);
+    }
 }
