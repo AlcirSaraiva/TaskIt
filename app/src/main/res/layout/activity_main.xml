@@ -433,17 +433,118 @@
                     android:textSize="18sp" />
 
                 <Button
+                    android:id="@+id/add_task_card_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New task" />
 
                 <TextView
+                    android:id="@+id/their_tasks_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#333"
                     android:padding="10dp"
                     android:layout_marginTop="20dp"
                     android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/add_task_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:background="#ffcccccc"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New task"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tasker(s)"
+                    android:background="#ffaaaaaa"
+                    android:layout_marginBottom="15dp"
+                    android:padding="5dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffaaaaaa"
+                    android:hint="Task title"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffaaaaaa"
+                    android:hint="Description"
+                    android:singleLine="false"
+                    android:lines="5"
+                    android:gravity="top"
+                    android:padding="5dp"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deadline"
+                    android:background="#ffaaaaaa"
+                    android:layout_marginBottom="15dp"
+                    android:padding="5dp"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:gravity="bottom">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start">
+
+                        <Button
+                            android:id="@+id/add_one_task_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add one task"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end">
+
+                        <Button
+                            android:id="@+id/add_more_task_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add &amp; One more"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -468,6 +569,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/my_tasks_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#333"

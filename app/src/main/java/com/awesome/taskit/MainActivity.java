@@ -40,6 +40,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
+    // TODO temporary
+    private final String myID = "0ab3-4120-b7ed-2e30";
+
     // General
     String TAG = "LogCat TaskIt: ";
     private final String fS = "10FXS01";
@@ -57,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
     private int currentScreen;
 
     private TextView info, addTaskerIdField, addTaskMasterIdField;
-    private LinearLayout loginCard, addTaskMasterCard, taskMasterCard, taskerCard, addTaskerCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard;
+    private LinearLayout loginCard, addTaskMasterCard, taskMasterCard, taskerCard, addTaskerCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton, addTaskerGenerateIdButton, addTaskerAddButton, addTaskMasterGenerateIdButton, addTaskMasterAddButton;
+    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton, addTaskerGenerateIdButton, addTaskerAddButton, addTaskMasterGenerateIdButton, addTaskMasterAddButton, addTaskCardButton;
     private EditText addTaskerNameField, addTaskMasterNameField;
 
-    private TextView taskersList;
+    private TextView taskersList, theirTasksList, myTasksList;
 
     // network
     private boolean isOnline;
@@ -71,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private final String addTaskMasterPHP = "https://www.solvaelys.com/taskit/add_task_master.php";
     private final String addTaskerPHP = "https://www.solvaelys.com/taskit/add_tasker.php";
     private final String loadTaskersPHP = "https://www.solvaelys.com/taskit/load_taskers.php";
+    private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
+    private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,8 +130,12 @@ public class MainActivity extends AppCompatActivity {
         addTaskerCardButton = findViewById(R.id.add_tasker_card_button);
 
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
+        addTaskCardButton = findViewById(R.id.add_task_card_button);
+        theirTasksList = findViewById(R.id.their_tasks_list);
+        addTaskCard = findViewById(R.id.add_task_card);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
+        myTasksList = findViewById(R.id.my_tasks_list);
 
         taskersList = findViewById(R.id.taskers_list);
 
@@ -188,13 +197,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKS);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                }, 100);
+                loadTheirTasks();
             }
         });
 
@@ -202,13 +205,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASKER_TASKS);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                }, 100);
+                loadMyTasks();
+            }
+        });
+        addTaskCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASK_MASTER_NEW_TASK);
             }
         });
 
@@ -251,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_TASKS:
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
+                addTaskCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.VISIBLE);
                 break;
             case TASKER_TASKS:
@@ -271,6 +275,8 @@ public class MainActivity extends AppCompatActivity {
                 addTaskerIdField.setText(generateID());
                 break;
             case TASK_MASTER_NEW_TASK:
+                taskMasterTasksCard.setVisibility(View.GONE);
+                addTaskCard.setVisibility(View.VISIBLE);
                 break;
         }
         currentScreen = newScreen;
@@ -300,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(TASK_MASTER_TASKERS);
                 break;
             case TASK_MASTER_NEW_TASK:
+                changeScreen(TASK_MASTER_TASKS);
                 break;
         }
     }
@@ -467,6 +474,36 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 2000);
         }
+    }
+
+    private void loadTheirTasks() {
+        info.setText("Contacting server...  ");
+        theirTasksList.setText("");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(myID));
+                response = response.replaceAll(newLine, "\n");
+                response = response.replaceAll(fS, " - ");
+                theirTasksList.setText(response);
+                info.setText("");
+            }
+        }, 100);
+    }
+
+    private void loadMyTasks() {
+        info.setText("Contacting server...  ");
+        myTasksList.setText("");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String response = contactServer(loadMyTasksPHP, Java_AES_Cipher.encryptSimple(myID));
+                response = response.replaceAll(newLine, "\n");
+                response = response.replaceAll(fS, " - ");
+                myTasksList.setText(response);
+                info.setText("");
+            }
+        }, 100);
     }
 
     private void loadTaskers() {
