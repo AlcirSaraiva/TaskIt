@@ -42,7 +42,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
 
     // TODO temporary
-    private final String myID = "0ab3-4120-b7ed-2e30";
+    private final String myID = "4da7-4151-a485-a33a";
 
     // General
     String TAG = "LogCat TaskIt: ";
@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton;
-    private EditText addUserNameField;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, changePasswordChangeButton;
+    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field;
     private CheckBox addUserTaskMaster, addUserAdmin;
 
     private TextView usersList, theirTasksList, myTasksList;
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private final String loadUsersPHP = "https://www.solvaelys.com/taskit/load_users.php";
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
     private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
+    private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,13 @@ public class MainActivity extends AppCompatActivity {
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksList = findViewById(R.id.my_tasks_list);
 
-        usersList = findViewById(R.id.users_list);}
+        usersList = findViewById(R.id.users_list);
+
+        changePasswordOldField = findViewById(R.id.change_password_old_field);
+        changePasswordNew1Field = findViewById(R.id.change_password_new1_field);
+        changePasswordNew2Field = findViewById(R.id.change_password_new2_field);
+        changePasswordChangeButton = findViewById(R.id.change_password_change_button);
+    }
 
     private void assignViewListeners() {
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +221,13 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(TASK_MASTER_NEW_TASK);
             }
         });
+
+        changePasswordChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePassword();
+            }
+        });
     }
     
     private void changeScreen(int newScreen) {
@@ -269,6 +283,9 @@ public class MainActivity extends AppCompatActivity {
                 taskerCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
                 changePasswordCard.setVisibility(View.VISIBLE);
+                changePasswordOldField.setText("");
+                changePasswordNew1Field.setText("");
+                changePasswordNew2Field.setText("");
                 break;
         }
         currentScreen = newScreen;
@@ -460,5 +477,62 @@ public class MainActivity extends AppCompatActivity {
 
     private String generateID() {
         return UUID.randomUUID().toString().substring(9, 28);
+    }
+
+    private void changePassword() {
+        if (changePasswordNew1Field.getText().toString().isEmpty() && changePasswordNew2Field.getText().toString().isEmpty()) {
+            info.setText("New password cannot be empty");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                }
+            }, 2000);
+        } else if (!changePasswordNew1Field.getText().toString().equals(changePasswordNew2Field.getText().toString())) {
+            info.setText("New password fields do not match");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                }
+            }, 2000);
+        } else if (changePasswordNew1Field.getText().toString().length() < 8) {
+            info.setText("New password must have at least 8 characters");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                }
+            }, 2500);
+        } else {
+            changePasswordChangeButton.setEnabled(false);
+            String rawData = myID + fS + changePasswordOldField.getText().toString() + fS + changePasswordNew1Field.getText().toString();
+            String response = contactServer(changePasswordPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            response = response.replaceAll(fS, " - ");
+            info.setText(response);
+
+            if (response.contains("Password changed")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        changePasswordOldField.setText("");
+                        changePasswordNew1Field.setText("");
+                        changePasswordNew2Field.setText("");
+                        changePasswordChangeButton.setEnabled(true);
+                        info.setText("");
+                        changeScreen(CHOOSE_ROLE);
+                    }
+                }, 1500);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        changePasswordChangeButton.setEnabled(true);
+                        info.setText("");
+                    }
+                }, 1500);
+            }
+        }
     }
 }
