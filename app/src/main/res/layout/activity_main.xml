@@ -140,7 +140,8 @@
                             android:layout_height="60dp"
                             android:src="@mipmap/ic_launcher_round"
                             android:scaleType="fitCenter"
-                            android:background="#00000000" />
+                            android:background="#00000000"
+                            android:layout_marginBottom="8dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -163,7 +164,8 @@
                             android:layout_height="60dp"
                             android:src="@mipmap/ic_launcher_round"
                             android:scaleType="fitCenter"
-                            android:background="#00000000" />
+                            android:background="#00000000"
+                            android:layout_marginBottom="8dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -217,7 +219,8 @@
                             android:layout_height="60dp"
                             android:src="@mipmap/ic_launcher_round"
                             android:scaleType="fitCenter"
-                            android:background="#00000000" />
+                            android:background="#00000000"
+                            android:layout_marginBottom="8dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -363,6 +366,37 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tasker_tasks_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:background="#ffcccccc"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tasks assigned to me"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/my_tasks_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#333"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/add_task_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -383,14 +417,14 @@
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
-                <TextView
+                <Spinner
+                    android:id="@+id/add_task_tasker_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tasker(s)"
+                    android:layout_height="35dp"
                     android:background="#ffaaaaaa"
-                    android:layout_marginBottom="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp" />
+                    android:spinnerMode="dropdown"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="15dp" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -458,37 +492,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tasker_tasks_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
-                android:visibility="gone" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tasks assigned to me"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/my_tasks_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#333"
-                    android:padding="10dp"
-                    android:layout_marginTop="20dp"
-                    android:textSize="14sp" />
 
             </LinearLayout>
 

@@ -12,11 +12,13 @@ import android.os.StrictMode;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +37,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -42,12 +45,20 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
 
     // TODO temporary
-    private final String myID = "4da7-4151-a485-a33a";
+    private String myID = "4da7-4151-a485-a33a";
+    private boolean taskMaster = true;
+    private boolean admin = true;
 
     // General
     String TAG = "LogCat TaskIt: ";
+    private Context context;
     private final String fS = "10FXS01";
     private final String newLine = "10NXL01";
+
+    private ArrayList<String> usersNames;
+    private ArrayList<String> usersIds;
+    private ArrayList<Boolean> usersTaskMaster;
+    private ArrayList<Boolean> usersAdmin;
 
     // UI
     private final int  LOGIN = 0;
@@ -66,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, changePasswordChangeButton;
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field;
     private CheckBox addUserTaskMaster, addUserAdmin;
+    private Spinner addTaskTaskerSpinner;
 
     private TextView usersList, theirTasksList, myTasksList;
 
@@ -89,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        context = this;
 
         assignViews();
         assignViewListeners();
@@ -139,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksList = findViewById(R.id.their_tasks_list);
+
+        addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksList = findViewById(R.id.my_tasks_list);
@@ -244,7 +260,12 @@ public class MainActivity extends AppCompatActivity {
                 taskerTasksCard.setVisibility(View.GONE);
                 addUserCard.setVisibility(View.GONE);
                 changePasswordCard.setVisibility(View.GONE);
-                taskMasterCard.setVisibility(View.VISIBLE);
+                if (taskMaster) taskMasterCard.setVisibility(View.VISIBLE);
+                if (admin) {
+                    addUserCardButton.setVisibility(View.VISIBLE);
+                } else {
+                    addUserCardButton.setVisibility(View.GONE);
+                }
                 taskerCard.setVisibility(View.VISIBLE);
                 adminCard.setVisibility(View.VISIBLE);
                 break;
@@ -272,11 +293,13 @@ public class MainActivity extends AppCompatActivity {
                 taskerCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
                 addUserCard.setVisibility(View.VISIBLE);
+                addUserNameField.setText("");
                 addUserIdField.setText(generateID());
                 break;
             case TASK_MASTER_NEW_TASK:
                 taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
+                buildNewTaskCard();
                 break;
             case CHANGE_PASSWORD:
                 taskMasterCard.setVisibility(View.GONE);
@@ -381,14 +404,14 @@ public class MainActivity extends AppCompatActivity {
     // general
 
     private void userAdd() {
-        int taskMaster = 0;
-        int admin = 0;
-        if (addUserTaskMaster.isChecked()) taskMaster = 1;
-        if (addUserAdmin.isChecked()) admin = 1;
+        int taskMasterCB = 0;
+        int adminCB = 0;
+        if (addUserTaskMaster.isChecked()) taskMasterCB = 1;
+        if (addUserAdmin.isChecked()) adminCB = 1;
 
         addUserAddButton.setEnabled(false);
         if (!addUserNameField.getText().toString().isEmpty()) {
-            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMaster + fS + admin;
+            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB;
             String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             info.setText(response);
@@ -467,10 +490,47 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 String response = contactServer(loadUsersPHP, Java_AES_Cipher.encryptSimple(emptyData));
-                response = response.replaceAll(newLine, "\n");
-                response = response.replaceAll(fS, " - ");
-                usersList.setText(response);
-                info.setText("");
+                if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+                    usersNames = new ArrayList<>();
+                    usersIds = new ArrayList<>();
+                    usersTaskMaster = new ArrayList<>();
+                    usersAdmin = new ArrayList<>();
+
+                    String[] lines = response.split(newLine);
+                    String[] line;
+                    for (int i = 0; i < lines.length; i ++) {
+                        line = lines[i].split(fS);
+                        if (line.length == 4 && !line[1].equals(myID)) {
+                            usersNames.add(line[0]);
+                            usersIds.add(line[1]);
+                            if (line[2].equals("0")) {
+                                usersTaskMaster.add(false);
+                            } else {
+                                usersTaskMaster.add(true);
+                            }
+                            if (line[3].equals("0")) {
+                                usersAdmin.add(false);
+                            } else {
+                                usersAdmin.add(true);
+                            }
+                        }
+                    }
+
+
+                    info.setText("");
+
+                    String[] items = usersNames.toArray(new String[usersNames.size()]);
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+                    addTaskTaskerSpinner.setAdapter(adapter);
+
+                    String tempList = "";
+                    for (int i = 0; i < usersNames.size(); i ++) {
+                        tempList += usersNames.get(i) + "\n";
+                    }
+
+                    usersList.setText(tempList);
+                }
             }
         }, 100);
     }
@@ -534,5 +594,9 @@ public class MainActivity extends AppCompatActivity {
                 }, 1500);
             }
         }
+    }
+
+    private void buildNewTaskCard() {
+        loadUsers();
     }
 }
