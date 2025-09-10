@@ -98,84 +98,6 @@
                     android:layout_height="wrap_content"
                     android:text="Sign in"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/add_task_master_card_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add Task Master" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_task_master_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
-                android:visibility="gone" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add Task Master"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/add_task_master_name_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
-                    android:hint="name"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="5dp"
-                    android:layout_marginBottom="15dp"/>
-
-                <TextView
-                    android:id="@+id/add_task_master_id_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ID"
-                    android:background="#ffaaaaaa"
-                    android:layout_marginBottom="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:id="@+id/add_task_master_generate_id_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Generate new ID"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/add_task_master_add_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add" />
-
-                </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -310,6 +232,68 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/admin_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:background="#ffcccccc"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admin"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="18sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/add_user_card_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add user"
+                            android:layout_marginTop="5dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <Button
+                            android:id="@+id/change_pass_card_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Password"
+                            android:layout_marginTop="5dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/task_master_taskers_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -330,84 +314,13 @@
                     android:layout_marginBottom="15dp"
                     android:textSize="18sp" />
 
-                <Button
-                    android:id="@+id/add_tasker_card_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add Tasker" />
-
                 <TextView
-                    android:id="@+id/taskers_list"
+                    android:id="@+id/users_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#333"
                     android:padding="10dp"
-                    android:layout_marginTop="20dp"
                     android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_tasker_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
-                android:visibility="gone" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add Tasker"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/add_tasker_name_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
-                    android:hint="name"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="5dp"
-                    android:layout_marginBottom="15dp"/>
-
-                <TextView
-                    android:id="@+id/add_tasker_id_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ID"
-                    android:background="#ffaaaaaa"
-                    android:layout_marginBottom="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:id="@+id/add_tasker_generate_id_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Generate new ID"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/add_tasker_add_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -576,6 +489,167 @@
                     android:padding="10dp"
                     android:layout_marginTop="20dp"
                     android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/add_user_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:background="#ffcccccc"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add User"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/add_user_name_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffaaaaaa"
+                    android:hint="Name"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginBottom="15dp">
+
+                    <CheckBox
+                        android:id="@+id/add_user_task_master"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Task Master" />
+
+                    <CheckBox
+                        android:id="@+id/add_user_admin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Admin" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/add_user_id_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:background="#ffaaaaaa"
+                    android:layout_marginBottom="15dp"
+                    android:padding="5dp"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/add_user_generate_id_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Generate new ID"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom">
+
+                    <Button
+                        android:id="@+id/add_user_add_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/change_password_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:background="#ffcccccc"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change password"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/change_password_old_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffaaaaaa"
+                    android:hint="Old password"
+                    android:inputType="textVisiblePassword"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:layout_marginBottom="40dp"/>
+
+                <EditText
+                    android:id="@+id/change_password_new1_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffaaaaaa"
+                    android:hint="New password"
+                    android:inputType="textVisiblePassword"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <EditText
+                    android:id="@+id/change_password_new2_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffaaaaaa"
+                    android:hint="Repeat new password"
+                    android:inputType="textVisiblePassword"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom">
+
+                    <Button
+                        android:id="@+id/change_password_change_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change password" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

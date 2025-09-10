@@ -13,6 +13,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -54,26 +55,26 @@ public class MainActivity extends AppCompatActivity {
     private final int  TASK_MASTER_TASKERS = 2;
     private final int  TASK_MASTER_TASKS = 3;
     private final int  TASKER_TASKS = 4;
-    private final int  TASK_MASTER_ADD = 5;
-    private final int  TASKER_ADD = 6;
-    private final int  TASK_MASTER_NEW_TASK = 7;
+    private final int  USER_ADD = 5;
+    private final int  TASK_MASTER_NEW_TASK = 6;
+    private final int  CHANGE_PASSWORD = 7;
     private int currentScreen;
 
-    private TextView info, addTaskerIdField, addTaskMasterIdField;
-    private LinearLayout loginCard, addTaskMasterCard, taskMasterCard, taskerCard, addTaskerCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addTaskCard;
+    private TextView info, addUserIdField;
+    private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addTaskMasterCardButton, addTaskerCardButton, addTaskerGenerateIdButton, addTaskerAddButton, addTaskMasterGenerateIdButton, addTaskMasterAddButton, addTaskCardButton;
-    private EditText addTaskerNameField, addTaskMasterNameField;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton;
+    private EditText addUserNameField;
+    private CheckBox addUserTaskMaster, addUserAdmin;
 
-    private TextView taskersList, theirTasksList, myTasksList;
+    private TextView usersList, theirTasksList, myTasksList;
 
     // network
     private boolean isOnline;
     private BroadcastReceiver receiver;
     private final String emptyData = "emptyData";
-    private final String addTaskMasterPHP = "https://www.solvaelys.com/taskit/add_task_master.php";
-    private final String addTaskerPHP = "https://www.solvaelys.com/taskit/add_tasker.php";
-    private final String loadTaskersPHP = "https://www.solvaelys.com/taskit/load_taskers.php";
+    private final String addUserPHP = "https://www.solvaelys.com/taskit/add_user.php";
+    private final String loadUsersPHP = "https://www.solvaelys.com/taskit/load_users.php";
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
     private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
 
@@ -110,40 +111,38 @@ public class MainActivity extends AppCompatActivity {
         info = findViewById(R.id.info);
 
         loginCard = findViewById(R.id.login_card);
-        addTaskMasterCard = findViewById(R.id.add_task_master_card);
         taskMasterCard = findViewById(R.id.task_master_card);
         taskerCard = findViewById(R.id.tasker_card);
+        adminCard = findViewById(R.id.admin_card);
+
         taskMasterTaskersCard = findViewById(R.id.task_master_taskers_card);
-        addTaskerCard = findViewById(R.id.add_tasker_card);
         taskMasterTasksCard = findViewById(R.id.task_master_tasks_card);
         taskerTasksCard = findViewById(R.id.tasker_tasks_card);
+        addUserCard = findViewById(R.id.add_user_card);
+        changePasswordCard = findViewById(R.id.change_password_card);
 
         signInButton = findViewById(R.id.sign_in_button);
-        addTaskMasterCardButton = findViewById(R.id.add_task_master_card_button);
-
-        addTaskMasterNameField = findViewById(R.id.add_task_master_name_field);
-        addTaskMasterIdField = findViewById(R.id.add_task_master_id_field);
-        addTaskMasterGenerateIdButton = findViewById(R.id.add_task_master_generate_id_button);
-        addTaskMasterAddButton = findViewById(R.id.add_task_master_add_button);
 
         taskMasterTaskersCardButton = findViewById(R.id.task_master_taskers_card_button);
-        addTaskerCardButton = findViewById(R.id.add_tasker_card_button);
-
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
+        addUserCardButton = findViewById(R.id.add_user_card_button);
+        changePassCardButton = findViewById(R.id.change_pass_card_button);
         addTaskCardButton = findViewById(R.id.add_task_card_button);
-        theirTasksList = findViewById(R.id.their_tasks_list);
+
+        addUserNameField = findViewById(R.id.add_user_name_field);
+        addUserTaskMaster = findViewById(R.id.add_user_task_master);
+        addUserAdmin = findViewById(R.id.add_user_admin);
+        addUserIdField = findViewById(R.id.add_user_id_field);
+        addUserGenerateIdButton = findViewById(R.id.add_user_generate_id_button);
+        addUserAddButton = findViewById(R.id.add_user_add_button);
+
         addTaskCard = findViewById(R.id.add_task_card);
+        theirTasksList = findViewById(R.id.their_tasks_list);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksList = findViewById(R.id.my_tasks_list);
 
-        taskersList = findViewById(R.id.taskers_list);
-
-        addTaskerNameField = findViewById(R.id.add_tasker_name_field);
-        addTaskerIdField = findViewById(R.id.add_tasker_id_field);
-        addTaskerGenerateIdButton = findViewById(R.id.add_tasker_generate_id_button);
-        addTaskerAddButton = findViewById(R.id.add_tasker_add_button);
-    }
+        usersList = findViewById(R.id.users_list);}
 
     private void assignViewListeners() {
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -159,23 +158,30 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(CHOOSE_ROLE);
             }
         });
-        addTaskMasterCardButton.setOnClickListener(new View.OnClickListener() {
+
+        addUserCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeScreen(TASK_MASTER_ADD);
+                changeScreen(USER_ADD);
+            }
+        });
+        changePassCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(CHANGE_PASSWORD);
             }
         });
 
-        addTaskMasterGenerateIdButton.setOnClickListener(new View.OnClickListener() {
+        addUserGenerateIdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTaskMasterIdField.setText(generateID());
+                addUserIdField.setText(generateID());
             }
         });
-        addTaskMasterAddButton.setOnClickListener(new View.OnClickListener() {
+        addUserAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                taskMasterAdd();
+                userAdd();
             }
         });
 
@@ -183,13 +189,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKERS);
-                loadTaskers();
-            }
-        });
-        addTaskerCardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeScreen(TASKER_ADD);
+                loadUsers();
             }
         });
 
@@ -214,19 +214,6 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(TASK_MASTER_NEW_TASK);
             }
         });
-
-        addTaskerGenerateIdButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addTaskerIdField.setText(generateID());
-            }
-        });
-        addTaskerAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                taskerAdd();
-            }
-        });
     }
     
     private void changeScreen(int newScreen) {
@@ -234,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
             case LOGIN:
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
-                addTaskMasterCard.setVisibility(View.GONE);
                 loginCard.setVisibility(View.VISIBLE);
                 break;
             case CHOOSE_ROLE:
@@ -242,41 +228,47 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterTaskersCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.GONE);
+                addUserCard.setVisibility(View.GONE);
+                changePasswordCard.setVisibility(View.GONE);
                 taskMasterCard.setVisibility(View.VISIBLE);
                 taskerCard.setVisibility(View.VISIBLE);
+                adminCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKERS:
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
-                addTaskerCard.setVisibility(View.GONE);
+                adminCard.setVisibility(View.GONE);
                 taskMasterTaskersCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.GONE);
+                adminCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.VISIBLE);
                 break;
             case TASKER_TASKS:
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
+                adminCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.VISIBLE);
                 break;
-            case TASK_MASTER_ADD:
-                loginCard.setVisibility(View.GONE);
-                addTaskMasterCard.setVisibility(View.VISIBLE);
-                addTaskMasterNameField.setText("");
-                addTaskMasterIdField.setText(generateID());
-                break;
-            case TASKER_ADD:
-                taskMasterTaskersCard.setVisibility(View.GONE);
-                addTaskerCard.setVisibility(View.VISIBLE);
-                addTaskerNameField.setText("");
-                addTaskerIdField.setText(generateID());
+            case USER_ADD:
+                taskMasterCard.setVisibility(View.GONE);
+                taskerCard.setVisibility(View.GONE);
+                adminCard.setVisibility(View.GONE);
+                addUserCard.setVisibility(View.VISIBLE);
+                addUserIdField.setText(generateID());
                 break;
             case TASK_MASTER_NEW_TASK:
                 taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
+                break;
+            case CHANGE_PASSWORD:
+                taskMasterCard.setVisibility(View.GONE);
+                taskerCard.setVisibility(View.GONE);
+                adminCard.setVisibility(View.GONE);
+                changePasswordCard.setVisibility(View.VISIBLE);
                 break;
         }
         currentScreen = newScreen;
@@ -291,46 +283,16 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(LOGIN);
                 break;
             case TASK_MASTER_TASKERS:
-                changeScreen(CHOOSE_ROLE);
-                break;
             case TASK_MASTER_TASKS:
-                changeScreen(CHOOSE_ROLE);
-                break;
             case TASKER_TASKS:
+            case USER_ADD:
+            case CHANGE_PASSWORD:
                 changeScreen(CHOOSE_ROLE);
-                break;
-            case TASK_MASTER_ADD:
-                changeScreen(LOGIN);
-                break;
-            case TASKER_ADD:
-                changeScreen(TASK_MASTER_TASKERS);
                 break;
             case TASK_MASTER_NEW_TASK:
                 changeScreen(TASK_MASTER_TASKS);
                 break;
         }
-    }
-
-    private String getCurrentScreen() {
-        switch (currentScreen) {
-            case LOGIN:
-                return "LOGIN";
-            case CHOOSE_ROLE:
-                return "CHOOSE_ROLE";
-            case TASK_MASTER_TASKERS:
-                return "TASK_MASTER_TASKERS";
-            case TASK_MASTER_TASKS:
-                return "TASK_MASTER_TASKS";
-            case TASKER_TASKS:
-                return "TASKER_TASKS";
-            case TASK_MASTER_ADD:
-                return "TASK_MASTER_ADD";
-            case TASKER_ADD:
-                return "TASKER_ADD";
-            case TASK_MASTER_NEW_TASK:
-                return "TASK_MASTER_NEW_TASK";
-        }
-        return "NONE";
     }
 
     // network
@@ -401,66 +363,41 @@ public class MainActivity extends AppCompatActivity {
 
     // general
 
-    private void taskerAdd() {
-        addTaskerAddButton.setEnabled(false);
-        if (!addTaskerNameField.getText().toString().isEmpty()) {
-            String rawData = addTaskerNameField.getText().toString() + fS + addTaskerIdField.getText().toString();
-            String response = contactServer(addTaskerPHP, Java_AES_Cipher.encryptSimple(rawData));
-            response = response.replaceAll(newLine, "\n");
-            info.setText(response);
-            if (response.contains("New record created successfully")) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addTaskerAddButton.setEnabled(true);
-                        info.setText("");
-                        changeScreen(TASK_MASTER_TASKERS);
-                        loadTaskers();
-                    }
-                }, 1500);
-            } else if (response.contains("Tasker name already registered")) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        info.setText("");
-                        addTaskerAddButton.setEnabled(true);
-                    }
-                }, 2000);
-            }
-        } else {
-            info.setText("ERROR\nName field cannot be empty");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    info.setText("");
-                    addTaskerAddButton.setEnabled(true);
-                }
-            }, 2000);
-        }
-    }
+    private void userAdd() {
+        int taskMaster = 0;
+        int admin = 0;
+        if (addUserTaskMaster.isChecked()) taskMaster = 1;
+        if (addUserAdmin.isChecked()) admin = 1;
 
-    private void taskMasterAdd() {
-        addTaskMasterAddButton.setEnabled(false);
-        if (!addTaskMasterNameField.getText().toString().isEmpty()) {
-            String rawData = addTaskMasterNameField.getText().toString() + fS + addTaskMasterIdField.getText().toString();
-            String response = contactServer(addTaskMasterPHP, Java_AES_Cipher.encryptSimple(rawData));
+        addUserAddButton.setEnabled(false);
+        if (!addUserNameField.getText().toString().isEmpty()) {
+            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMaster + fS + admin;
+            String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             info.setText(response);
             if (response.contains("New record created successfully")) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        addTaskMasterAddButton.setEnabled(true);
+                        addUserAddButton.setEnabled(true);
                         info.setText("");
-                        changeScreen(LOGIN);
+                        changeScreen(CHOOSE_ROLE);
                     }
                 }, 1500);
-            } else if (response.contains("Task Master name already registered")) {
+            } else if (response.contains("User name already registered")) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         info.setText("");
-                        addTaskMasterAddButton.setEnabled(true);
+                        addUserAddButton.setEnabled(true);
+                    }
+                }, 2000);
+            } else if (response.contains("User ID already exists")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setText("Generate new ID and try again");
+                        addUserAddButton.setEnabled(true);
                     }
                 }, 2000);
             }
@@ -470,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     info.setText("");
-                    addTaskMasterAddButton.setEnabled(true);
+                    addUserAddButton.setEnabled(true);
                 }
             }, 2000);
         }
@@ -506,16 +443,16 @@ public class MainActivity extends AppCompatActivity {
         }, 100);
     }
 
-    private void loadTaskers() {
+    private void loadUsers() {
         info.setText("Contacting server...  ");
-        taskersList.setText("");
+        usersList.setText("");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                String response = contactServer(loadTaskersPHP, Java_AES_Cipher.encryptSimple(emptyData));
+                String response = contactServer(loadUsersPHP, Java_AES_Cipher.encryptSimple(emptyData));
                 response = response.replaceAll(newLine, "\n");
                 response = response.replaceAll(fS, " - ");
-                taskersList.setText(response);
+                usersList.setText(response);
                 info.setText("");
             }
         }, 100);
