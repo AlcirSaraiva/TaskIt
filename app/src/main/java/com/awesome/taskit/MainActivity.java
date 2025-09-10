@@ -1,5 +1,6 @@
 package com.awesome.taskit;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,20 +10,22 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.text.method.PasswordTransformationMethod;
-import android.text.method.SingleLineTransformationMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -34,7 +37,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     // General
     String TAG = "LogCat TaskIt: ";
     private Context context;
+    private Activity activityContext;
+
     private final String fS = "10FXS01";
     private final String newLine = "10NXL01";
 
@@ -74,12 +78,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, changePasswordChangeButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickTimeButton, changePasswordChangeButton;
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field;
     private CheckBox addUserTaskMaster, addUserAdmin;
     private Spinner addTaskTaskerSpinner;
+    private ListView usersListView;
 
-    private TextView usersList, theirTasksList, myTasksList;
+    private TextView theirTasksList, myTasksList;
 
     // network
     private boolean isOnline;
@@ -103,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         context = this;
+        activityContext = MainActivity.this;
 
         assignViews();
         assignViewListeners();
@@ -153,13 +159,14 @@ public class MainActivity extends AppCompatActivity {
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksList = findViewById(R.id.their_tasks_list);
+        addTaskPickTimeButton = findViewById(R.id.add_task_pick_time_button);
 
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksList = findViewById(R.id.my_tasks_list);
 
-        usersList = findViewById(R.id.users_list);
+        usersListView = findViewById(R.id.users_listview);
 
         changePasswordOldField = findViewById(R.id.change_password_old_field);
         changePasswordNew1Field = findViewById(R.id.change_password_new1_field);
@@ -238,6 +245,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        addTaskPickTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         changePasswordChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private void changeScreen(int newScreen) {
         switch (newScreen) {
             case LOGIN:
@@ -485,7 +499,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadUsers() {
         info.setText("Contacting server...  ");
-        usersList.setText("");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -516,20 +529,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-
                     info.setText("");
 
                     String[] items = usersNames.toArray(new String[usersNames.size()]);
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
                     addTaskTaskerSpinner.setAdapter(adapter);
 
-                    String tempList = "";
-                    for (int i = 0; i < usersNames.size(); i ++) {
-                        tempList += usersNames.get(i) + "\n";
-                    }
-
-                    usersList.setText(tempList);
+                    UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, usersNames, usersIds);
+                    usersListView.setAdapter(usersListAdapter);
                 }
             }
         }, 100);
@@ -598,5 +605,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void buildNewTaskCard() {
         loadUsers();
+
+
+
+
+
+
+    }
+
+    public class UsersListAdapter extends ArrayAdapter {
+        private Activity activityContext;
+        private ArrayList<String> name, id;
+
+        public UsersListAdapter(@NonNull Activity activityContext, ArrayList<String> name, ArrayList<String> id) {
+            super(context, R.layout.users_list, name);
+            this.activityContext = activityContext;
+            this.name = name;
+            this.id = id;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            LayoutInflater inflater = activityContext.getLayoutInflater();
+            if (convertView == null) view = inflater.inflate(R.layout.users_list, null, true);
+
+            TextView text1 = (TextView) view.findViewById(R.id.text1);
+            TextView text2 = (TextView) view.findViewById(R.id.text2);
+
+            text1.setText(name.get(position));
+            text2.setText(id.get(position));
+
+            return view;
+        }
     }
 }
