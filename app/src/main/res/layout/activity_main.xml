@@ -336,7 +336,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -351,14 +351,11 @@
                     android:layout_height="wrap_content"
                     android:text="New task" />
 
-                <TextView
-                    android:id="@+id/their_tasks_list"
+                <ListView
+                    android:id="@+id/their_tasks_listview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#333"
-                    android:padding="10dp"
-                    android:layout_marginTop="20dp"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="20dp" />
 
             </LinearLayout>
 
@@ -405,7 +402,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"
