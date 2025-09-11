@@ -424,6 +424,7 @@
                     android:layout_marginBottom="15dp" />
 
                 <EditText
+                    android:id="@+id/add_task_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
@@ -434,6 +435,7 @@
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
+                    android:id="@+id/add_task_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
@@ -460,7 +462,6 @@
                         android:id="@+id/add_task_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="00/00/0000"
                         android:background="#ffaaaaaa"
                         android:layout_marginStart="20dp"
                         android:paddingTop="6dp"
@@ -485,7 +486,6 @@
                         android:id="@+id/add_task_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="00:00"
                         android:background="#ffaaaaaa"
                         android:layout_marginStart="20dp"
                         android:paddingTop="6dp"

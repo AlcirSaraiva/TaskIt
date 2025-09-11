@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private Activity activityContext;
 
+    private Calendar calendar;
+    private int day, month, year, hour, minute;
+
     private final String fS = "10FXS01";
     private final String newLine = "10NXL01";
 
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> usersIds;
     private ArrayList<Boolean> usersTaskMaster;
     private ArrayList<Boolean> usersAdmin;
+
+    private boolean justOne;
 
     // UI
     private final int  LOGIN = 0;
@@ -85,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField, addTaskDate, addTaskTime;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, changePasswordChangeButton;
-    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton;
+    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription;
     private CheckBox addUserTaskMaster, addUserAdmin;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView;
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private final String loadUsersPHP = "https://www.solvaelys.com/taskit/load_users.php";
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
     private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
+    private final String addTaskPHP = "https://www.solvaelys.com/taskit/add_task.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
 
     @Override
@@ -116,6 +122,13 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
         activityContext = MainActivity.this;
+
+        calendar = Calendar.getInstance();
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
 
         assignViews();
         assignViewListeners();
@@ -168,10 +181,14 @@ public class MainActivity extends AppCompatActivity {
         theirTasksList = findViewById(R.id.their_tasks_list);
 
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
+        addTaskTitle = findViewById(R.id.add_task_title);
+        addTaskDescription = findViewById(R.id.add_task_description);
         addTaskPickDateButton = findViewById(R.id.add_task_pick_date_button);
         addTaskDate = findViewById(R.id.add_task_date);
         addTaskPickTimeButton = findViewById(R.id.add_task_pick_time_button);
         addTaskTime = findViewById(R.id.add_task_time);
+        addOneTaskButton = findViewById(R.id.add_one_task_button);
+        addMoreTaskButton = findViewById(R.id.add_more_task_button);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksList = findViewById(R.id.my_tasks_list);
@@ -221,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         addUserAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userAdd();
+                addUser();
             }
         });
 
@@ -237,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKS);
-                loadTheirTasks();
             }
         });
 
@@ -258,37 +274,44 @@ public class MainActivity extends AppCompatActivity {
         addTaskPickDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        addTaskDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                        c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, monthOfYear);
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    public void onDateSet(DatePicker view, int dpdYear, int dpdMonthOfYear, int dpdDayOfMonth) {
+                        addTaskDate.setText(dpdDayOfMonth + "/" + (dpdMonthOfYear + 1) + "/" + dpdYear);
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, dpdMonthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dpdYear);
                     }
-                }, mYear, mMonth, mDay);
+                }, year, month, day);
                 datePickerDialog.show();
             }
         });
         addTaskPickTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minute = c.get(Calendar.MINUTE);
-                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
                     @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        addTaskTime.setText(hourOfDay + ":" + minute + ":00");
-                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        c.set(Calendar.MINUTE, minute);
+                    public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
+                        addTaskTime.setText(tpdHourOfDay + ":" + tpdMinute);
+                        calendar.set(Calendar.HOUR_OF_DAY, tpdHourOfDay);
+                        calendar.set(Calendar.MINUTE, tpdMinute);
                     }
                 }, hour, minute, true);
                 timePickerDialog.show();
+            }
+        });
+        addOneTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                justOne = true;
+                addTask();
+            }
+        });
+        addMoreTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                justOne = false;
+                addTask();
             }
         });
 
@@ -335,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
                 addTaskCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.VISIBLE);
+                loadTheirTasks();
                 break;
             case TASKER_TASKS:
                 taskMasterCard.setVisibility(View.GONE);
@@ -353,7 +377,13 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_NEW_TASK:
                 taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
-                buildNewTaskCard();
+                loadUsers();
+                if (addTaskDate.getText().toString().isEmpty()) {
+                    addTaskDate.setText(day + "/" + (month + 1) + "/" + year);
+                }
+                if (addTaskTime.getText().toString().isEmpty()) {
+                    addTaskTime.setText(hour + ":" + minute);
+                }
                 break;
             case CHANGE_PASSWORD:
                 taskMasterCard.setVisibility(View.GONE);
@@ -457,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
 
     // general
 
-    private void userAdd() {
+    private void addUser() {
         int taskMasterCB = 0;
         int adminCB = 0;
         if (addUserTaskMaster.isChecked()) taskMasterCB = 1;
@@ -582,6 +612,60 @@ public class MainActivity extends AppCompatActivity {
         }, 100);
     }
 
+    private void addTask() {
+        addOneTaskButton.setEnabled(false);
+        addMoreTaskButton.setEnabled(false);
+        if (!addTaskTitle.getText().toString().isEmpty()) {
+            String rawData = myID + fS +                                                                                    // task_master_id
+                             usersIds.get(usersNames.indexOf(addTaskTaskerSpinner.getSelectedItem().toString())) + fS +     // tasker_id
+                             addTaskTitle.getText().toString() + fS +                                                       // title
+                             addTaskDescription.getText().toString() + fS +                                                 // description
+                             year + "-" + (month + 1) + "-" + day + " " + hour + ":" + minute + ":00" + fS +                // deadline
+                             "0" + fS +                                                                                     // tasker_marked_as_done
+                             " " + fS +                                                                                     // attachment_1
+                             " " + fS +                                                                                     // attachment_2
+                             " " + fS +                                                                                     // tasker_comment
+                             " " + fS +                                                                                     // task_master_comment
+                             "0";                                                                                           // task_master_marked_as_done
+
+            String response = contactServer(addTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            info.setText(response);
+
+            if (response.contains("New task created successfully")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addOneTaskButton.setEnabled(true);
+                        addMoreTaskButton.setEnabled(true);
+                        info.setText("");
+                        addTaskTitle.setText("");
+                        addTaskDescription.setText("");
+                        if (justOne) changeScreen(TASK_MASTER_TASKS);
+                    }
+                }, 1500);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addOneTaskButton.setEnabled(true);
+                        addMoreTaskButton.setEnabled(true);
+                    }
+                }, 2000);
+            }
+        } else {
+            info.setText("ERROR\nTitle field cannot be empty");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                    addOneTaskButton.setEnabled(true);
+                    addMoreTaskButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
+
     private String generateID() {
         return UUID.randomUUID().toString().substring(9, 28);
     }
@@ -641,16 +725,6 @@ public class MainActivity extends AppCompatActivity {
                 }, 1500);
             }
         }
-    }
-
-    private void buildNewTaskCard() {
-        loadUsers();
-
-
-
-
-
-
     }
 
     public class UsersListAdapter extends ArrayAdapter {
