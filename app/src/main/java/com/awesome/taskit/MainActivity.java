@@ -85,6 +85,17 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> theirTasksTaskMasterComment;
     private ArrayList<Boolean> theirTasksTaskMasterMarkedAsDone;
 
+    private ArrayList<String> myTasksTaskMasterId;
+    private ArrayList<String> myTasksTitle;
+    private ArrayList<String> myTasksDescription;
+    private ArrayList<String> myTasksDeadline;
+    private ArrayList<Boolean> myTasksTaskerMarkedAsDone;
+    private ArrayList<String> myTasksAttachment1;
+    private ArrayList<String> myTasksAttachment2;
+    private ArrayList<String> myTasksTaskerComment;
+    private ArrayList<String> myTasksTaskMasterComment;
+    private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
+
     private boolean justOne;
 
     // UI
@@ -105,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription;
     private CheckBox addUserTaskMaster, addUserAdmin;
     private Spinner addTaskTaskerSpinner;
-    private ListView usersListView, theirTasksListView;
-
-    private TextView myTasksList;
+    private ListView usersListView, theirTasksListView, myTasksListView;
 
     // network
     private boolean isOnline;
@@ -202,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         addMoreTaskButton = findViewById(R.id.add_more_task_button);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
-        myTasksList = findViewById(R.id.my_tasks_list);
+        myTasksListView = findViewById(R.id.my_tasks_listview);
 
         usersListView = findViewById(R.id.users_listview);
 
@@ -257,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKERS);
-                loadUsers();
             }
         });
 
@@ -272,7 +280,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASKER_TASKS);
-                loadMyTasks();
             }
         });
         addTaskCardButton.setOnClickListener(new View.OnClickListener() {
@@ -356,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 taskerCard.setVisibility(View.VISIBLE);
                 adminCard.setVisibility(View.VISIBLE);
+                loadUsers();
                 break;
             case TASK_MASTER_TASKERS:
                 taskMasterCard.setVisibility(View.GONE);
@@ -376,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 taskerCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.VISIBLE);
+                loadMyTasks();
                 break;
             case USER_ADD:
                 taskMasterCard.setVisibility(View.GONE);
@@ -388,7 +397,6 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_NEW_TASK:
                 taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
-                loadUsers();
                 if (addTaskDate.getText().toString().isEmpty()) {
                     addTaskDate.setText(day + "/" + (month + 1) + "/" + year);
                 }
@@ -549,7 +557,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTheirTasks() {
-        loadUsers();
         info.setText("Contacting server...  ");
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -572,7 +579,6 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
                         if (line.length == 10) {
-                            System.out.println(TAG + "entered");
                             theirTasksTaskerId.add(line[0]);
                             theirTasksTitle.add(line[1]);
                             theirTasksDescription.add(line[2]);
@@ -610,15 +616,53 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadMyTasks() {
         info.setText("Contacting server...  ");
-        myTasksList.setText("");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 String response = contactServer(loadMyTasksPHP, Java_AES_Cipher.encryptSimple(myID));
-                response = response.replaceAll(newLine, "\n");
-                response = response.replaceAll(fS, " - ");
-                myTasksList.setText(response);
-                info.setText("");
+                if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+                    myTasksTaskMasterId = new ArrayList<>();
+                    myTasksTitle = new ArrayList<>();
+                    myTasksDescription = new ArrayList<>();
+                    myTasksDeadline = new ArrayList<>();
+                    myTasksTaskerMarkedAsDone = new ArrayList<>();
+                    myTasksAttachment1 = new ArrayList<>();
+                    myTasksAttachment2 = new ArrayList<>();
+                    myTasksTaskerComment = new ArrayList<>();
+                    myTasksTaskMasterComment = new ArrayList<>();
+                    myTasksTaskMasterMarkedAsDone = new ArrayList<>();
+
+                    String[] lines = response.split(newLine);
+                    String[] line;
+                    for (int i = 0; i < lines.length; i ++) {
+                        line = lines[i].split(fS);
+                        if (line.length == 10) {
+                            myTasksTaskMasterId.add(line[0]);
+                            myTasksTitle.add(line[1]);
+                            myTasksDescription.add(line[2]);
+                            myTasksDeadline.add(line[3]);
+                            if (line[4].equals("0")) {
+                                myTasksTaskerMarkedAsDone.add(false);
+                            } else {
+                                myTasksTaskerMarkedAsDone.add(true);
+                            }
+                            myTasksAttachment1.add(line[5]);
+                            myTasksAttachment2.add(line[6]);
+                            myTasksTaskerComment.add(line[7]);
+                            myTasksTaskMasterComment.add(line[8]);
+                            if (line[9].equals("0")) {
+                                myTasksTaskMasterMarkedAsDone.add(false);
+                            } else {
+                                myTasksTaskMasterMarkedAsDone.add(true);
+                            }
+                        }
+                    }
+
+                    info.setText("");
+
+                    MyTasksListAdapter MyTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
+                    myTasksListView.setAdapter(MyTasksListAdapter);
+                }
             }
         }, 100);
     }
@@ -639,7 +683,7 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 4 && !line[1].equals(myID)) {
+                        if (line.length == 4) {// && !line[1].equals(myID)) {
                             usersNames.add(line[0]);
                             usersIds.add(line[1]);
                             if (line[2].equals("0")) {
@@ -657,11 +701,21 @@ public class MainActivity extends AppCompatActivity {
 
                     info.setText("");
 
-                    String[] items = usersNames.toArray(new String[usersNames.size()]);
+                    ArrayList<String> tempUsersNames = new ArrayList<>();
+                    ArrayList<String> tempUsersIds = new ArrayList<>();
+
+                    for (int i = 0; i < usersIds.size(); i ++) {
+                        if (!usersIds.get(i).equals(myID)) {
+                            tempUsersNames.add(usersNames.get(i));
+                            tempUsersIds.add(usersIds.get(i));
+                        }
+                    }
+
+                    String[] items = tempUsersNames.toArray(new String[tempUsersNames.size()]);
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
                     addTaskTaskerSpinner.setAdapter(adapter);
 
-                    UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, usersNames, usersIds);
+                    UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
                     usersListView.setAdapter(usersListAdapter);
                 }
             }
@@ -816,7 +870,7 @@ public class MainActivity extends AppCompatActivity {
         private ArrayList<Boolean> done;
 
         public TheirTasksListAdapter(@NonNull Activity activityContext, ArrayList<String> name, ArrayList<String> title, ArrayList<String> deadline, ArrayList<Boolean> done) {
-            super(context, R.layout.tasks_list, name);
+            super(context, R.layout.their_tasks_list, name);
             this.activityContext = activityContext;
             this.name = name;
             this.title = title;
@@ -828,7 +882,7 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             LayoutInflater inflater = activityContext.getLayoutInflater();
-            if (convertView == null) view = inflater.inflate(R.layout.tasks_list, null, true);
+            if (convertView == null) view = inflater.inflate(R.layout.their_tasks_list, null, true);
 
             TextView text1 = (TextView) view.findViewById(R.id.text1);
             TextView text2 = (TextView) view.findViewById(R.id.text2);
@@ -838,6 +892,37 @@ public class MainActivity extends AppCompatActivity {
             text1.setText(name.get(position));
             text2.setText(title.get(position));
             text3.setText(deadline.get(position));
+            check.setChecked(done.get(position));
+
+            return view;
+        }
+    }
+
+    public class MyTasksListAdapter extends ArrayAdapter {
+        private Activity activityContext;
+        private ArrayList<String> title, deadline;
+        private ArrayList<Boolean> done;
+
+        public MyTasksListAdapter(@NonNull Activity activityContext, ArrayList<String> title, ArrayList<String> deadline, ArrayList<Boolean> done) {
+            super(context, R.layout.my_tasks_list, title);
+            this.activityContext = activityContext;
+            this.title = title;
+            this.deadline = deadline;
+            this.done = done;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            LayoutInflater inflater = activityContext.getLayoutInflater();
+            if (convertView == null) view = inflater.inflate(R.layout.my_tasks_list, null, true);
+
+            TextView text1 = (TextView) view.findViewById(R.id.text1);
+            TextView text2 = (TextView) view.findViewById(R.id.text2);
+            CheckBox check = (CheckBox) view.findViewById(R.id.check);
+
+            text1.setText(title.get(position));
+            text2.setText(deadline.get(position));
             check.setChecked(done.get(position));
 
             return view;
