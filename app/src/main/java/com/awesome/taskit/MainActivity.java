@@ -1,6 +1,10 @@
 package com.awesome.taskit;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +20,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -40,6 +46,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -75,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
     private final int  CHANGE_PASSWORD = 7;
     private int currentScreen;
 
-    private TextView info, addUserIdField;
+    private TextView info, addUserIdField, addTaskDate, addTaskTime;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickTimeButton, changePasswordChangeButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, changePasswordChangeButton;
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field;
     private CheckBox addUserTaskMaster, addUserAdmin;
     private Spinner addTaskTaskerSpinner;
@@ -159,9 +166,12 @@ public class MainActivity extends AppCompatActivity {
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksList = findViewById(R.id.their_tasks_list);
-        addTaskPickTimeButton = findViewById(R.id.add_task_pick_time_button);
 
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
+        addTaskPickDateButton = findViewById(R.id.add_task_pick_date_button);
+        addTaskDate = findViewById(R.id.add_task_date);
+        addTaskPickTimeButton = findViewById(R.id.add_task_pick_time_button);
+        addTaskTime = findViewById(R.id.add_task_time);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksList = findViewById(R.id.my_tasks_list);
@@ -245,10 +255,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        addTaskPickDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        addTaskDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        c.set(Calendar.YEAR, year);
+                        c.set(Calendar.MONTH, monthOfYear);
+                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    }
+                }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
         addTaskPickTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        addTaskTime.setText(hourOfDay + ":" + minute + ":00");
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+                    }
+                }, hour, minute, true);
+                timePickerDialog.show();
             }
         });
 
