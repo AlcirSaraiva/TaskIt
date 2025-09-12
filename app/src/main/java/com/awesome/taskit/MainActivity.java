@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Boolean> usersTaskMaster;
     private ArrayList<Boolean> usersAdmin;
 
+    private ArrayList<String> theirTasksTaskId;
     private ArrayList<String> theirTasksTaskerId;
     private ArrayList<String> theirTasksTitle;
     private ArrayList<String> theirTasksDescription;
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> theirTasksTaskMasterComment;
     private ArrayList<Boolean> theirTasksTaskMasterMarkedAsDone;
 
+    private ArrayList<String> myTasksTaskId;
     private ArrayList<String> myTasksTaskMasterId;
     private ArrayList<String> myTasksTitle;
     private ArrayList<String> myTasksDescription;
@@ -109,13 +112,14 @@ public class MainActivity extends AppCompatActivity {
     private final int TASK_MASTER_NEW_TASK = 6;
     private final int CHANGE_PASSWORD = 7;
     private final int MY_TASK = 8;
+    private final int THEIR_TASKS = 9;
     private int currentScreen;
 
-    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments;
-    private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton;
-    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments;
+    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments;
+    private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksPickDateButton, theirTasksPickTimeButton;
+    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
     private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
     private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
     private final String addTaskPHP = "https://www.solvaelys.com/taskit/add_task.php";
+    private final String updateMyTaskPHP = "https://www.solvaelys.com/taskit/update_my_task.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
 
     @Override
@@ -182,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTasksCard = findViewById(R.id.task_master_tasks_card);
         taskerTasksCard = findViewById(R.id.tasker_tasks_card);
         myTaskCard = findViewById(R.id.my_task_card);
+        theirTasksCard = findViewById(R.id.their_tasks_card);
         addUserCard = findViewById(R.id.add_user_card);
         changePasswordCard = findViewById(R.id.change_password_card);
 
@@ -202,6 +208,18 @@ public class MainActivity extends AppCompatActivity {
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksListView = findViewById(R.id.their_tasks_listview);
+
+        theirTasksNameField = findViewById(R.id.their_tasks_name);
+        theirTasksTitleField = findViewById(R.id.their_tasks_title);
+        theirTasksDescriptionField = findViewById(R.id.their_tasks_description);
+        theirTasksPickDateButton = findViewById(R.id.their_tasks_pick_date_button);
+        theirTasksDate = findViewById(R.id.their_tasks_date);
+        theirTasksPickTimeButton = findViewById(R.id.their_tasks_pick_time_button);
+        theirTasksTime = findViewById(R.id.their_tasks_time);
+        theirTasksAttachmentIB1 = findViewById(R.id.their_tasks_attachment_ib_1);
+        theirTasksAttachmentIB2 = findViewById(R.id.their_tasks_attachment_ib_2);
+        theirTasksTComments = findViewById(R.id.their_tasks_t_comments);
+        theirTasksMyComments = findViewById(R.id.their_tasks_my_comments);
 
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
         addTaskTitle = findViewById(R.id.add_task_title);
@@ -308,12 +326,15 @@ public class MainActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int dpdYear, int dpdMonthOfYear, int dpdDayOfMonth) {
-                        addTaskDate.setText(dpdDayOfMonth + "/" + (dpdMonthOfYear + 1) + "/" + dpdYear);
-                        calendar.set(Calendar.YEAR, year);
+                        day = dpdDayOfMonth;
+                        month = dpdMonthOfYear + 1;
+                        year = dpdYear;
+                        addTaskDate.setText(day + "/" + month + "/" + year);
+                        calendar.set(Calendar.YEAR, dpdYear);
                         calendar.set(Calendar.MONTH, dpdMonthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dpdYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dpdDayOfMonth);
                     }
-                }, year, month, day);
+                }, year, month - 1, day);
                 datePickerDialog.show();
             }
         });
@@ -323,7 +344,9 @@ public class MainActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
-                        addTaskTime.setText(tpdHourOfDay + ":" + tpdMinute);
+                        hour = tpdHourOfDay;
+                        minute = tpdMinute;
+                        addTaskTime.setText(hour + ":" + String.format("%02d", minute));
                         calendar.set(Calendar.HOUR_OF_DAY, tpdHourOfDay);
                         calendar.set(Calendar.MINUTE, tpdMinute);
                     }
@@ -346,6 +369,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        theirTasksPickDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int dpdYear, int dpdMonthOfYear, int dpdDayOfMonth) {
+                        day = dpdDayOfMonth;
+                        month = dpdMonthOfYear + 1;
+                        year = dpdYear;
+                        theirTasksDate.setText(day + "/" + month + "/" + year);
+                        calendar.set(Calendar.YEAR, dpdYear);
+                        calendar.set(Calendar.MONTH, dpdMonthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dpdDayOfMonth);
+                    }
+                }, year, month - 1, day);
+                datePickerDialog.show();
+            }
+        });
+        theirTasksPickTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
+                        hour = tpdHourOfDay;
+                        minute = tpdMinute;
+                        theirTasksTime.setText(hour + ":" + String.format("%02d", minute));
+                        calendar.set(Calendar.HOUR_OF_DAY, tpdHourOfDay);
+                        calendar.set(Calendar.MINUTE, tpdMinute);
+                    }
+                }, hour, minute, true);
+                timePickerDialog.show();
+            }
+        });
+
         myTaskAttachment1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateMyTask();
             }
         });
 
@@ -408,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
                 taskerCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
+                theirTasksCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.VISIBLE);
                 loadTheirTasks();
                 break;
@@ -451,6 +510,11 @@ public class MainActivity extends AppCompatActivity {
                 myTaskCard.setVisibility(View.VISIBLE);
                 populateMyTaskCard(selectedTask);
                 break;
+            case THEIR_TASKS:
+                taskMasterTasksCard.setVisibility(View.GONE);
+                theirTasksCard.setVisibility(View.VISIBLE);
+                populateTheirTasksCard(selectedTask);
+                break;
         }
         currentScreen = newScreen;
     }
@@ -471,6 +535,7 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(CHOOSE_ROLE);
                 break;
             case TASK_MASTER_NEW_TASK:
+            case THEIR_TASKS:
                 changeScreen(TASK_MASTER_TASKS);
                 break;
             case MY_TASK:
@@ -604,6 +669,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(myID));
                 if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+                    theirTasksTaskId = new ArrayList<>();
                     theirTasksTaskerId = new ArrayList<>();
                     theirTasksTitle = new ArrayList<>();
                     theirTasksDescription = new ArrayList<>();
@@ -619,21 +685,22 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 10) {
-                            theirTasksTaskerId.add(line[0]);
-                            theirTasksTitle.add(line[1]);
-                            theirTasksDescription.add(line[2]);
-                            theirTasksDeadline.add(line[3]);
-                            if (line[4].equals("0")) {
+                        if (line.length == 11) {
+                            theirTasksTaskId.add(line[0]);
+                            theirTasksTaskerId.add(line[1]);
+                            theirTasksTitle.add(line[2]);
+                            theirTasksDescription.add(line[3]);
+                            theirTasksDeadline.add(line[4]);
+                            if (line[5].equals("0")) {
                                 theirTasksTaskerMarkedAsDone.add(false);
                             } else {
                                 theirTasksTaskerMarkedAsDone.add(true);
                             }
-                            theirTasksAttachment1.add(line[5]);
-                            theirTasksAttachment2.add(line[6]);
-                            theirTasksTaskerComment.add(line[7]);
-                            theirTasksTaskMasterComment.add(line[8]);
-                            if (line[9].equals("0")) {
+                            theirTasksAttachment1.add(line[6]);
+                            theirTasksAttachment2.add(line[7]);
+                            theirTasksTaskerComment.add(line[8]);
+                            theirTasksTaskMasterComment.add(line[9]);
+                            if (line[10].equals("0")) {
                                 theirTasksTaskMasterMarkedAsDone.add(false);
                             } else {
                                 theirTasksTaskMasterMarkedAsDone.add(true);
@@ -662,6 +729,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 String response = contactServer(loadMyTasksPHP, Java_AES_Cipher.encryptSimple(myID));
                 if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+                    myTasksTaskId = new ArrayList<>();
                     myTasksTaskMasterId = new ArrayList<>();
                     myTasksTitle = new ArrayList<>();
                     myTasksDescription = new ArrayList<>();
@@ -677,21 +745,22 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 10) {
-                            myTasksTaskMasterId.add(line[0]);
-                            myTasksTitle.add(line[1]);
-                            myTasksDescription.add(line[2]);
-                            myTasksDeadline.add(line[3]);
-                            if (line[4].equals("0")) {
+                        if (line.length == 11) {
+                            myTasksTaskId.add(line[0]);
+                            myTasksTaskMasterId.add(line[1]);
+                            myTasksTitle.add(line[2]);
+                            myTasksDescription.add(line[3]);
+                            myTasksDeadline.add(line[4]);
+                            if (line[5].equals("0")) {
                                 myTasksTaskerMarkedAsDone.add(false);
                             } else {
                                 myTasksTaskerMarkedAsDone.add(true);
                             }
-                            myTasksAttachment1.add(line[5]);
-                            myTasksAttachment2.add(line[6]);
-                            myTasksTaskerComment.add(line[7]);
-                            myTasksTaskMasterComment.add(line[8]);
-                            if (line[9].equals("0")) {
+                            myTasksAttachment1.add(line[6]);
+                            myTasksAttachment2.add(line[7]);
+                            myTasksTaskerComment.add(line[8]);
+                            myTasksTaskMasterComment.add(line[9]);
+                            if (line[10].equals("0")) {
                                 myTasksTaskMasterMarkedAsDone.add(false);
                             } else {
                                 myTasksTaskMasterMarkedAsDone.add(true);
@@ -767,7 +836,8 @@ public class MainActivity extends AppCompatActivity {
         addOneTaskButton.setEnabled(false);
         addMoreTaskButton.setEnabled(false);
         if (!addTaskTitle.getText().toString().isEmpty()) {
-            String rawData = myID + fS +                                                                                    // task_master_id
+            String rawData = generateID() + fS +                                                                            // task_id
+                             myID + fS +                                                                                    // task_master_id
                              usersIds.get(usersNames.indexOf(addTaskTaskerSpinner.getSelectedItem().toString())) + fS +     // tasker_id
                              addTaskTitle.getText().toString() + fS +                                                       // title
                              addTaskDescription.getText().toString() + fS +                                                 // description
@@ -817,6 +887,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateMyTask() {
+        myTasksTaskerMarkedAsDone.set(selectedTask, myTaskDone.isChecked());
+        //myTasksAttachment1.set(selectedTask);
+        //myTasksAttachment2.set(selectedTask);
+        if (myTaskMyComments.getText().toString().isEmpty()) {
+            myTasksTaskerComment.set(selectedTask, " ");
+        } else {
+            myTasksTaskerComment.set(selectedTask, myTaskMyComments.getText().toString());
+        }
+
+        String tempMarked = "0";
+        if (myTasksTaskerMarkedAsDone.get(selectedTask)) tempMarked = "1";
+
+        myTaskSaveButton.setEnabled(false);
+        String rawData = myTasksTaskId.get(selectedTask) + fS +
+                tempMarked + fS +
+                myTasksAttachment1.get(selectedTask) + fS +
+                myTasksAttachment2.get(selectedTask) + fS +
+                myTasksTaskerComment.get(selectedTask);
+
+        String response = contactServer(updateMyTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
+        response = response.replaceAll(newLine, "\n");
+        info.setText(response);
+
+        if (response.contains("Task updated successfully")) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    myTaskSaveButton.setEnabled(true);
+                    info.setText("");
+                    changeScreen(TASKER_TASKS);
+                }
+            }, 1500);
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    myTaskSaveButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
+
     private void populateMyTaskCard(int which) {
         myTaskTitle.setText(myTasksTitle.get(which));
         myTaskDescription.setText(myTasksDescription.get(which));
@@ -835,6 +948,46 @@ public class MainActivity extends AppCompatActivity {
             myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
         }
         myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
+    }
+
+    private void populateTheirTasksCard(int which) {
+        theirTasksNameField.setText(usersNames.get(usersIds.indexOf(theirTasksTaskerId.get(which))));
+        theirTasksTitleField.setText(theirTasksTitle.get(which));
+        theirTasksDescriptionField.setText(theirTasksDescription.get(which));
+
+        String tempDD = theirTasksDeadline.get(which);
+        if (tempDD.length() == 19 && tempDD.contains(" ")) {
+            String[] tempEach = tempDD.split(" ");
+            String[] dateEach = tempEach[0].split("-");
+            theirTasksDate.setText(dateEach[2] + "-" + dateEach[1] + "-" + dateEach[0]);
+            theirTasksTime.setText(tempEach[1].substring(0, 5));
+            try {
+                day = Integer.parseInt(dateEach[2]);
+                month = Integer.parseInt(dateEach[1]);
+                year = Integer.parseInt(dateEach[0]);
+                hour = Integer.parseInt(tempEach[1].substring(0, 2));
+                minute = Integer.parseInt(tempEach[1].substring(3, 5));
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, minute);
+            } catch (Exception e) {
+                System.out.println(TAG + e.getMessage());
+            }
+        } else {
+            theirTasksDate.setText("00-00-0000");
+            theirTasksTime.setText("00:00");
+        }
+        //theirTasksAttachmentIB1
+        //theirTasksAttachmentIB2
+        theirTasksTComments.setText(theirTasksTaskerComment.get(which));
+        if (theirTasksTaskMasterComment.get(which).equals(" ")) {
+            theirTasksMyComments.setText("");
+        } else {
+            theirTasksMyComments.setText(theirTasksTaskMasterComment.get(which));
+        }
     }
 
     private String generateID() {
@@ -954,6 +1107,15 @@ public class MainActivity extends AppCompatActivity {
             text2.setText(title.get(position));
             text3.setText(deadline.get(position));
             check.setChecked(done.get(position));
+
+            LinearLayout openTheirTasksTrigger  = (LinearLayout) view.findViewById(R.id.open_their_tasks_trigger);
+            openTheirTasksTrigger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedTask = position;
+                    changeScreen(THEIR_TASKS);
+                }
+            });
 
             return view;
         }
