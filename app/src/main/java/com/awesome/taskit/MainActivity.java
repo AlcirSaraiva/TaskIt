@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksPickDateButton, theirTasksPickTimeButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksPickDateButton, theirTasksPickTimeButton, theirTasksSaveButton;
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
-    private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone;
+    private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
 
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
     private final String addTaskPHP = "https://www.solvaelys.com/taskit/add_task.php";
     private final String updateMyTaskPHP = "https://www.solvaelys.com/taskit/update_my_task.php";
+    private final String updateTheirTasksPHP = "https://www.solvaelys.com/taskit/update_their_tasks.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
 
     @Override
@@ -220,6 +221,8 @@ public class MainActivity extends AppCompatActivity {
         theirTasksAttachmentIB2 = findViewById(R.id.their_tasks_attachment_ib_2);
         theirTasksTComments = findViewById(R.id.their_tasks_t_comments);
         theirTasksMyComments = findViewById(R.id.their_tasks_my_comments);
+        theirTasksDone = findViewById(R.id.their_tasks_done);
+        theirTasksSaveButton = findViewById(R.id.their_tasks_save_button);
 
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
         addTaskTitle = findViewById(R.id.add_task_title);
@@ -401,6 +404,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, hour, minute, true);
                 timePickerDialog.show();
+            }
+        });
+        theirTasksSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateTheirTasks();
             }
         });
 
@@ -930,6 +939,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateTheirTasks() {
+        if (!theirTasksTitleField.getText().toString().isEmpty()) theirTasksTitle.set(selectedTask, theirTasksTitleField.getText().toString());
+        if (!theirTasksDescriptionField.getText().toString().isEmpty()) theirTasksDescription.set(selectedTask, theirTasksDescriptionField.getText().toString());
+        theirTasksDeadline.set(selectedTask, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00");
+        if (!theirTasksMyComments.getText().toString().isEmpty()) theirTasksTaskMasterComment.set(selectedTask, theirTasksMyComments.getText().toString());
+        theirTasksTaskMasterMarkedAsDone.set(selectedTask, theirTasksDone.isChecked());
+
+        String tempMarked = "0";
+        if (theirTasksTaskMasterMarkedAsDone.get(selectedTask)) tempMarked = "1";
+
+        theirTasksSaveButton.setEnabled(false);
+        String rawData = theirTasksTaskId.get(selectedTask) + fS +
+                         theirTasksTitle.get(selectedTask) + fS +
+                         theirTasksDescription.get(selectedTask) + fS +
+                         theirTasksDeadline.get(selectedTask) + fS +
+                         theirTasksTaskMasterComment.get(selectedTask) + fS +
+                         tempMarked;
+
+        String response = contactServer(updateTheirTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
+        response = response.replaceAll(newLine, "\n");
+        info.setText(response);
+
+        if (response.contains("Task updated successfully")) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    theirTasksSaveButton.setEnabled(true);
+                    info.setText("");
+                    changeScreen(TASK_MASTER_TASKS);
+                }
+            }, 1500);
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    theirTasksSaveButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
+
     private void populateMyTaskCard(int which) {
         myTaskTitle.setText(myTasksTitle.get(which));
         myTaskDescription.setText(myTasksDescription.get(which));
@@ -988,6 +1038,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             theirTasksMyComments.setText(theirTasksTaskMasterComment.get(which));
         }
+        theirTasksDone.setChecked(theirTasksTaskMasterMarkedAsDone.get(which));
     }
 
     private String generateID() {
