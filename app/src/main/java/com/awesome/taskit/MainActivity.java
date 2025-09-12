@@ -97,24 +97,26 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
     private boolean justOne;
+    private int selectedTask;
 
     // UI
-    private final int  LOGIN = 0;
-    private final int  CHOOSE_ROLE = 1;
-    private final int  TASK_MASTER_TASKERS = 2;
-    private final int  TASK_MASTER_TASKS = 3;
-    private final int  TASKER_TASKS = 4;
-    private final int  USER_ADD = 5;
-    private final int  TASK_MASTER_NEW_TASK = 6;
-    private final int  CHANGE_PASSWORD = 7;
+    private final int LOGIN = 0;
+    private final int CHOOSE_ROLE = 1;
+    private final int TASK_MASTER_TASKERS = 2;
+    private final int TASK_MASTER_TASKS = 3;
+    private final int TASKER_TASKS = 4;
+    private final int USER_ADD = 5;
+    private final int TASK_MASTER_NEW_TASK = 6;
+    private final int CHANGE_PASSWORD = 7;
+    private final int MY_TASK = 8;
     private int currentScreen;
 
-    private TextView info, addUserIdField, addTaskDate, addTaskTime;
-    private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton;
-    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription;
-    private CheckBox addUserTaskMaster, addUserAdmin;
+    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments;
+    private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton;
+    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments;
+    private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
 
@@ -179,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTaskersCard = findViewById(R.id.task_master_taskers_card);
         taskMasterTasksCard = findViewById(R.id.task_master_tasks_card);
         taskerTasksCard = findViewById(R.id.tasker_tasks_card);
+        myTaskCard = findViewById(R.id.my_task_card);
         addUserCard = findViewById(R.id.add_user_card);
         changePasswordCard = findViewById(R.id.change_password_card);
 
@@ -209,6 +212,16 @@ public class MainActivity extends AppCompatActivity {
         addTaskTime = findViewById(R.id.add_task_time);
         addOneTaskButton = findViewById(R.id.add_one_task_button);
         addMoreTaskButton = findViewById(R.id.add_more_task_button);
+
+        myTaskTitle = findViewById(R.id.my_task_title);
+        myTaskDescription = findViewById(R.id.my_task_description);
+        myTaskDeadline = findViewById(R.id.my_task_deadline);
+        myTaskAttachment1 = findViewById(R.id.my_task_attachment_1);
+        myTaskAttachment2 = findViewById(R.id.my_task_attachment_2);
+        myTaskMyComments = findViewById(R.id.my_task_my_comments);
+        myTaskTmComments = findViewById(R.id.my_task_tm_comments);
+        myTaskDone = findViewById(R.id.my_task_done);
+        myTaskSaveButton = findViewById(R.id.my_task_save_button);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
         myTasksListView = findViewById(R.id.my_tasks_listview);
@@ -333,6 +346,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        myTaskAttachment1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         changePasswordChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -383,6 +415,7 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
+                myTaskCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.VISIBLE);
                 loadMyTasks();
                 break;
@@ -413,6 +446,11 @@ public class MainActivity extends AppCompatActivity {
                 changePasswordNew1Field.setText("");
                 changePasswordNew2Field.setText("");
                 break;
+            case MY_TASK:
+                taskerTasksCard.setVisibility(View.GONE);
+                myTaskCard.setVisibility(View.VISIBLE);
+                populateMyTaskCard(selectedTask);
+                break;
         }
         currentScreen = newScreen;
     }
@@ -434,6 +472,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case TASK_MASTER_NEW_TASK:
                 changeScreen(TASK_MASTER_TASKS);
+                break;
+            case MY_TASK:
+                changeScreen(TASKER_TASKS);
                 break;
         }
     }
@@ -776,6 +817,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void populateMyTaskCard(int which) {
+        myTaskTitle.setText(myTasksTitle.get(which));
+        myTaskDescription.setText(myTasksDescription.get(which));
+        myTaskDeadline.setText(myTasksDeadline.get(which));
+        //myTaskAttachment1
+        //myTaskAttachment2
+        if (myTasksTaskerComment.get(which).equals(" ")) {
+            myTaskMyComments.setText("");
+        } else {
+            myTaskMyComments.setText(myTasksTaskerComment.get(which));
+        }
+
+        if (myTasksTaskMasterComment.get(which).equals(" ")) {
+            myTaskTmComments.setText("");
+        } else {
+            myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
+        }
+        myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
+    }
+
     private String generateID() {
         return UUID.randomUUID().toString().substring(9, 28);
     }
@@ -924,6 +985,15 @@ public class MainActivity extends AppCompatActivity {
             text1.setText(title.get(position));
             text2.setText(deadline.get(position));
             check.setChecked(done.get(position));
+
+            LinearLayout openMyTaskTrigger  = (LinearLayout) view.findViewById(R.id.open_my_task_trigger);
+            openMyTaskTrigger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedTask = position;
+                    changeScreen(MY_TASK);
+                }
+            });
 
             return view;
         }

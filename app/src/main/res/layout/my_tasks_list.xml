@@ -10,6 +10,7 @@
     android:weightSum="10">
 
     <LinearLayout
+        android:id="@+id/open_my_task_trigger"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
