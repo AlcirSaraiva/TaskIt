@@ -12,7 +12,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -1446,6 +1449,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 File image = new File(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
+                                scaleAndSaveImage(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
                                 String uploadResult = uploadImage(image, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
                                 info.setText(uploadResult);
                                 populateMyTaskCard(selectedTask);
@@ -1486,4 +1490,128 @@ public class MainActivity extends AppCompatActivity {
         String fileName = selectedAttachment + ".jpg";
         return new File(storageDir, fileName);
     }
+
+    private void scaleAndSaveImage(String imagePath) {
+        try {
+            // Path of the original image
+            File inputFile = new File(imagePath);
+
+            if (!inputFile.exists()) {
+                info.setText("ERROR\nFile does not exist: " + inputFile.getAbsolutePath());
+                return;
+            }
+
+            // Decode original image
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap originalBitmap = BitmapFactory.decodeFile(inputFile.getAbsolutePath(), options);
+
+            if (originalBitmap == null) {
+                info.setText("ERROR\nFailed to decode image.");
+                return;
+            }
+
+            // ✅ Fix orientation first
+            originalBitmap = applyExifRotation(inputFile, originalBitmap);
+
+            int origWidth = originalBitmap.getWidth();
+            int origHeight = originalBitmap.getHeight();
+
+            int minLongSide = 1920;
+            int minShortSide = 1080;
+
+            int newWidth = origWidth;
+            int newHeight = origHeight;
+
+            boolean isPortrait = origHeight >= origWidth;
+
+            // Only scale if both sides are larger than the limits
+            if (origWidth > minShortSide && origHeight > minLongSide) {
+                if (isPortrait) {
+                    // Portrait -> height is the long side
+                    float scale = Math.max(
+                            (float) minLongSide / origHeight,
+                            (float) minShortSide / origWidth
+                    );
+                    newHeight = Math.round(origHeight * scale);
+                    newWidth = Math.round(origWidth * scale);
+                } else {
+                    // Landscape -> width is the long side
+                    float scale = Math.max(
+                            (float) minLongSide / origWidth,
+                            (float) minShortSide / origHeight
+                    );
+                    newWidth = Math.round(origWidth * scale);
+                    newHeight = Math.round(origHeight * scale);
+                }
+            }
+
+            // Only scale if dimensions changed
+            Bitmap scaledBitmap = (newWidth != origWidth || newHeight != origHeight)
+                    ? Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true)
+                    : originalBitmap;
+
+            FileOutputStream out = new FileOutputStream(inputFile);
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            out.flush();
+            out.close();
+
+            if (scaledBitmap != originalBitmap) {
+                originalBitmap.recycle();
+            }
+            scaledBitmap.recycle();
+
+            info.setText("Image saved: " + inputFile.getAbsolutePath());
+        } catch (Exception e) {
+            info.setText("ERROR\n" + e.getMessage());
+        }
+    }
+
+    // 🔄 Rotation helper
+    private Bitmap applyExifRotation(File file, Bitmap bitmap) {
+        try {
+            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL
+            );
+
+            Matrix matrix = new Matrix();
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    matrix.postRotate(90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    matrix.postRotate(180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    matrix.postRotate(270);
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                    matrix.preScale(-1f, 1f);
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                    matrix.preScale(1f, -1f);
+                    break;
+                default:
+                    return bitmap; // no rotation
+            }
+
+            Bitmap rotatedBitmap = Bitmap.createBitmap(
+                    bitmap, 0, 0,
+                    bitmap.getWidth(), bitmap.getHeight(),
+                    matrix, true
+            );
+
+            if (rotatedBitmap != bitmap) {
+                bitmap.recycle();
+            }
+            return rotatedBitmap;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return bitmap;
+        }
+    }
+
 }
