@@ -52,7 +52,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,6 +78,8 @@ import coil3.ImageLoader;
 import coil3.ImageLoaders;
 import coil3.Image_androidKt;
 import coil3.SingletonImageLoader;
+import coil3.network.NetworkHeaders;
+import coil3.request.CachePolicy;
 import coil3.request.ImageRequest;
 import coil3.target.ImageViewTarget;
 
@@ -169,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private final String updateMyTaskPHP = "https://www.solvaelys.com/taskit/update_my_task.php";
     private final String updateTheirTasksPHP = "https://www.solvaelys.com/taskit/update_their_tasks.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
+    private final String uploadImagePHP = "https://www.solvaelys.com/taskit/upload_image.php";
     private final String taskImages = "https://www.solvaelys.com/taskit/images/";
 
     @Override
@@ -678,6 +683,67 @@ public class MainActivity extends AppCompatActivity {
         return response;
     }
 
+    private String uploadImage(File imageFile, String rawData) {
+        String response = "";
+        String boundary = "----AndroidBoundary" + System.currentTimeMillis();
+        String LINE_FEED = "\r\n";
+
+        try {
+            URL url = new URL(uploadImagePHP);
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            rawData = rawData.replace("'", "''");
+
+            DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+
+            // 1. Send encrypted rawdata
+            dataOutputStream.writeBytes("--" + boundary + LINE_FEED);
+            dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"rawdata\"" + LINE_FEED);
+            dataOutputStream.writeBytes(LINE_FEED);
+            dataOutputStream.writeBytes(rawData + LINE_FEED);
+
+            // 2. Send file
+            String fileName = imageFile.getName();
+            dataOutputStream.writeBytes("--" + boundary + LINE_FEED);
+            dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"" + LINE_FEED);
+            dataOutputStream.writeBytes("Content-Type: image/jpeg" + LINE_FEED);
+            dataOutputStream.writeBytes(LINE_FEED);
+
+            FileInputStream inputStream = new FileInputStream(imageFile);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                dataOutputStream.write(buffer, 0, bytesRead);
+            }
+            inputStream.close();
+            dataOutputStream.writeBytes(LINE_FEED);
+
+            // End request
+            dataOutputStream.writeBytes("--" + boundary + "--" + LINE_FEED);
+            dataOutputStream.flush();
+            dataOutputStream.close();
+
+            // 3. Get server response
+            int responseCode = connection.getResponseCode();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response += line + "\n";
+            }
+            reader.close();
+        } catch (Exception e) {
+            response = e.getMessage();
+        } finally {
+
+        }
+        return response;
+    }
+
     // general
 
     private void addUser() {
@@ -1054,6 +1120,9 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .networkCachePolicy(CachePolicy.ENABLED)
                 .target(new ImageViewTarget(myTaskAttachment1))
                 .build();
         attachment1ImageLoader.enqueue(attachment1Request);
@@ -1064,6 +1133,9 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .networkCachePolicy(CachePolicy.ENABLED)
                 .target(new ImageViewTarget(myTaskAttachment2))
                 .build();
         attachment2ImageLoader.enqueue(attachment2Request);
@@ -1133,6 +1205,9 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .networkCachePolicy(CachePolicy.ENABLED)
                 .target(new ImageViewTarget(theirTasksAttachmentIB1))
                 .build();
         attachment1ImageLoader.enqueue(attachment1Request);
@@ -1143,6 +1218,9 @@ public class MainActivity extends AppCompatActivity {
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .networkCachePolicy(CachePolicy.ENABLED)
                 .target(new ImageViewTarget(theirTasksAttachmentIB2))
                 .build();
         attachment2ImageLoader.enqueue(attachment2Request);
@@ -1360,7 +1438,30 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        info.setText("Saved: " + photoFile.getAbsolutePath());
+                        info.setText("Contacting server...  ");
+                        myTaskAttachment1.setEnabled(false);
+                        myTaskAttachment2.setEnabled(false);
+                        myTaskSaveButton.setEnabled(false);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                File image = new File(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
+                                String uploadResult = uploadImage(image, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
+                                info.setText(uploadResult);
+                                populateMyTaskCard(selectedTask);
+                                myTaskAttachment1.setEnabled(true);
+                                myTaskAttachment2.setEnabled(true);
+                                myTaskSaveButton.setEnabled(true);
+                                if (uploadResult.contains("Picture uploaded successfully")) {
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            info.setText("");
+                                        }
+                                    }, 2500);
+                                }
+                            }
+                        }, 300);
                     }
                 }
         );
@@ -1381,8 +1482,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        String fileName = selectedAttachment + ".jpg";
         File storageDir = new File(context.getExternalFilesDir(null).getAbsolutePath());
+        String fileName = selectedAttachment + ".jpg";
         return new File(storageDir, fileName);
     }
 }

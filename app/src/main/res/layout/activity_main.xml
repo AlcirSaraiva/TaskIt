@@ -436,6 +436,7 @@
                         android:id="@+id/my_task_attachment_1"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
+                        android:scaleType="centerCrop"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
@@ -443,6 +444,7 @@
                         android:id="@+id/my_task_attachment_2"
                         android:layout_width="0dp"
                         android:layout_height="150dp"
+                        android:scaleType="centerCrop"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
@@ -656,7 +658,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:id="@+id/their_tasks_name"
@@ -753,6 +755,7 @@
                         android:id="@+id/their_tasks_attachment_ib_1"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
+                        android:scaleType="centerCrop"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
@@ -760,6 +763,7 @@
                         android:id="@+id/their_tasks_attachment_ib_2"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
+                        android:scaleType="centerCrop"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
