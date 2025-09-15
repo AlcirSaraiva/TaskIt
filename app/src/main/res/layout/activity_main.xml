@@ -656,7 +656,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <TextView
                     android:id="@+id/their_tasks_name"
@@ -752,14 +752,14 @@
                     <ImageButton
                         android:id="@+id/their_tasks_attachment_ib_1"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
+                        android:layout_height="100dp"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
                     <ImageButton
                         android:id="@+id/their_tasks_attachment_ib_2"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
+                        android:layout_height="100dp"
                         android:padding="5dp"
                         android:layout_weight="1" />
 

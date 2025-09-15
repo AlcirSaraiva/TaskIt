@@ -2,6 +2,7 @@ package com.awesome.taskit;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -9,11 +10,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,28 +35,49 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import coil3.Image;
+import coil3.ImageLoader;
+import coil3.ImageLoaders;
+import coil3.Image_androidKt;
+import coil3.SingletonImageLoader;
+import coil3.request.ImageRequest;
+import coil3.target.ImageViewTarget;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,7 +127,13 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
     private boolean justOne;
-    private int selectedTask;
+    private int selectedTask, selectedAttachment;
+
+    private ActivityResultLauncher<Intent> cameraLauncher;
+    private static final int CAMERA_PERMISSION_REQUEST = 100;
+    private Uri photoUri;
+    private File photoFile;
+    ExecutorService executor = Executors.newSingleThreadExecutor();
 
     // UI
     private final int LOGIN = 0;
@@ -136,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
     private final String updateMyTaskPHP = "https://www.solvaelys.com/taskit/update_my_task.php";
     private final String updateTheirTasksPHP = "https://www.solvaelys.com/taskit/update_their_tasks.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
+    private final String taskImages = "https://www.solvaelys.com/taskit/images/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         assignViewListeners();
 
         prepareNetwork();
+        prepareCamera();
 
         changeScreen(LOGIN);
 
@@ -372,6 +407,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        theirTasksAttachmentIB1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAttachment = 1;
+
+            }
+        });
+        theirTasksAttachmentIB2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAttachment = 2;
+
+            }
+        });
         theirTasksPickDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -416,13 +465,23 @@ public class MainActivity extends AppCompatActivity {
         myTaskAttachment1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                selectedAttachment = 1;
+                if (hasCameraPermission()) {
+                    openCamera();
+                } else {
+                    checkCameraPermission();
+                }
             }
         });
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                selectedAttachment = 2;
+                if (hasCameraPermission()) {
+                    openCamera();
+                } else {
+                    checkCameraPermission();
+                }
             }
         });
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -984,8 +1043,41 @@ public class MainActivity extends AppCompatActivity {
         myTaskTitle.setText(myTasksTitle.get(which));
         myTaskDescription.setText(myTasksDescription.get(which));
         myTaskDeadline.setText(myTasksDeadline.get(which));
-        //myTaskAttachment1
-        //myTaskAttachment2
+
+        Image placeholder = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        Image fallback = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        Image error = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+
+        ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
+        ImageRequest attachment1Request = new ImageRequest.Builder(context)
+                .data(taskImages + myTasksTaskId.get(selectedTask) + "-1.jpg")
+                .placeholder(placeholder)
+                .fallback(fallback)
+                .error(error)
+                .target(new ImageViewTarget(myTaskAttachment1))
+                .build();
+        attachment1ImageLoader.enqueue(attachment1Request);
+
+        ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
+        ImageRequest attachment2Request = new ImageRequest.Builder(context)
+                .data(taskImages + myTasksTaskId.get(selectedTask) + "-2.jpg")
+                .placeholder(placeholder)
+                .fallback(fallback)
+                .error(error)
+                .target(new ImageViewTarget(myTaskAttachment2))
+                .build();
+        attachment2ImageLoader.enqueue(attachment2Request);
+
+        executor.execute(() -> {
+            try {
+                Image attachment1Image = ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
+                Image attachment2Image = ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
+                runOnUiThread(() -> {});
+            } catch (Exception e) {
+                System.out.println(TAG + e.getMessage());
+            }
+        });
+
         if (myTasksTaskerComment.get(which).equals(" ")) {
             myTaskMyComments.setText("");
         } else {
@@ -1030,8 +1122,41 @@ public class MainActivity extends AppCompatActivity {
             theirTasksDate.setText("00-00-0000");
             theirTasksTime.setText("00:00");
         }
-        //theirTasksAttachmentIB1
-        //theirTasksAttachmentIB2
+
+        Image placeholder = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        Image fallback = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        Image error = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+
+        ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
+        ImageRequest attachment1Request = new ImageRequest.Builder(context)
+                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-1.jpg")
+                .placeholder(placeholder)
+                .fallback(fallback)
+                .error(error)
+                .target(new ImageViewTarget(theirTasksAttachmentIB1))
+                .build();
+        attachment1ImageLoader.enqueue(attachment1Request);
+
+        ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
+        ImageRequest attachment2Request = new ImageRequest.Builder(context)
+                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-2.jpg")
+                .placeholder(placeholder)
+                .fallback(fallback)
+                .error(error)
+                .target(new ImageViewTarget(theirTasksAttachmentIB2))
+                .build();
+        attachment2ImageLoader.enqueue(attachment2Request);
+
+        executor.execute(() -> {
+            try {
+                Image attachment1Image = ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
+                Image attachment2Image = ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
+                runOnUiThread(() -> {});
+            } catch (Exception e) {
+                System.out.println(TAG + e.getMessage());
+            }
+        });
+
         theirTasksTComments.setText(theirTasksTaskerComment.get(which));
         if (theirTasksTaskMasterComment.get(which).equals(" ")) {
             theirTasksMyComments.setText("");
@@ -1210,5 +1335,54 @@ public class MainActivity extends AppCompatActivity {
 
             return view;
         }
+    }
+
+    private void checkCameraPermission() {
+        if (!hasCameraPermission()) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_REQUEST
+            );
+        }
+    }
+
+    private boolean hasCameraPermission() {
+        return ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void prepareCamera() {
+        if (!hasCameraPermission()) {
+            checkCameraPermission();
+        }
+        cameraLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        info.setText("Saved: " + photoFile.getAbsolutePath());
+                    }
+                }
+        );
+    }
+
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            try {
+                photoFile = createImageFile();
+                photoUri = FileProvider.getUriForFile(context,getPackageName() + ".fileprovider", photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                cameraLauncher.launch(intent);
+            } catch (IOException e) {
+                info.setText("ERROR\n" + e.getMessage());
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        String fileName = selectedAttachment + ".jpg";
+        File storageDir = new File(context.getExternalFilesDir(null).getAbsolutePath());
+        return new File(storageDir, fileName);
     }
 }
