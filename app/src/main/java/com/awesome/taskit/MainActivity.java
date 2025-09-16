@@ -1119,7 +1119,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                .data(taskImages + myTasksTaskId.get(selectedTask) + "-1.jpg")
+                .data(taskImages + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1132,7 +1132,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                .data(taskImages + myTasksTaskId.get(selectedTask) + "-2.jpg")
+                .data(taskImages + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1441,7 +1441,7 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        info.setText("Contacting server...  ");
+                        info.setText("Resizing picture...  ");
                         myTaskAttachment1.setEnabled(false);
                         myTaskAttachment2.setEnabled(false);
                         myTaskSaveButton.setEnabled(false);
@@ -1450,20 +1450,25 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 File image = new File(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
                                 scaleAndSaveImage(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
-                                String uploadResult = uploadImage(image, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
-                                info.setText(uploadResult);
-                                populateMyTaskCard(selectedTask);
-                                myTaskAttachment1.setEnabled(true);
-                                myTaskAttachment2.setEnabled(true);
-                                myTaskSaveButton.setEnabled(true);
-                                if (uploadResult.contains("Picture uploaded successfully")) {
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            info.setText("");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String uploadResult = uploadImage(image, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
+                                        info.setText(info.getText() + uploadResult);
+                                        populateMyTaskCard(selectedTask);
+                                        myTaskAttachment1.setEnabled(true);
+                                        myTaskAttachment2.setEnabled(true);
+                                        myTaskSaveButton.setEnabled(true);
+                                        if (uploadResult.contains("Picture uploaded successfully")) {
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    info.setText("");
+                                                }
+                                            }, 5000);
                                         }
-                                    }, 2500);
-                                }
+                                    }
+                                }, 100);
                             }
                         }, 300);
                     }
@@ -1493,7 +1498,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void scaleAndSaveImage(String imagePath) {
         try {
-            // Path of the original image
             File inputFile = new File(imagePath);
 
             if (!inputFile.exists()) {
@@ -1556,18 +1560,38 @@ public class MainActivity extends AppCompatActivity {
             out.flush();
             out.close();
 
+            // ✅ Also create a thumbnail
+            int thumbSize = 256; // max long side for thumbnail
+            float thumbScale = Math.min(
+                    (float) thumbSize / scaledBitmap.getWidth(),
+                    (float) thumbSize / scaledBitmap.getHeight()
+            );
+
+            int thumbWidth = Math.round(scaledBitmap.getWidth() * thumbScale);
+            int thumbHeight = Math.round(scaledBitmap.getHeight() * thumbScale);
+
+            Bitmap thumbBitmap = Bitmap.createScaledBitmap(scaledBitmap, thumbWidth, thumbHeight, true);
+
+            // Save thumbnail as <name>-thumb.jpg
+            String thumbPath = imagePath.replace(".jpg", "-thumb.jpg");
+            File thumbFile = new File(thumbPath);
+
+            FileOutputStream thumbOut = new FileOutputStream(thumbFile);
+            thumbBitmap.compress(Bitmap.CompressFormat.JPEG, 60, thumbOut); // more compact
+            thumbOut.flush();
+            thumbOut.close();
+
             if (scaledBitmap != originalBitmap) {
                 originalBitmap.recycle();
             }
             scaledBitmap.recycle();
-
-            info.setText("Image saved: " + inputFile.getAbsolutePath());
+            thumbBitmap.recycle();
+            info.setText("Image saved\nUploading picture...\n");
         } catch (Exception e) {
             info.setText("ERROR\n" + e.getMessage());
         }
     }
 
-    // 🔄 Rotation helper
     private Bitmap applyExifRotation(File file, Bitmap bitmap) {
         try {
             ExifInterface exif = new ExifInterface(file.getAbsolutePath());
@@ -1594,7 +1618,7 @@ public class MainActivity extends AppCompatActivity {
                     matrix.preScale(1f, -1f);
                     break;
                 default:
-                    return bitmap; // no rotation
+                    return bitmap;
             }
 
             Bitmap rotatedBitmap = Bitmap.createBitmap(
@@ -1609,7 +1633,7 @@ public class MainActivity extends AppCompatActivity {
             return rotatedBitmap;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            info.setText("ERROR\n" + e.getMessage());
             return bitmap;
         }
     }
