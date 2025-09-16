@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> theirTasksDescription;
     private ArrayList<String> theirTasksDeadline;
     private ArrayList<Boolean> theirTasksTaskerMarkedAsDone;
-    private ArrayList<String> theirTasksAttachment1;
-    private ArrayList<String> theirTasksAttachment2;
+    private ArrayList<Boolean> theirTasksAttachment1;
+    private ArrayList<Boolean> theirTasksAttachment2;
     private ArrayList<String> theirTasksTaskerComment;
     private ArrayList<String> theirTasksTaskMasterComment;
     private ArrayList<Boolean> theirTasksTaskMasterMarkedAsDone;
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> myTasksDescription;
     private ArrayList<String> myTasksDeadline;
     private ArrayList<Boolean> myTasksTaskerMarkedAsDone;
-    private ArrayList<String> myTasksAttachment1;
-    private ArrayList<String> myTasksAttachment2;
+    private ArrayList<Boolean> myTasksAttachment1;
+    private ArrayList<Boolean> myTasksAttachment2;
     private ArrayList<String> myTasksTaskerComment;
     private ArrayList<String> myTasksTaskMasterComment;
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
@@ -206,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
 
-        placeholder = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-        fallback = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-        error = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        placeholder = Image_androidKt.asImage(getDrawable(R.drawable.dowloading));
+        fallback = Image_androidKt.asImage(getDrawable(R.drawable.fallback));
+        error = Image_androidKt.asImage(getDrawable(R.drawable.error));
 
         assignViews();
         assignViewListeners();
@@ -921,8 +921,16 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 theirTasksTaskerMarkedAsDone.add(true);
                             }
-                            theirTasksAttachment1.add(line[6]);
-                            theirTasksAttachment2.add(line[7]);
+                            if (line[6].equals("0")) {
+                                theirTasksAttachment1.add(false);
+                            } else {
+                                theirTasksAttachment1.add(true);
+                            }
+                            if (line[6].equals("0")) {
+                                theirTasksAttachment2.add(false);
+                            } else {
+                                theirTasksAttachment2.add(true);
+                            }
                             theirTasksTaskerComment.add(line[8]);
                             theirTasksTaskMasterComment.add(line[9]);
                             if (line[10].equals("0")) {
@@ -981,8 +989,16 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 myTasksTaskerMarkedAsDone.add(true);
                             }
-                            myTasksAttachment1.add(line[6]);
-                            myTasksAttachment2.add(line[7]);
+                            if (line[6].equals("0")) {
+                                myTasksAttachment1.add(false);
+                            } else {
+                                myTasksAttachment1.add(true);
+                            }
+                            if (line[7].equals("0")) {
+                                myTasksAttachment2.add(false);
+                            } else {
+                                myTasksAttachment2.add(true);
+                            }
                             myTasksTaskerComment.add(line[8]);
                             myTasksTaskMasterComment.add(line[9]);
                             if (line[10].equals("0")) {
@@ -1068,8 +1084,8 @@ public class MainActivity extends AppCompatActivity {
                              addTaskDescription.getText().toString() + fS +                                                 // description
                              year + "-" + (month + 1) + "-" + day + " " + hour + ":" + minute + ":00" + fS +                // deadline
                              "0" + fS +                                                                                     // tasker_marked_as_done
-                             " " + fS +                                                                                     // attachment_1
-                             " " + fS +                                                                                     // attachment_2
+                             "0" + fS +                                                                                     // attachment_1
+                             "0" + fS +                                                                                     // attachment_2
                              " " + fS +                                                                                     // tasker_comment
                              " " + fS +                                                                                     // task_master_comment
                              "0";                                                                                           // task_master_marked_as_done

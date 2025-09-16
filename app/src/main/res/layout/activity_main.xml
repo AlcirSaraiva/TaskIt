@@ -460,7 +460,8 @@
                         android:id="@+id/my_task_attachment_1_take_pic"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:scaleType="centerCrop"
+                        android:src="@drawable/camera"
+                        android:scaleType="centerInside"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
@@ -468,7 +469,8 @@
                         android:id="@+id/my_task_attachment_1_del_pic"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:scaleType="centerCrop"
+                        android:src="@drawable/delete"
+                        android:scaleType="centerInside"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
@@ -476,7 +478,8 @@
                         android:id="@+id/my_task_attachment_2_take_pic"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:scaleType="centerCrop"
+                        android:src="@drawable/camera"
+                        android:scaleType="centerInside"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
@@ -484,7 +487,8 @@
                         android:id="@+id/my_task_attachment_2_del_pic"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:scaleType="centerCrop"
+                        android:src="@drawable/delete"
+                        android:scaleType="centerInside"
                         android:padding="5dp"
                         android:layout_weight="1" />
 
