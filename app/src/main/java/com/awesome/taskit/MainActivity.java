@@ -510,38 +510,55 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 1;
+                myTaskAttachment1.setEnabled(false);
+                myTaskAttachment1TakePic.setEnabled(false);
+                myTaskAttachment1DelPic.setEnabled(false);
+                myTaskAttachment2.setEnabled(false);
+                myTaskAttachment2TakePic.setEnabled(false);
+                myTaskAttachment2DelPic.setEnabled(false);
+                myTaskSaveButton.setEnabled(false);
                 if (hasCameraPermission()) {
                     openCamera();
                 } else {
                     checkCameraPermission();
+                    myTaskAttachment1.setEnabled(true);
+                    myTaskAttachment1TakePic.setEnabled(true);
+                    myTaskAttachment1DelPic.setEnabled(true);
+                    myTaskAttachment2.setEnabled(true);
+                    myTaskAttachment2TakePic.setEnabled(true);
+                    myTaskAttachment2DelPic.setEnabled(true);
+                    myTaskSaveButton.setEnabled(true);
                 }
             }
         });
         myTaskAttachment1DelPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                selectedAttachment = 1;
-                                myTasksAttachment1.set(selectedTask, false);
-                                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
-                                populateMyTaskCard(selectedTask);
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
+                if (myTasksAttachment1.get(selectedTask)) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    selectedAttachment = 1;
+                                    myTasksAttachment1.set(selectedTask, false);
+                                    info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                                    populateMyTaskCard(selectedTask);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                };
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Delete picture?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener)
-                        .show();
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Delete picture?")
+                            .setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener)
+                            .show();
+                }
+
+
+
             }
         });
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
@@ -558,38 +575,54 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 2;
+                myTaskAttachment1.setEnabled(false);
+                myTaskAttachment1TakePic.setEnabled(false);
+                myTaskAttachment1DelPic.setEnabled(false);
+                myTaskAttachment2.setEnabled(false);
+                myTaskAttachment2TakePic.setEnabled(false);
+                myTaskAttachment2DelPic.setEnabled(false);
+                myTaskSaveButton.setEnabled(false);
                 if (hasCameraPermission()) {
                     openCamera();
                 } else {
                     checkCameraPermission();
+                    myTaskAttachment1.setEnabled(true);
+                    myTaskAttachment1TakePic.setEnabled(true);
+                    myTaskAttachment1DelPic.setEnabled(true);
+                    myTaskAttachment2.setEnabled(true);
+                    myTaskAttachment2TakePic.setEnabled(true);
+                    myTaskAttachment2DelPic.setEnabled(true);
+                    myTaskSaveButton.setEnabled(true);
                 }
             }
         });
         myTaskAttachment2DelPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                selectedAttachment = 2;
-                                myTasksAttachment2.set(selectedTask, false);
-                                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
-                                populateMyTaskCard(selectedTask);
-                                break;
+                if (myTasksAttachment2.get(selectedTask)) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    selectedAttachment = 2;
+                                    myTasksAttachment2.set(selectedTask, false);
+                                    info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                                    populateMyTaskCard(selectedTask);
+                                    break;
 
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
                         }
-                    }
-                };
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Delete picture?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener)
-                        .show();
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Delete picture?")
+                            .setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener)
+                            .show();
+                }
             }
         });
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -1181,6 +1214,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMyTask() {
+        myTaskAttachment1.setEnabled(false);
+        myTaskAttachment1TakePic.setEnabled(false);
+        myTaskAttachment1DelPic.setEnabled(false);
+        myTaskAttachment2.setEnabled(false);
+        myTaskAttachment2TakePic.setEnabled(false);
+        myTaskAttachment2DelPic.setEnabled(false);
+        myTaskSaveButton.setEnabled(false);
+
         myTasksTaskerMarkedAsDone.set(selectedTask, myTaskDone.isChecked());
         if (myTaskMyComments.getText().toString().isEmpty()) {
             myTasksTaskerComment.set(selectedTask, " ");
@@ -1195,7 +1236,6 @@ public class MainActivity extends AppCompatActivity {
         String tempAttachment2 = "0";
         if (myTasksAttachment2.get(selectedTask)) tempAttachment2 = "1";
 
-        myTaskSaveButton.setEnabled(false);
         String rawData = myTasksTaskId.get(selectedTask) + fS +
                 tempMarked + fS +
                 tempAttachment1 + fS +
@@ -1210,6 +1250,12 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    myTaskAttachment1.setEnabled(true);
+                    myTaskAttachment1TakePic.setEnabled(true);
+                    myTaskAttachment1DelPic.setEnabled(true);
+                    myTaskAttachment2.setEnabled(true);
+                    myTaskAttachment2TakePic.setEnabled(true);
+                    myTaskAttachment2DelPic.setEnabled(true);
                     myTaskSaveButton.setEnabled(true);
                     info.setText("");
                     changeScreen(TASKER_TASKS);
@@ -1219,6 +1265,12 @@ public class MainActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    myTaskAttachment1.setEnabled(true);
+                    myTaskAttachment1TakePic.setEnabled(true);
+                    myTaskAttachment1DelPic.setEnabled(true);
+                    myTaskAttachment2.setEnabled(true);
+                    myTaskAttachment2TakePic.setEnabled(true);
+                    myTaskAttachment2DelPic.setEnabled(true);
                     myTaskSaveButton.setEnabled(true);
                 }
             }, 2000);
@@ -1696,6 +1748,13 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                             populateMyTaskCard(selectedTask);
                                             info.setText(info.getText() + contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1")));
+                                            myTaskAttachment1.setEnabled(true);
+                                            myTaskAttachment1TakePic.setEnabled(true);
+                                            myTaskAttachment1DelPic.setEnabled(true);
+                                            myTaskAttachment2.setEnabled(true);
+                                            myTaskAttachment2TakePic.setEnabled(true);
+                                            myTaskAttachment2DelPic.setEnabled(true);
+                                            myTaskSaveButton.setEnabled(true);
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {

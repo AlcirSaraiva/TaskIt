@@ -508,8 +508,10 @@
 
                 <TextView
                     android:id="@+id/my_task_tm_comments"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#88aaaaaa"
+                    android:padding="5dp"
                     android:layout_marginBottom="15dp"
                     android:textSize="14sp" />
 
@@ -682,7 +684,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <TextView
                     android:id="@+id/their_tasks_name"
