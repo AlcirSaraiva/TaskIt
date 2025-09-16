@@ -606,48 +606,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
-
-                    <Button
-                        android:id="@+id/add_task_pick_date_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pick date" />
+                    android:layout_marginBottom="10dp"
+                    android:weightSum="2" >
 
                     <TextView
                         android:id="@+id/add_task_date"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="#ffaaaaaa"
-                        android:layout_marginStart="20dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:paddingEnd="6dp"
-                        android:gravity="end"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/add_task_pick_time_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pick time" />
+                        android:layout_marginEnd="8dp"
+                        android:padding="6dp"
+                        android:gravity="end"
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/add_task_time"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="#ffaaaaaa"
-                        android:layout_marginStart="20dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:paddingEnd="6dp"
-                        android:gravity="end"/>
+                        android:layout_marginStart="8dp"
+                        android:padding="6dp"
+                        android:gravity="end"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
@@ -702,7 +682,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:id="@+id/their_tasks_name"
@@ -740,50 +720,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
-
-                    <Button
-                        android:id="@+id/their_tasks_pick_date_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Change date" />
+                    android:layout_marginBottom="10dp"
+                    android:weightSum="2" >
 
                     <TextView
                         android:id="@+id/their_tasks_date"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="#ffaaaaaa"
-                        android:layout_marginStart="20dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:paddingEnd="6dp"
-                        android:textSize="14sp"
-                        android:gravity="end"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/their_tasks_pick_time_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Change time" />
+                        android:layout_marginEnd="8dp"
+                        android:padding="6dp"
+                        android:gravity="end"
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/their_tasks_time"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="#ffaaaaaa"
-                        android:layout_marginStart="20dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:paddingEnd="6dp"
-                        android:textSize="14sp"
-                        android:gravity="end"/>
+                        android:layout_marginStart="8dp"
+                        android:padding="6dp"
+                        android:gravity="end"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
@@ -791,7 +749,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
                     android:weightSum="2">
 
@@ -818,6 +775,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
+                    android:background="#88aaaaaa"
+                    android:padding="5dp"
                     android:textSize="14sp" />
 
                 <EditText

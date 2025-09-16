@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksPickDateButton, theirTasksPickTimeButton, theirTasksSaveButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton;
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
     private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone;
     private Spinner addTaskTaskerSpinner;
@@ -272,9 +272,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksNameField = findViewById(R.id.their_tasks_name);
         theirTasksTitleField = findViewById(R.id.their_tasks_title);
         theirTasksDescriptionField = findViewById(R.id.their_tasks_description);
-        theirTasksPickDateButton = findViewById(R.id.their_tasks_pick_date_button);
         theirTasksDate = findViewById(R.id.their_tasks_date);
-        theirTasksPickTimeButton = findViewById(R.id.their_tasks_pick_time_button);
         theirTasksTime = findViewById(R.id.their_tasks_time);
         theirTasksAttachmentIB1 = findViewById(R.id.their_tasks_attachment_ib_1);
         theirTasksAttachmentIB2 = findViewById(R.id.their_tasks_attachment_ib_2);
@@ -286,9 +284,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
         addTaskTitle = findViewById(R.id.add_task_title);
         addTaskDescription = findViewById(R.id.add_task_description);
-        addTaskPickDateButton = findViewById(R.id.add_task_pick_date_button);
         addTaskDate = findViewById(R.id.add_task_date);
-        addTaskPickTimeButton = findViewById(R.id.add_task_pick_time_button);
         addTaskTime = findViewById(R.id.add_task_time);
         addOneTaskButton = findViewById(R.id.add_one_task_button);
         addMoreTaskButton = findViewById(R.id.add_more_task_button);
@@ -388,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        addTaskPickDateButton.setOnClickListener(new View.OnClickListener() {
+        addTaskDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
@@ -406,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-        addTaskPickTimeButton.setOnClickListener(new View.OnClickListener() {
+        addTaskTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
@@ -457,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        theirTasksPickDateButton.setOnClickListener(new View.OnClickListener() {
+        theirTasksDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
@@ -475,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-        theirTasksPickTimeButton.setOnClickListener(new View.OnClickListener() {
+        theirTasksTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
