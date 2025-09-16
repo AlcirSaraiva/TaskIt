@@ -686,7 +686,7 @@ public class MainActivity extends AppCompatActivity {
         return response;
     }
 
-    private String uploadImage(File imageFile, String rawData) {
+    private String uploadImage(File imageFile, File thumbFile, String rawData) {
         String response = "";
         String boundary = "----AndroidBoundary" + System.currentTimeMillis();
         String LINE_FEED = "\r\n";
@@ -710,7 +710,7 @@ public class MainActivity extends AppCompatActivity {
             dataOutputStream.writeBytes(LINE_FEED);
             dataOutputStream.writeBytes(rawData + LINE_FEED);
 
-            // 2. Send file
+            // 2. Send main image
             String fileName = imageFile.getName();
             dataOutputStream.writeBytes("--" + boundary + LINE_FEED);
             dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"" + LINE_FEED);
@@ -726,12 +726,28 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             dataOutputStream.writeBytes(LINE_FEED);
 
+            // 3. Send thumbnail
+            if (thumbFile != null && thumbFile.exists()) {
+                String thumbName = thumbFile.getName();
+                dataOutputStream.writeBytes("--" + boundary + LINE_FEED);
+                dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"thumb\"; filename=\"" + thumbName + "\"" + LINE_FEED);
+                dataOutputStream.writeBytes("Content-Type: image/jpeg" + LINE_FEED);
+                dataOutputStream.writeBytes(LINE_FEED);
+
+                FileInputStream thumbStream = new FileInputStream(thumbFile);
+                while ((bytesRead = thumbStream.read(buffer)) != -1) {
+                    dataOutputStream.write(buffer, 0, bytesRead);
+                }
+                thumbStream.close();
+                dataOutputStream.writeBytes(LINE_FEED);
+            }
+
             // End request
             dataOutputStream.writeBytes("--" + boundary + "--" + LINE_FEED);
             dataOutputStream.flush();
             dataOutputStream.close();
 
-            // 3. Get server response
+            // 4. Get server response
             int responseCode = connection.getResponseCode();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
@@ -741,8 +757,6 @@ public class MainActivity extends AppCompatActivity {
             reader.close();
         } catch (Exception e) {
             response = e.getMessage();
-        } finally {
-
         }
         return response;
     }
@@ -1204,7 +1218,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-1.jpg")
+                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1217,7 +1231,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-2.jpg")
+                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1449,11 +1463,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 File image = new File(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
+                                File imageThumb = new File(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + "-thumb.jpg");
                                 scaleAndSaveImage(context.getExternalFilesDir(null).getAbsolutePath() + "/" + selectedAttachment + ".jpg");
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        String uploadResult = uploadImage(image, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
+                                        String uploadResult = uploadImage(image, imageThumb, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
                                         info.setText(info.getText() + uploadResult);
                                         populateMyTaskCard(selectedTask);
                                         myTaskAttachment1.setEnabled(true);
