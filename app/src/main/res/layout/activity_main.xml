@@ -429,13 +429,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="15dp"
                     android:weightSum="2">
 
                     <ImageButton
                         android:id="@+id/my_task_attachment_1"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:padding="5dp"
                         android:layout_weight="1" />
@@ -443,7 +442,48 @@
                     <ImageButton
                         android:id="@+id/my_task_attachment_2"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:padding="5dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:weightSum="4">
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_1_take_pic"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        android:padding="5dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_1_del_pic"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        android:padding="5dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_2_take_pic"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        android:padding="5dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_2_del_pic"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
                         android:scaleType="centerCrop"
                         android:padding="5dp"
                         android:layout_weight="1" />
@@ -984,6 +1024,14 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ff000000"
+                android:scaleType="fitCenter"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

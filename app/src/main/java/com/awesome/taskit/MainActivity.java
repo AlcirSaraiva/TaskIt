@@ -33,6 +33,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> myTasksTaskMasterComment;
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
-    private boolean justOne;
+    private boolean justOne, showingImage;
     private int selectedTask, selectedAttachment;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -153,16 +154,21 @@ public class MainActivity extends AppCompatActivity {
     private final int CHANGE_PASSWORD = 7;
     private final int MY_TASK = 8;
     private final int THEIR_TASKS = 9;
+    private final int MY_TASK_IMAGE_SHOW = 10;
+    private final int THEIR_TASKS_IMAGE_SHOW = 11;
     private int currentScreen;
 
     private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments;
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskPickDateButton, addTaskPickTimeButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksPickDateButton, theirTasksPickTimeButton, theirTasksSaveButton;
     private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
     private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
+    private ImageView imageShow;
+
+    private Image placeholder, fallback, error;
 
     // network
     private boolean isOnline;
@@ -177,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     private final String updateTheirTasksPHP = "https://www.solvaelys.com/taskit/update_their_tasks.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
     private final String uploadImagePHP = "https://www.solvaelys.com/taskit/upload_image.php";
-    private final String taskImages = "https://www.solvaelys.com/taskit/images/";
+    private final String taskImagesRemote = "https://www.solvaelys.com/taskit/images/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +205,10 @@ public class MainActivity extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
+
+        placeholder = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        fallback = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
+        error = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
 
         assignViews();
         assignViewListeners();
@@ -281,7 +291,11 @@ public class MainActivity extends AppCompatActivity {
         myTaskDescription = findViewById(R.id.my_task_description);
         myTaskDeadline = findViewById(R.id.my_task_deadline);
         myTaskAttachment1 = findViewById(R.id.my_task_attachment_1);
+        myTaskAttachment1TakePic = findViewById(R.id.my_task_attachment_1_take_pic);
+        myTaskAttachment1DelPic = findViewById(R.id.my_task_attachment_1_del_pic);
         myTaskAttachment2 = findViewById(R.id.my_task_attachment_2);
+        myTaskAttachment2TakePic = findViewById(R.id.my_task_attachment_2_take_pic);
+        myTaskAttachment2DelPic = findViewById(R.id.my_task_attachment_2_del_pic);
         myTaskMyComments = findViewById(R.id.my_task_my_comments);
         myTaskTmComments = findViewById(R.id.my_task_tm_comments);
         myTaskDone = findViewById(R.id.my_task_done);
@@ -296,6 +310,8 @@ public class MainActivity extends AppCompatActivity {
         changePasswordNew1Field = findViewById(R.id.change_password_new1_field);
         changePasswordNew2Field = findViewById(R.id.change_password_new2_field);
         changePasswordChangeButton = findViewById(R.id.change_password_change_button);
+
+        imageShow = findViewById(R.id.image_show);
     }
 
     private void assignViewListeners() {
@@ -419,14 +435,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 1;
-
+                loadTheirShowImage(true);
+                changeScreen(THEIR_TASKS_IMAGE_SHOW);
             }
         });
         theirTasksAttachmentIB2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 2;
-
+                changeScreen(THEIR_TASKS_IMAGE_SHOW);
+                loadTheirShowImage(true);
             }
         });
         theirTasksPickDateButton.setOnClickListener(new View.OnClickListener() {
@@ -474,6 +492,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 1;
+                changeScreen(MY_TASK_IMAGE_SHOW);
+                loadTheirShowImage(false);
+            }
+        });
+        myTaskAttachment1TakePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAttachment = 1;
                 if (hasCameraPermission()) {
                     openCamera();
                 } else {
@@ -481,7 +507,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        myTaskAttachment1DelPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAttachment = 1;
+
+            }
+        });
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAttachment = 2;
+                changeScreen(MY_TASK_IMAGE_SHOW);
+                loadTheirShowImage(false);
+            }
+        });
+        myTaskAttachment2TakePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 2;
@@ -490,6 +531,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     checkCameraPermission();
                 }
+            }
+        });
+        myTaskAttachment2DelPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedAttachment = 2;
+
             }
         });
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -583,13 +631,33 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MY_TASK:
                 taskerTasksCard.setVisibility(View.GONE);
+                imageShow.setVisibility(View.GONE);
                 myTaskCard.setVisibility(View.VISIBLE);
-                populateMyTaskCard(selectedTask);
+                if (!showingImage) {
+                    populateMyTaskCard(selectedTask);
+                } else {
+                    showingImage = false;
+                }
                 break;
             case THEIR_TASKS:
                 taskMasterTasksCard.setVisibility(View.GONE);
+                imageShow.setVisibility(View.GONE);
                 theirTasksCard.setVisibility(View.VISIBLE);
-                populateTheirTasksCard(selectedTask);
+                if (!showingImage) {
+                    populateTheirTasksCard(selectedTask);
+                } else {
+                    showingImage = false;
+                }
+                break;
+            case MY_TASK_IMAGE_SHOW:
+                myTaskCard.setVisibility(View.GONE);
+                imageShow.setVisibility(View.VISIBLE);
+                showingImage = true;
+                break;
+            case THEIR_TASKS_IMAGE_SHOW:
+                theirTasksCard.setVisibility(View.GONE);
+                imageShow.setVisibility(View.VISIBLE);
+                showingImage = true;
                 break;
         }
         currentScreen = newScreen;
@@ -616,6 +684,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MY_TASK:
                 changeScreen(TASKER_TASKS);
+                break;
+            case MY_TASK_IMAGE_SHOW:
+                changeScreen(MY_TASK);
+                break;
+            case THEIR_TASKS_IMAGE_SHOW:
+                changeScreen(THEIR_TASKS);
                 break;
         }
     }
@@ -1127,13 +1201,9 @@ public class MainActivity extends AppCompatActivity {
         myTaskDescription.setText(myTasksDescription.get(which));
         myTaskDeadline.setText(myTasksDeadline.get(which));
 
-        Image placeholder = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-        Image fallback = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-        Image error = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-
         ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                .data(taskImages + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
+                .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1146,7 +1216,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                .data(taskImages + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
+                .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1159,8 +1229,8 @@ public class MainActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             try {
-                Image attachment1Image = ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
-                Image attachment2Image = ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
+                ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
+                ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
                 runOnUiThread(() -> {});
             } catch (Exception e) {
                 System.out.println(TAG + e.getMessage());
@@ -1212,13 +1282,9 @@ public class MainActivity extends AppCompatActivity {
             theirTasksTime.setText("00:00");
         }
 
-        Image placeholder = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-        Image fallback = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-        Image error = Image_androidKt.asImage(getDrawable(R.drawable.ic_launcher_foreground));
-
         ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
+                .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1231,7 +1297,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
         ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                .data(taskImages + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
+                .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
                 .placeholder(placeholder)
                 .fallback(fallback)
                 .error(error)
@@ -1244,8 +1310,8 @@ public class MainActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             try {
-                Image attachment1Image = ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
-                Image attachment2Image = ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
+                ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
+                ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
                 runOnUiThread(() -> {});
             } catch (Exception e) {
                 System.out.println(TAG + e.getMessage());
@@ -1259,6 +1325,37 @@ public class MainActivity extends AppCompatActivity {
             theirTasksMyComments.setText(theirTasksTaskMasterComment.get(which));
         }
         theirTasksDone.setChecked(theirTasksTaskMasterMarkedAsDone.get(which));
+    }
+
+    private void loadTheirShowImage(boolean showTheirs) {
+        String taskId;
+        if (showTheirs) {
+            taskId = theirTasksTaskId.get(selectedTask);
+        } else {
+            taskId = myTasksTaskId.get(selectedTask);
+        }
+
+        ImageLoader showImageLoader = SingletonImageLoader.get(context);
+        ImageRequest showImageRequest = new ImageRequest.Builder(context)
+                .data(taskImagesRemote + taskId + "-" + selectedAttachment + ".jpg")
+                .placeholder(placeholder)
+                .fallback(fallback)
+                .error(error)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .networkCachePolicy(CachePolicy.ENABLED)
+                .target(new ImageViewTarget(imageShow))
+                .build();
+        showImageLoader.enqueue(showImageRequest);
+
+        executor.execute(() -> {
+            try {
+                ImageLoaders.executeBlocking(showImageLoader, showImageRequest).getImage();
+                runOnUiThread(() -> {});
+            } catch (Exception e) {
+                System.out.println(TAG + e.getMessage());
+            }
+        });
     }
 
     private String generateID() {
