@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri photoUri;
     private File photoFile;
     ExecutorService executor = Executors.newSingleThreadExecutor();
+    ExecutorService attachmentExecutor1, attachmentExecutor2 = Executors.newSingleThreadExecutor();
 
     // UI
     private final int LOGIN = 0;
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
     private final String updateTheirTasksPHP = "https://www.solvaelys.com/taskit/update_their_tasks.php";
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
     private final String uploadImagePHP = "https://www.solvaelys.com/taskit/upload_image.php";
+    private final String updateAttachmentPHP = "https://www.solvaelys.com/taskit/update_attachment.php";
     private final String taskImagesRemote = "https://www.solvaelys.com/taskit/images/";
 
     @Override
@@ -205,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
+
+        executor = Executors.newSingleThreadExecutor();
+        attachmentExecutor1 = Executors.newSingleThreadExecutor();
+        attachmentExecutor2 = Executors.newSingleThreadExecutor();
 
         placeholder = Image_androidKt.asImage(getDrawable(R.drawable.dowloading));
         fallback = Image_androidKt.asImage(getDrawable(R.drawable.fallback));
@@ -434,17 +440,21 @@ public class MainActivity extends AppCompatActivity {
         theirTasksAttachmentIB1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedAttachment = 1;
-                loadTheirShowImage(true);
-                changeScreen(THEIR_TASKS_IMAGE_SHOW);
+                if (theirTasksAttachment1.get(selectedTask)) {
+                    selectedAttachment = 1;
+                    loadShowImage(true);
+                    changeScreen(THEIR_TASKS_IMAGE_SHOW);
+                }
             }
         });
         theirTasksAttachmentIB2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedAttachment = 2;
-                changeScreen(THEIR_TASKS_IMAGE_SHOW);
-                loadTheirShowImage(true);
+                if (theirTasksAttachment2.get(selectedTask)) {
+                    selectedAttachment = 2;
+                    changeScreen(THEIR_TASKS_IMAGE_SHOW);
+                    loadShowImage(true);
+                }
             }
         });
         theirTasksPickDateButton.setOnClickListener(new View.OnClickListener() {
@@ -491,9 +501,11 @@ public class MainActivity extends AppCompatActivity {
         myTaskAttachment1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedAttachment = 1;
-                changeScreen(MY_TASK_IMAGE_SHOW);
-                loadTheirShowImage(false);
+                if (myTasksAttachment1.get(selectedTask)) {
+                    selectedAttachment = 1;
+                    changeScreen(MY_TASK_IMAGE_SHOW);
+                    loadShowImage(false);
+                }
             }
         });
         myTaskAttachment1TakePic.setOnClickListener(new View.OnClickListener() {
@@ -517,9 +529,11 @@ public class MainActivity extends AppCompatActivity {
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedAttachment = 2;
-                changeScreen(MY_TASK_IMAGE_SHOW);
-                loadTheirShowImage(false);
+                if (myTasksAttachment2.get(selectedTask)) {
+                    selectedAttachment = 2;
+                    changeScreen(MY_TASK_IMAGE_SHOW);
+                    loadShowImage(false);
+                }
             }
         });
         myTaskAttachment2TakePic.setOnClickListener(new View.OnClickListener() {
@@ -1130,8 +1144,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateMyTask() {
         myTasksTaskerMarkedAsDone.set(selectedTask, myTaskDone.isChecked());
-        //myTasksAttachment1.set(selectedTask);
-        //myTasksAttachment2.set(selectedTask);
         if (myTaskMyComments.getText().toString().isEmpty()) {
             myTasksTaskerComment.set(selectedTask, " ");
         } else {
@@ -1140,12 +1152,16 @@ public class MainActivity extends AppCompatActivity {
 
         String tempMarked = "0";
         if (myTasksTaskerMarkedAsDone.get(selectedTask)) tempMarked = "1";
+        String tempAttachment1 = "0";
+        if (myTasksAttachment1.get(selectedTask)) tempAttachment1 = "1";
+        String tempAttachment2 = "0";
+        if (myTasksAttachment2.get(selectedTask)) tempAttachment2 = "1";
 
         myTaskSaveButton.setEnabled(false);
         String rawData = myTasksTaskId.get(selectedTask) + fS +
                 tempMarked + fS +
-                myTasksAttachment1.get(selectedTask) + fS +
-                myTasksAttachment2.get(selectedTask) + fS +
+                tempAttachment1 + fS +
+                tempAttachment2 + fS +
                 myTasksTaskerComment.get(selectedTask);
 
         String response = contactServer(updateMyTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
@@ -1217,41 +1233,55 @@ public class MainActivity extends AppCompatActivity {
         myTaskDescription.setText(myTasksDescription.get(which));
         myTaskDeadline.setText(myTasksDeadline.get(which));
 
-        ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
-        ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
-                .placeholder(placeholder)
-                .fallback(fallback)
-                .error(error)
-                .memoryCachePolicy(CachePolicy.DISABLED)
-                .diskCachePolicy(CachePolicy.DISABLED)
-                .networkCachePolicy(CachePolicy.ENABLED)
-                .target(new ImageViewTarget(myTaskAttachment1))
-                .build();
-        attachment1ImageLoader.enqueue(attachment1Request);
+        if (myTasksAttachment1.get(which)) {
+            ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
+            ImageRequest attachment1Request = new ImageRequest.Builder(context)
+                    .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
+                    .placeholder(placeholder)
+                    .fallback(fallback)
+                    .error(error)
+                    .memoryCachePolicy(CachePolicy.DISABLED)
+                    .diskCachePolicy(CachePolicy.DISABLED)
+                    .networkCachePolicy(CachePolicy.ENABLED)
+                    .target(new ImageViewTarget(myTaskAttachment1))
+                    .build();
+            attachment1ImageLoader.enqueue(attachment1Request);
+            attachmentExecutor1.execute(() -> {
+                try {
+                    ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
+                    runOnUiThread(() -> {});
+                } catch (Exception e) {
+                    System.out.println(TAG + e.getMessage());
+                }
+            });
+        } else {
+            myTaskAttachment1.setImageResource(R.drawable.fallback);
+        }
 
-        ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
-        ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
-                .placeholder(placeholder)
-                .fallback(fallback)
-                .error(error)
-                .memoryCachePolicy(CachePolicy.DISABLED)
-                .diskCachePolicy(CachePolicy.DISABLED)
-                .networkCachePolicy(CachePolicy.ENABLED)
-                .target(new ImageViewTarget(myTaskAttachment2))
-                .build();
-        attachment2ImageLoader.enqueue(attachment2Request);
-
-        executor.execute(() -> {
-            try {
-                ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
-                ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
-                runOnUiThread(() -> {});
-            } catch (Exception e) {
-                System.out.println(TAG + e.getMessage());
-            }
-        });
+        if (myTasksAttachment2.get(which)) {
+            ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
+            ImageRequest attachment2Request = new ImageRequest.Builder(context)
+                    .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
+                    .placeholder(placeholder)
+                    .fallback(fallback)
+                    .error(error)
+                    .memoryCachePolicy(CachePolicy.DISABLED)
+                    .diskCachePolicy(CachePolicy.DISABLED)
+                    .networkCachePolicy(CachePolicy.ENABLED)
+                    .target(new ImageViewTarget(myTaskAttachment2))
+                    .build();
+            attachment2ImageLoader.enqueue(attachment2Request);
+            attachmentExecutor2.execute(() -> {
+                try {
+                    ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
+                    runOnUiThread(() -> {});
+                } catch (Exception e) {
+                    System.out.println(TAG + e.getMessage());
+                }
+            });
+        } else {
+            myTaskAttachment2.setImageResource(R.drawable.fallback);
+        }
 
         if (myTasksTaskerComment.get(which).equals(" ")) {
             myTaskMyComments.setText("");
@@ -1298,41 +1328,55 @@ public class MainActivity extends AppCompatActivity {
             theirTasksTime.setText("00:00");
         }
 
-        ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
-        ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
-                .placeholder(placeholder)
-                .fallback(fallback)
-                .error(error)
-                .memoryCachePolicy(CachePolicy.DISABLED)
-                .diskCachePolicy(CachePolicy.DISABLED)
-                .networkCachePolicy(CachePolicy.ENABLED)
-                .target(new ImageViewTarget(theirTasksAttachmentIB1))
-                .build();
-        attachment1ImageLoader.enqueue(attachment1Request);
+        if (theirTasksAttachment1.get(which)) {
+            ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
+            ImageRequest attachment1Request = new ImageRequest.Builder(context)
+                    .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
+                    .placeholder(placeholder)
+                    .fallback(fallback)
+                    .error(error)
+                    .memoryCachePolicy(CachePolicy.DISABLED)
+                    .diskCachePolicy(CachePolicy.DISABLED)
+                    .networkCachePolicy(CachePolicy.ENABLED)
+                    .target(new ImageViewTarget(theirTasksAttachmentIB1))
+                    .build();
+            attachment1ImageLoader.enqueue(attachment1Request);
+            attachmentExecutor1.execute(() -> {
+                try {
+                    ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
+                    runOnUiThread(() -> {});
+                } catch (Exception e) {
+                    System.out.println(TAG + e.getMessage());
+                }
+            });
+        } else {
+            theirTasksAttachmentIB1.setImageResource(R.drawable.fallback);
+        }
 
-        ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
-        ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
-                .placeholder(placeholder)
-                .fallback(fallback)
-                .error(error)
-                .memoryCachePolicy(CachePolicy.DISABLED)
-                .diskCachePolicy(CachePolicy.DISABLED)
-                .networkCachePolicy(CachePolicy.ENABLED)
-                .target(new ImageViewTarget(theirTasksAttachmentIB2))
-                .build();
-        attachment2ImageLoader.enqueue(attachment2Request);
-
-        executor.execute(() -> {
-            try {
-                ImageLoaders.executeBlocking(attachment1ImageLoader, attachment1Request).getImage();
-                ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
-                runOnUiThread(() -> {});
-            } catch (Exception e) {
-                System.out.println(TAG + e.getMessage());
-            }
-        });
+        if (theirTasksAttachment2.get(which)) {
+            ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
+            ImageRequest attachment2Request = new ImageRequest.Builder(context)
+                    .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
+                    .placeholder(placeholder)
+                    .fallback(fallback)
+                    .error(error)
+                    .memoryCachePolicy(CachePolicy.DISABLED)
+                    .diskCachePolicy(CachePolicy.DISABLED)
+                    .networkCachePolicy(CachePolicy.ENABLED)
+                    .target(new ImageViewTarget(theirTasksAttachmentIB2))
+                    .build();
+            attachment2ImageLoader.enqueue(attachment2Request);
+            attachmentExecutor2.execute(() -> {
+                try {
+                    ImageLoaders.executeBlocking(attachment2ImageLoader, attachment2Request).getImage();
+                    runOnUiThread(() -> {});
+                } catch (Exception e) {
+                    System.out.println(TAG + e.getMessage());
+                }
+            });
+        } else {
+            theirTasksAttachmentIB2.setImageResource(R.drawable.fallback);
+        }
 
         theirTasksTComments.setText(theirTasksTaskerComment.get(which));
         if (theirTasksTaskMasterComment.get(which).equals(" ")) {
@@ -1343,7 +1387,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksDone.setChecked(theirTasksTaskMasterMarkedAsDone.get(which));
     }
 
-    private void loadTheirShowImage(boolean showTheirs) {
+    private void loadShowImage(boolean showTheirs) {
         String taskId;
         if (showTheirs) {
             taskId = theirTasksTaskId.get(selectedTask);
@@ -1588,6 +1632,13 @@ public class MainActivity extends AppCompatActivity {
                                         myTaskAttachment2.setEnabled(true);
                                         myTaskSaveButton.setEnabled(true);
                                         if (uploadResult.contains("Picture uploaded successfully")) {
+                                            if (selectedAttachment == 1) {
+                                                myTasksAttachment1.set(selectedTask, true);
+                                            } else {
+                                                myTasksAttachment2.set(selectedTask, true);
+                                            }
+                                            populateMyTaskCard(selectedTask);
+                                            info.setText(info.getText() + "\n" + contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1")));
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
