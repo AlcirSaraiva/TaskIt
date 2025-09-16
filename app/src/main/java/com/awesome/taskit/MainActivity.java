@@ -523,7 +523,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 1;
-
+                myTasksAttachment1.set(selectedTask, false);
+                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                populateMyTaskCard(selectedTask);
             }
         });
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
@@ -551,7 +553,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 2;
-
+                myTasksAttachment2.set(selectedTask, false);
+                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                populateMyTaskCard(selectedTask);
             }
         });
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -1231,7 +1235,14 @@ public class MainActivity extends AppCompatActivity {
     private void populateMyTaskCard(int which) {
         myTaskTitle.setText(myTasksTitle.get(which));
         myTaskDescription.setText(myTasksDescription.get(which));
-        myTaskDeadline.setText(myTasksDeadline.get(which));
+
+        String[] tempDeadline = myTasksDeadline.get(which).split(" ");
+        if (tempDeadline.length == 2) {
+            String[] tempDate = tempDeadline[0].split("-");
+            myTaskDeadline.setText(tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0] + " " + tempDeadline[1].substring(0, 5));
+        } else {
+            myTaskDeadline.setText("00-00-0000 00:00");
+        }
 
         if (myTasksAttachment1.get(which)) {
             ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
@@ -1533,7 +1544,13 @@ public class MainActivity extends AppCompatActivity {
 
             text1.setText(name.get(position));
             text2.setText(title.get(position));
-            text3.setText(deadline.get(position));
+            String[] tempDeadline = deadline.get(position).split(" ");
+            if (tempDeadline.length == 2) {
+                String[] tempDate = tempDeadline[0].split("-");
+                text3.setText(tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0] + " " + tempDeadline[1].substring(0, 5));
+            } else {
+                text3.setText("00-00-0000 00:00");
+            }
             check.setChecked(done.get(position));
 
             LinearLayout openTheirTasksTrigger  = (LinearLayout) view.findViewById(R.id.open_their_tasks_trigger);
@@ -1573,7 +1590,13 @@ public class MainActivity extends AppCompatActivity {
             CheckBox check = (CheckBox) view.findViewById(R.id.check);
 
             text1.setText(title.get(position));
-            text2.setText(deadline.get(position));
+            String[] tempDeadline = deadline.get(position).split(" ");
+            if (tempDeadline.length == 2) {
+                String[] tempDate = tempDeadline[0].split("-");
+                text2.setText(tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0] + " " + tempDeadline[1].substring(0, 5));
+            } else {
+                text2.setText("00-00-0000 00:00");
+            }
             check.setChecked(done.get(position));
 
             LinearLayout openMyTaskTrigger  = (LinearLayout) view.findViewById(R.id.open_my_task_trigger);
@@ -1626,7 +1649,7 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         String uploadResult = uploadImage(image, imageThumb, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
-                                        info.setText(info.getText() + uploadResult);
+                                        info.setText(uploadResult);
                                         populateMyTaskCard(selectedTask);
                                         myTaskAttachment1.setEnabled(true);
                                         myTaskAttachment2.setEnabled(true);
@@ -1638,13 +1661,13 @@ public class MainActivity extends AppCompatActivity {
                                                 myTasksAttachment2.set(selectedTask, true);
                                             }
                                             populateMyTaskCard(selectedTask);
-                                            info.setText(info.getText() + "\n" + contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1")));
+                                            info.setText(info.getText() + contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1")));
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     info.setText("");
                                                 }
-                                            }, 5000);
+                                            }, 4000);
                                         }
                                     }
                                 }, 100);
