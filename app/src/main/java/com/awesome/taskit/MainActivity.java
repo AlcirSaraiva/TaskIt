@@ -4,10 +4,12 @@ import static android.app.PendingIntent.getActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -518,10 +520,28 @@ public class MainActivity extends AppCompatActivity {
         myTaskAttachment1DelPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedAttachment = 1;
-                myTasksAttachment1.set(selectedTask, false);
-                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
-                populateMyTaskCard(selectedTask);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                selectedAttachment = 1;
+                                myTasksAttachment1.set(selectedTask, false);
+                                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                                populateMyTaskCard(selectedTask);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Delete picture?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener)
+                        .show();
             }
         });
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
@@ -548,10 +568,28 @@ public class MainActivity extends AppCompatActivity {
         myTaskAttachment2DelPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedAttachment = 2;
-                myTasksAttachment2.set(selectedTask, false);
-                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
-                populateMyTaskCard(selectedTask);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                selectedAttachment = 2;
+                                myTasksAttachment2.set(selectedTask, false);
+                                info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                                populateMyTaskCard(selectedTask);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Delete picture?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener)
+                        .show();
             }
         });
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
