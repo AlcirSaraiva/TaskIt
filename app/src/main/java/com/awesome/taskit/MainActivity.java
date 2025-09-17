@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
     private boolean justOne, showingImage;
-    private int selectedTask, selectedAttachment;
+    private int selectedTask, selectedAttachment, selectedUser;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
     private static final int CAMERA_PERMISSION_REQUEST = 100;
@@ -158,14 +158,15 @@ public class MainActivity extends AppCompatActivity {
     private final int THEIR_TASKS = 9;
     private final int MY_TASK_IMAGE_SHOW = 10;
     private final int THEIR_TASKS_IMAGE_SHOW = 11;
+    private final int TASKER_MANAGEMENT = 12;
     private int currentScreen;
 
-    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments;
-    private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard;
+    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId;
+    private LinearLayout loginCard, taskMasterCard, taskerCard, taskerManagementCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton;
-    private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
+    private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
     private ImageView imageShow;
@@ -187,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
     private final String changePasswordPHP = "https://www.solvaelys.com/taskit/change_password.php";
     private final String uploadImagePHP = "https://www.solvaelys.com/taskit/upload_image.php";
     private final String updateAttachmentPHP = "https://www.solvaelys.com/taskit/update_attachment.php";
+    private final String updateUserPHP = "https://www.solvaelys.com/taskit/update_user.php";
+    private final String deleteUserPHP = "https://www.solvaelys.com/taskit/delete_user.php";
     private final String taskImagesRemote = "https://www.solvaelys.com/taskit/images/";
 
     @Override
@@ -252,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
         loginCard = findViewById(R.id.login_card);
         taskMasterCard = findViewById(R.id.task_master_card);
         taskerCard = findViewById(R.id.tasker_card);
+        taskerManagementCard = findViewById(R.id.tasker_management_card);
         adminCard = findViewById(R.id.admin_card);
 
         taskMasterTaskersCard = findViewById(R.id.task_master_taskers_card);
@@ -279,6 +283,13 @@ public class MainActivity extends AppCompatActivity {
         addUserIdField = findViewById(R.id.add_user_id_field);
         addUserGenerateIdButton = findViewById(R.id.add_user_generate_id_button);
         addUserAddButton = findViewById(R.id.add_user_add_button);
+
+        taskerManagementNameField = findViewById(R.id.tasker_management_name_field);
+        taskerManagementId = findViewById(R.id.tasker_management_id);
+        taskerManagementTaskMaster = findViewById(R.id.tasker_management_task_master);
+        taskerManagementAdmin = findViewById(R.id.tasker_management_admin);
+        deleteUserButton = findViewById(R.id.delete_user_button);
+        updateUserButton = findViewById(R.id.update_user_button);
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksListView = findViewById(R.id.their_tasks_listview);
@@ -368,6 +379,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addUser();
+            }
+        });
+
+        deleteUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUser();
+            }
+        });
+        updateUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUser();
             }
         });
 
@@ -661,7 +685,6 @@ public class MainActivity extends AppCompatActivity {
                 loginUsernameField.setText("");
                 loginPasswordField.setText("");
                 loginKeep.setChecked(false);
-
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("myid", "");
                 editor.putBoolean("taskmaster", false);
@@ -673,7 +696,6 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterTaskersCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.GONE);
-                addUserCard.setVisibility(View.GONE);
                 changePasswordCard.setVisibility(View.GONE);
                 if (taskMaster) taskMasterCard.setVisibility(View.VISIBLE);
                 if (admin) {
@@ -689,7 +711,13 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
                 adminCard.setVisibility(View.GONE);
+                addUserCard.setVisibility(View.GONE);
+                taskerManagementCard.setVisibility(View.GONE);
                 taskMasterTaskersCard.setVisibility(View.VISIBLE);
+                break;
+            case TASKER_MANAGEMENT:
+                taskMasterTaskersCard.setVisibility(View.GONE);
+                taskerManagementCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
                 taskMasterCard.setVisibility(View.GONE);
@@ -709,12 +737,12 @@ public class MainActivity extends AppCompatActivity {
                 loadMyTasks();
                 break;
             case USER_ADD:
-                taskMasterCard.setVisibility(View.GONE);
-                taskerCard.setVisibility(View.GONE);
-                adminCard.setVisibility(View.GONE);
+                taskMasterTaskersCard.setVisibility(View.GONE);
                 addUserCard.setVisibility(View.VISIBLE);
                 addUserNameField.setText("");
                 addUserIdField.setText(generateID());
+                addUserTaskMaster.setChecked(false);
+                addUserAdmin.setChecked(false);
                 break;
             case TASK_MASTER_NEW_TASK:
                 taskMasterTasksCard.setVisibility(View.GONE);
@@ -800,9 +828,12 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_TASKERS:
             case TASK_MASTER_TASKS:
             case TASKER_TASKS:
-            case USER_ADD:
             case CHANGE_PASSWORD:
                 changeScreen(MAIN_MENU);
+                break;
+            case USER_ADD:
+            case TASKER_MANAGEMENT:
+                changeScreen(TASK_MASTER_TASKERS);
                 break;
             case TASK_MASTER_NEW_TASK:
             case THEIR_TASKS:
@@ -966,7 +997,8 @@ public class MainActivity extends AppCompatActivity {
     private void checkCredentials() {
         signInButton.setEnabled(false);
         if (!loginUsernameField.getText().toString().isEmpty()) {
-            String rawData = loginUsernameField.getText().toString() + fS + loginPasswordField.getText().toString();
+            String nameTemp = loginUsernameField.getText().toString().replaceAll("\\s+$", "");
+            String rawData = nameTemp + fS + loginPasswordField.getText().toString();
             String response = contactServer(loginPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             info.setText(response);
@@ -1033,7 +1065,8 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         addUserAddButton.setEnabled(true);
                         info.setText("");
-                        changeScreen(MAIN_MENU);
+                        loadUsers();
+                        changeScreen(TASK_MASTER_TASKERS);
                     }
                 }, 1500);
             } else if (response.contains("User name already registered")) {
@@ -1411,6 +1444,109 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateUser() {
+        deleteUserButton.setEnabled(false);
+        updateUserButton.setEnabled(false);
+        if (!taskerManagementNameField.getText().toString().isEmpty()) {
+            String tempTaskMaster = "0";
+            if (taskerManagementTaskMaster.isChecked()) tempTaskMaster = "1";
+            String tempAdmin = "0";
+            if (taskerManagementAdmin.isChecked()) tempAdmin = "1";
+
+            String rawData = usersIds.get(selectedUser) + fS +
+                    taskerManagementNameField.getText().toString() + fS +
+                    tempTaskMaster + fS +
+                    tempAdmin;
+
+            String response = contactServer(updateUserPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            info.setText(response);
+
+            if (response.contains("User updated")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteUserButton.setEnabled(true);
+                        updateUserButton.setEnabled(true);
+                        info.setText("");
+                        changeScreen(TASK_MASTER_TASKERS);
+                        loadUsers();
+                    }
+                }, 2000);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteUserButton.setEnabled(true);
+                        updateUserButton.setEnabled(true);
+                        info.setText("");
+                    }
+                }, 2000);
+            }
+        } else {
+            info.setText("");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    deleteUserButton.setEnabled(true);
+                    updateUserButton.setEnabled(true);
+                    info.setText("");
+                }
+            }, 2000);
+        }
+    }
+
+    private void deleteUser() {
+        deleteUserButton.setEnabled(false);
+        updateUserButton.setEnabled(false);
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        String rawData = usersIds.get(selectedUser);
+                        String response = contactServer(deleteUserPHP, Java_AES_Cipher.encryptSimple(rawData));
+                        response = response.replaceAll(newLine, "\n");
+                        info.setText(response);
+
+                        if (response.contains("User deleted")) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deleteUserButton.setEnabled(true);
+                                    updateUserButton.setEnabled(true);
+                                    info.setText("");
+                                    changeScreen(TASK_MASTER_TASKERS);
+                                    loadUsers();
+                                }
+                            }, 2000);
+                        } else {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deleteUserButton.setEnabled(true);
+                                    updateUserButton.setEnabled(true);
+                                    info.setText("");
+                                }
+                            }, 2000);
+                        }
+
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        deleteUserButton.setEnabled(true);
+                        updateUserButton.setEnabled(true);
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Delete user?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("Cancel", dialogClickListener)
+                .show();
+    }
+
     private void populateMyTaskCard(int which) {
         myTaskTitle.setText(myTasksTitle.get(which));
         myTaskDescription.setText(myTasksDescription.get(which));
@@ -1577,6 +1713,13 @@ public class MainActivity extends AppCompatActivity {
         theirTasksDone.setChecked(theirTasksTaskMasterMarkedAsDone.get(which));
     }
 
+    private void populateTaskerManagement() {
+        taskerManagementNameField.setText(usersNames.get(selectedUser));
+        taskerManagementId.setText(usersIds.get(selectedUser));
+        taskerManagementTaskMaster.setChecked(usersTaskMaster.get(selectedUser));
+        taskerManagementAdmin.setChecked(usersAdmin.get(selectedUser));
+    }
+
     private void loadShowImage(boolean showTheirs) {
         String taskId;
         if (showTheirs) {
@@ -1686,9 +1829,18 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = activityContext.getLayoutInflater();
             if (convertView == null) view = inflater.inflate(R.layout.users_list, null, true);
 
+            LinearLayout trigger = (LinearLayout) view.findViewById(R.id.tasker_trigger);
             TextView text1 = (TextView) view.findViewById(R.id.text1);
             TextView text2 = (TextView) view.findViewById(R.id.text2);
 
+            trigger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedUser = usersIds.indexOf(id.get(position));
+                    changeScreen(TASKER_MANAGEMENT);
+                    populateTaskerManagement();
+                }
+            });
             text1.setText(name.get(position));
             text2.setText(id.get(position));
 
