@@ -63,7 +63,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,6 +73,7 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/login_username_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
@@ -83,6 +84,7 @@
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
+                    android:id="@+id/login_password_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
@@ -92,11 +94,32 @@
                     android:padding="5dp"
                     android:layout_marginBottom="15dp" />
 
-                <Button
-                    android:id="@+id/sign_in_button"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sign in"/>
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/login_keep"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Keep logged in" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end" >
+
+                        <Button
+                            android:id="@+id/sign_in_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Log in" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

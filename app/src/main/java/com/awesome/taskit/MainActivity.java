@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout loginCard, taskMasterCard, taskerCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton;
-    private EditText addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
-    private CheckBox addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone;
+    private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
     private ImageView imageShow;
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isOnline;
     private BroadcastReceiver receiver;
     private final String emptyData = "emptyData";
+    private final String loginPHP = "https://www.solvaelys.com/taskit/login.php";
     private final String addUserPHP = "https://www.solvaelys.com/taskit/add_user.php";
     private final String loadUsersPHP = "https://www.solvaelys.com/taskit/load_users.php";
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
@@ -253,6 +254,9 @@ public class MainActivity extends AppCompatActivity {
         addUserCard = findViewById(R.id.add_user_card);
         changePasswordCard = findViewById(R.id.change_password_card);
 
+        loginUsernameField = findViewById(R.id.login_username_field);
+        loginPasswordField = findViewById(R.id.login_password_field);
+        loginKeep = findViewById(R.id.login_keep);
         signInButton = findViewById(R.id.sign_in_button);
 
         taskMasterTaskersCardButton = findViewById(R.id.task_master_taskers_card_button);
@@ -329,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeScreen(CHOOSE_ROLE);
+                checkCredentials();
             }
         });
 
@@ -646,6 +650,12 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterCard.setVisibility(View.GONE);
                 taskerCard.setVisibility(View.GONE);
                 loginCard.setVisibility(View.VISIBLE);
+                loginUsernameField.setText("");
+                loginPasswordField.setText("");
+                loginKeep.setChecked(false);
+
+                //TODO erase keep info
+
                 break;
             case CHOOSE_ROLE:
                 loginCard.setVisibility(View.GONE);
@@ -754,7 +764,23 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 break;
             case CHOOSE_ROLE:
-                changeScreen(LOGIN);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                changeScreen(LOGIN);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Logout?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener)
+                        .show();
                 break;
             case TASK_MASTER_TASKERS:
             case TASK_MASTER_TASKS:
@@ -921,6 +947,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // general
+
+    private void checkCredentials() {
+        signInButton.setEnabled(false);
+        if (!loginUsernameField.getText().toString().isEmpty()) {
+            String rawData = loginUsernameField.getText().toString() + fS + loginPasswordField.getText().toString();
+            String response = contactServer(loginPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            info.setText(response);
+            if (response.contains("Login successful")) {
+                String[] resp = response.split(newLine);
+                String[] temp = resp[0].split(fS);
+                myID = temp[1];
+                if (temp[2].equals("0")) {
+                    taskMaster = false;
+                } else {
+                    taskMaster = true;
+                }
+                if (temp[3].equals("0")) {
+                    admin = false;
+                } else {
+                    admin = true;
+                }
+                info.setText("");
+                signInButton.setEnabled(true);
+                if (loginKeep.isChecked()) {
+                    // TODO keep info
+                }
+                changeScreen(CHOOSE_ROLE);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setText("");
+                        signInButton.setEnabled(true);
+                    }
+                }, 2000);
+            }
+        } else {
+            info.setText("ERROR\nUsername cannot be empty");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    info.setText("");
+                    signInButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
 
     private void addUser() {
         int taskMasterCB = 0;
