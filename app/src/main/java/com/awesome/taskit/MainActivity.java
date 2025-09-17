@@ -780,17 +780,21 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                changeScreen(LOGIN);
+                                finish();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEUTRAL:
+                                changeScreen(LOGIN);
                                 break;
                         }
                     }
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Logout?")
+                builder.setMessage("Close TaskIt?")
                         .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener)
+                        .setNegativeButton("Cancel", dialogClickListener)
+                        .setNeutralButton("Logout", dialogClickListener)
                         .show();
                 break;
             case TASK_MASTER_TASKERS:
