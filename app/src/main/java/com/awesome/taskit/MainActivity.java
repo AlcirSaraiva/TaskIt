@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -90,16 +91,14 @@ import coil3.request.ImageRequest;
 import coil3.target.ImageViewTarget;
 
 public class MainActivity extends AppCompatActivity {
-
-    // TODO temporary
-    private String myID = "4da7-4151-a485-a33a";
-    private boolean taskMaster = true;
-    private boolean admin = true;
-
     // General
     String TAG = "LogCat TaskIt: ";
     private Context context;
     private Activity activityContext;
+    private SharedPreferences sharedPref;
+    private String myID;
+    private boolean taskMaster;
+    private boolean admin;
 
     private Calendar calendar;
     private int day, month, year, hour, minute;
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     // UI
     private final int LOGIN = 0;
-    private final int CHOOSE_ROLE = 1;
+    private final int MAIN_MENU = 1;
     private final int TASK_MASTER_TASKERS = 2;
     private final int TASK_MASTER_TASKS = 3;
     private final int TASKER_TASKS = 4;
@@ -204,6 +203,11 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         activityContext = MainActivity.this;
 
+        sharedPref = getSharedPreferences("com.awesome.taskit", Context.MODE_PRIVATE);
+        myID = sharedPref.getString("myid", "");
+        taskMaster = sharedPref.getBoolean("taskmaster", false);
+        admin = sharedPref.getBoolean("admin", false);
+
         calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_MONTH);
         month = calendar.get(Calendar.MONTH);
@@ -225,7 +229,11 @@ public class MainActivity extends AppCompatActivity {
         prepareNetwork();
         prepareCamera();
 
-        changeScreen(LOGIN);
+        if (myID.isEmpty()) {
+            changeScreen(LOGIN);
+        } else {
+            changeScreen(MAIN_MENU);
+        }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -654,10 +662,13 @@ public class MainActivity extends AppCompatActivity {
                 loginPasswordField.setText("");
                 loginKeep.setChecked(false);
 
-                //TODO erase keep info
-
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("myid", "");
+                editor.putBoolean("taskmaster", false);
+                editor.putBoolean("admin", false);
+                editor.apply();
                 break;
-            case CHOOSE_ROLE:
+            case MAIN_MENU:
                 loginCard.setVisibility(View.GONE);
                 taskMasterTaskersCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.GONE);
@@ -763,7 +774,7 @@ public class MainActivity extends AppCompatActivity {
             case LOGIN:
                 finish();
                 break;
-            case CHOOSE_ROLE:
+            case MAIN_MENU:
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -787,7 +798,7 @@ public class MainActivity extends AppCompatActivity {
             case TASKER_TASKS:
             case USER_ADD:
             case CHANGE_PASSWORD:
-                changeScreen(CHOOSE_ROLE);
+                changeScreen(MAIN_MENU);
                 break;
             case TASK_MASTER_NEW_TASK:
             case THEIR_TASKS:
@@ -972,9 +983,13 @@ public class MainActivity extends AppCompatActivity {
                 info.setText("");
                 signInButton.setEnabled(true);
                 if (loginKeep.isChecked()) {
-                    // TODO keep info
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("myid", myID);
+                    editor.putBoolean("taskmaster", taskMaster);
+                    editor.putBoolean("admin", admin);
+                    editor.apply();
                 }
-                changeScreen(CHOOSE_ROLE);
+                changeScreen(MAIN_MENU);
             } else {
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -1014,7 +1029,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         addUserAddButton.setEnabled(true);
                         info.setText("");
-                        changeScreen(CHOOSE_ROLE);
+                        changeScreen(MAIN_MENU);
                     }
                 }, 1500);
             } else if (response.contains("User name already registered")) {
@@ -1635,7 +1650,7 @@ public class MainActivity extends AppCompatActivity {
                         changePasswordNew2Field.setText("");
                         changePasswordChangeButton.setEnabled(true);
                         info.setText("");
-                        changeScreen(CHOOSE_ROLE);
+                        changeScreen(MAIN_MENU);
                     }
                 }, 1500);
             } else {
