@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">TaskIt</string>
+
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="keep_logged_in">Keep logged in</string>
+    <string name="log_in">Log in</string>
+    <string name="task_master">Task Master</string>
+    <string name="tasker">Tasker</string>
+    <string name="taskers">Taskers</string>
+    <string name="their_tasks">Their Tasks</string>
+    <string name="my_tasks">My Tasks</string>
+    <string name="tasks">Tasks</string>
+    <string name="new_task">New task</string>
+    <string name="tasks_assigned_to_me">Tasks assigned to me</string>
+    <string name="admin">Admin</string>
+    <string name="change_pass">Change password</string>
+    <string name="old_pass">Old password</string>
+    <string name="new_pass">New password</string>
+    <string name="repeat_new_pass">Repeat new password</string>
+    <string name="add_tasker">Add tasker</string>
+    <string name="name">Name</string>
+    <string name="id">ID</string>
+    <string name="generate_new_id">Generate new ID</string>
+    <string name="tasker_management">Tasker Management</string>
+    <string name="delete_tasker">Delete Tasker</string>
+    <string name="save">Save</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="deadline">Deadline</string>
+    <string name="my_comments">My comments</string>
+    <string name="task_is_complete">Task is complete</string>
+    <string name="add_one_task">Add one task</string>
+    <string name="add_more">Save one &amp; add more</string>
+    <string name="system_messages">System messages</string>
+
 </resources>

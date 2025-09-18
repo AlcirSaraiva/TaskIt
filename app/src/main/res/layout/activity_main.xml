@@ -68,7 +68,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Username"
+                    android:hint="@string/username"
                     android:singleLine="true"
                     android:inputType="textCapSentences"
                     android:lines="1"
@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
@@ -104,7 +104,7 @@
                         android:id="@+id/login_keep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Keep logged in" />
+                        android:text="@string/keep_logged_in" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                             android:id="@+id/sign_in_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Log in" />
+                            android:text="@string/log_in" />
 
                     </LinearLayout>
 
@@ -141,13 +141,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Task Master"
+                    android:text="@string/task_master"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -170,7 +171,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Taskers"
+                            android:text="@string/tasker"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -194,7 +195,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Their Tasks"
+                            android:text="@string/their_tasks"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -220,7 +221,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tasker"
+                    android:text="@string/tasker"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp"/>
 
@@ -249,7 +250,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="My Tasks"
+                            android:text="@string/my_tasks"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -275,7 +276,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin"
+                    android:text="@string/admin"
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp"/>
 
@@ -283,7 +284,7 @@
                     android:id="@+id/change_pass_card_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Change password"
+                    android:text="@string/change_pass"
                     android:layout_marginTop="5dp"/>
 
             </LinearLayout>
@@ -305,7 +306,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Taskers"
+                    android:text="@string/taskers"
                     android:layout_marginBottom="15dp"
                     android:textSize="18sp" />
 
@@ -313,7 +314,7 @@
                     android:id="@+id/add_user_card_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add user"
+                    android:text="@string/add_tasker"
                     android:layout_marginBottom="15dp" />
 
                 <ListView
@@ -340,7 +341,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add User"
+                    android:text="@string/add_tasker"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
@@ -349,7 +350,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:inputType="textCapWords"
                     android:singleLine="true"
                     android:lines="1"
@@ -368,14 +369,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Task Master" />
+                        android:text="@string/task_master" />
 
                     <CheckBox
                         android:id="@+id/add_user_admin"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Admin" />
+                        android:text="@string/admin" />
 
                 </LinearLayout>
 
@@ -383,7 +384,7 @@
                     android:id="@+id/add_user_id_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ID"
+                    android:text="@string/id"
                     android:background="#ffaaaaaa"
                     android:layout_marginBottom="15dp"
                     android:padding="5dp"
@@ -393,7 +394,7 @@
                     android:id="@+id/add_user_generate_id_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Generate new ID"/>
+                    android:text="@string/generate_new_id"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -405,7 +406,7 @@
                         android:id="@+id/add_user_add_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add" />
+                        android:text="@string/add_tasker" />
 
                 </LinearLayout>
 
@@ -428,7 +429,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User management"
+                    android:text="@string/tasker_management"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
@@ -437,7 +438,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Username"
+                    android:hint="@string/username"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
@@ -448,7 +449,6 @@
                     android:id="@+id/tasker_management_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="xxxx-xxxx-xxxx-xxxx"
                     android:gravity="start|center_vertical"
                     android:background="#ffaaaaaa"
                     android:padding="5dp"
@@ -465,14 +465,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Task Master" />
+                        android:text="@string/task_master" />
 
                     <CheckBox
                         android:id="@+id/tasker_management_admin"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Admin" />
+                        android:text="@string/admin" />
 
                 </LinearLayout>
 
@@ -486,7 +486,7 @@
                         android:id="@+id/delete_user_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Delete" />
+                        android:text="@string/delete_tasker" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -498,7 +498,7 @@
                             android:id="@+id/update_user_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Save" />
+                            android:text="@string/save" />
 
                     </LinearLayout>
 
@@ -523,7 +523,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tasks"
+                    android:text="@string/tasks"
                     android:layout_marginBottom="15dp"
                     android:textSize="18sp" />
 
@@ -531,7 +531,7 @@
                     android:id="@+id/add_task_card_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New task" />
+                    android:text="@string/new_task" />
 
                 <ListView
                     android:id="@+id/their_tasks_listview"
@@ -558,7 +558,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tasks assigned to me"
+                    android:text="@string/tasks_assigned_to_me"
                     android:textSize="18sp" />
 
                 <ListView
@@ -587,7 +587,7 @@
                     android:id="@+id/my_task_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
+                    android:text="@string/title"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
@@ -595,7 +595,7 @@
                     android:id="@+id/my_task_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:layout_marginBottom="15dp"
                     android:textSize="14sp" />
 
@@ -603,7 +603,7 @@
                     android:id="@+id/my_task_deadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deadline"
+                    android:text="@string/deadline"
                     android:layout_marginBottom="15dp"
                     android:textSize="14sp" />
 
@@ -681,7 +681,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="My comments"
+                    android:hint="@string/my_comments"
                     android:maxLines="3"
                     android:padding="5dp"
                     android:textSize="14sp"
@@ -711,7 +711,7 @@
                             android:id="@+id/my_task_done"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Task is complete" />
+                            android:text="@string/task_is_complete" />
 
                     </LinearLayout>
 
@@ -725,7 +725,7 @@
                             android:id="@+id/my_task_save_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Save" />
+                            android:text="@string/save" />
 
                     </LinearLayout>
 
@@ -750,7 +750,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New task"
+                    android:text="@string/new_task"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
@@ -768,7 +768,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Task title"
+                    android:hint="@string/title"
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
@@ -779,7 +779,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Description"
+                    android:hint="@string/description"
                     android:singleLine="false"
                     android:lines="5"
                     android:gravity="top"
@@ -832,7 +832,7 @@
                             android:id="@+id/add_one_task_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add one task"/>
+                            android:text="@string/add_one_task"/>
 
                     </LinearLayout>
 
@@ -846,7 +846,7 @@
                             android:id="@+id/add_more_task_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add &amp; One more"/>
+                            android:text="@string/add_more"/>
 
                     </LinearLayout>
 
@@ -880,7 +880,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Task title"
+                    android:hint="@string/title"
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
@@ -892,7 +892,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Description"
+                    android:hint="@string/description"
                     android:singleLine="false"
                     android:maxLines="2"
                     android:gravity="top"
@@ -968,7 +968,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="My comments"
+                    android:hint="@string/my_comments"
                     android:maxLines="3"
                     android:padding="5dp"
                     android:textSize="14sp"
@@ -989,7 +989,7 @@
                             android:id="@+id/their_tasks_done"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mark as complete" />
+                            android:text="@string/task_is_complete" />
 
                     </LinearLayout>
 
@@ -1003,7 +1003,7 @@
                             android:id="@+id/their_tasks_save_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Save" />
+                            android:text="@string/save" />
 
                     </LinearLayout>
 
@@ -1028,7 +1028,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Change password"
+                    android:text="@string/change_pass"
                     android:layout_marginBottom="20dp"
                     android:textSize="18sp" />
 
@@ -1037,7 +1037,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Old password"
+                    android:hint="@string/old_pass"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
@@ -1049,7 +1049,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="New password"
+                    android:hint="@string/new_pass"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
@@ -1061,7 +1061,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
-                    android:hint="Repeat new password"
+                    android:hint="@string/repeat_new_pass"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
@@ -1078,7 +1078,7 @@
                         android:id="@+id/change_password_change_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change password" />
+                        android:text="@string/change_pass" />
 
                 </LinearLayout>
 
@@ -1107,7 +1107,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:text="System messages"/>
+                android:text="@string/system_messages"/>
 
             <TextView
                 android:id="@+id/info"
