@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted;
     private Spinner addTaskTaskerSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView;
     private ImageView imageShow;
@@ -278,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
         addUserCardButton = findViewById(R.id.add_user_card_button);
         changePassCardButton = findViewById(R.id.change_pass_card_button);
-        addTaskCardButton = findViewById(R.id.add_task_card_button);
 
         addUserNameField = findViewById(R.id.add_user_name_field);
         addUserTaskMaster = findViewById(R.id.add_user_task_master);
@@ -296,6 +295,8 @@ public class MainActivity extends AppCompatActivity {
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksListView = findViewById(R.id.their_tasks_listview);
+        addTaskCardButton = findViewById(R.id.add_task_card_button);
+        showCompleted = findViewById(R.id.show_completed);
 
         theirTasksNameField = findViewById(R.id.their_tasks_name);
         theirTasksTitleField = findViewById(R.id.their_tasks_title);
@@ -409,6 +410,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKS);
+            }
+        });
+
+        showCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                showCompleted.setEnabled(false);
+                loadTheirTasks();
             }
         });
 
@@ -1124,31 +1133,65 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 11 && line[10].equals("0")) {
-                            theirTasksTaskId.add(line[0]);
-                            theirTasksTaskerId.add(line[1]);
-                            theirTasksTitle.add(line[2]);
-                            theirTasksDescription.add(line[3]);
-                            theirTasksDeadline.add(line[4]);
-                            if (line[5].equals("0")) {
-                                theirTasksTaskerMarkedAsDone.add(false);
-                            } else {
-                                theirTasksTaskerMarkedAsDone.add(true);
-                            }
-                            if (line[6].equals("0")) {
-                                theirTasksAttachment1.add(false);
-                            } else {
-                                theirTasksAttachment1.add(true);
-                            }
-                            if (line[6].equals("0")) {
-                                theirTasksAttachment2.add(false);
-                            } else {
-                                theirTasksAttachment2.add(true);
-                            }
-                            theirTasksTaskerComment.add(line[8]);
-                            theirTasksTaskMasterComment.add(line[9]);
 
-                            theirTasksTaskMasterMarkedAsDone.add(false);
+                        if (showCompleted.isChecked()) {
+                            if (line.length == 11) {
+                                theirTasksTaskId.add(line[0]);
+                                theirTasksTaskerId.add(line[1]);
+                                theirTasksTitle.add(line[2]);
+                                theirTasksDescription.add(line[3]);
+                                theirTasksDeadline.add(line[4]);
+                                if (line[5].equals("0")) {
+                                    theirTasksTaskerMarkedAsDone.add(false);
+                                } else {
+                                    theirTasksTaskerMarkedAsDone.add(true);
+                                }
+                                if (line[6].equals("0")) {
+                                    theirTasksAttachment1.add(false);
+                                } else {
+                                    theirTasksAttachment1.add(true);
+                                }
+                                if (line[6].equals("0")) {
+                                    theirTasksAttachment2.add(false);
+                                } else {
+                                    theirTasksAttachment2.add(true);
+                                }
+                                theirTasksTaskerComment.add(line[8]);
+                                theirTasksTaskMasterComment.add(line[9]);
+
+                                if (line[10].equals("0")) {
+                                    theirTasksTaskMasterMarkedAsDone.add(false);
+                                } else {
+                                    theirTasksTaskMasterMarkedAsDone.add(true);
+                                }
+                            }
+                        } else {
+                            if (line.length == 11 && line[10].equals("0")) {
+                                theirTasksTaskId.add(line[0]);
+                                theirTasksTaskerId.add(line[1]);
+                                theirTasksTitle.add(line[2]);
+                                theirTasksDescription.add(line[3]);
+                                theirTasksDeadline.add(line[4]);
+                                if (line[5].equals("0")) {
+                                    theirTasksTaskerMarkedAsDone.add(false);
+                                } else {
+                                    theirTasksTaskerMarkedAsDone.add(true);
+                                }
+                                if (line[6].equals("0")) {
+                                    theirTasksAttachment1.add(false);
+                                } else {
+                                    theirTasksAttachment1.add(true);
+                                }
+                                if (line[6].equals("0")) {
+                                    theirTasksAttachment2.add(false);
+                                } else {
+                                    theirTasksAttachment2.add(true);
+                                }
+                                theirTasksTaskerComment.add(line[8]);
+                                theirTasksTaskMasterComment.add(line[9]);
+
+                                theirTasksTaskMasterMarkedAsDone.add(false);
+                            }
                         }
                     }
 
@@ -1162,6 +1205,12 @@ public class MainActivity extends AppCompatActivity {
                     TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
                     theirTasksListView.setAdapter(theirTasksListAdapter);
                 }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showCompleted.setEnabled(true);
+                    }
+                }, 2000);
             }
         }, 100);
     }
@@ -1546,7 +1595,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateMyTaskCard(int which) {
         myTaskTitle.setText(myTasksTitle.get(which));
-        myTaskDescription.setText(myTasksDescription.get(which));
+
+        if (myTasksDescription.get(which).isEmpty()) {
+            myTaskDescription.setText("No description");
+        } else {
+            myTaskDescription.setText(myTasksDescription.get(which));
+        }
 
         String[] tempDeadline = myTasksDeadline.get(which).split(" ");
         if (tempDeadline.length == 2) {
@@ -1613,7 +1667,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (myTasksTaskMasterComment.get(which).equals(" ")) {
-            myTaskTmComments.setText("");
+            myTaskTmComments.setText(getString(R.string.no_comments));
         } else {
             myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
         }
@@ -1701,7 +1755,12 @@ public class MainActivity extends AppCompatActivity {
             theirTasksAttachmentIB2.setImageResource(R.drawable.fallback);
         }
 
-        theirTasksTComments.setText(theirTasksTaskerComment.get(which));
+        if (theirTasksTaskerComment.get(which).equals(" ")) {
+            theirTasksTComments.setText(getString(R.string.no_comments));
+        } else {
+            theirTasksTComments.setText(theirTasksTaskerComment.get(which));
+        }
+
         if (theirTasksTaskMasterComment.get(which).equals(" ")) {
             theirTasksMyComments.setText("");
         } else {

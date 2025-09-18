@@ -527,11 +527,45 @@
                     android:layout_marginBottom="15dp"
                     android:textSize="18sp" />
 
-                <Button
-                    android:id="@+id/add_task_card_button"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_task" />
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/add_task_card_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/new_task" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/show_completed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layoutDirection="rtl"
+                            android:text="@string/show_completed" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
 
                 <ListView
                     android:id="@+id/their_tasks_listview"
@@ -589,7 +623,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/title"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/my_task_description"
@@ -599,13 +633,26 @@
                     android:layout_marginBottom="15dp"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/my_task_deadline"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/deadline"
-                    android:layout_marginBottom="15dp"
-                    android:textSize="14sp" />
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/deadline"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/my_task_deadline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/deadline"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -689,10 +736,16 @@
                     android:layout_marginBottom="15dp"/>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_master_comments"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
                     android:id="@+id/my_task_tm_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#88aaaaaa"
+                    android:background="#44aaaaaa"
                     android:padding="5dp"
                     android:layout_marginBottom="15dp"
                     android:textSize="14sp" />
@@ -711,7 +764,7 @@
                             android:id="@+id/my_task_done"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/task_is_complete" />
+                            android:text="@string/ive_completed_this_task" />
 
                     </LinearLayout>
 
@@ -866,7 +919,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:id="@+id/their_tasks_name"
@@ -955,11 +1008,17 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tasker_comments"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
                     android:id="@+id/their_tasks_t_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:background="#88aaaaaa"
+                    android:background="#44aaaaaa"
                     android:padding="5dp"
                     android:textSize="14sp" />
 
