@@ -29,6 +29,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -558,24 +559,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 1;
-                myTaskAttachment1.setEnabled(false);
-                myTaskAttachment1TakePic.setEnabled(false);
-                myTaskAttachment1DelPic.setEnabled(false);
-                myTaskAttachment2.setEnabled(false);
-                myTaskAttachment2TakePic.setEnabled(false);
-                myTaskAttachment2DelPic.setEnabled(false);
-                myTaskSaveButton.setEnabled(false);
                 if (hasCameraPermission()) {
                     openCamera();
                 } else {
                     checkCameraPermission();
-                    myTaskAttachment1.setEnabled(true);
-                    myTaskAttachment1TakePic.setEnabled(true);
-                    myTaskAttachment1DelPic.setEnabled(true);
-                    myTaskAttachment2.setEnabled(true);
-                    myTaskAttachment2TakePic.setEnabled(true);
-                    myTaskAttachment2DelPic.setEnabled(true);
-                    myTaskSaveButton.setEnabled(true);
                 }
             }
         });
@@ -623,24 +610,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAttachment = 2;
-                myTaskAttachment1.setEnabled(false);
-                myTaskAttachment1TakePic.setEnabled(false);
-                myTaskAttachment1DelPic.setEnabled(false);
-                myTaskAttachment2.setEnabled(false);
-                myTaskAttachment2TakePic.setEnabled(false);
-                myTaskAttachment2DelPic.setEnabled(false);
-                myTaskSaveButton.setEnabled(false);
                 if (hasCameraPermission()) {
                     openCamera();
                 } else {
                     checkCameraPermission();
-                    myTaskAttachment1.setEnabled(true);
-                    myTaskAttachment1TakePic.setEnabled(true);
-                    myTaskAttachment1DelPic.setEnabled(true);
-                    myTaskAttachment2.setEnabled(true);
-                    myTaskAttachment2TakePic.setEnabled(true);
-                    myTaskAttachment2DelPic.setEnabled(true);
-                    myTaskSaveButton.setEnabled(true);
                 }
             }
         });
@@ -810,12 +783,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void backButtonPressed() {
+        hideKeyboard();
         switch (currentScreen) {
             case LOGIN:
-                finish();
+                DialogInterface.OnClickListener dialogClickListenerLogin = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                finish();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builderLogin = new AlertDialog.Builder(context);
+                builderLogin.setMessage(getString(R.string.close_app))
+                        .setPositiveButton(getString(R.string.yes), dialogClickListenerLogin)
+                        .setNegativeButton(getString(R.string.cancel), dialogClickListenerLogin)
+                        .show();
                 break;
             case MAIN_MENU:
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                DialogInterface.OnClickListener dialogClickListenerMainMenu = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
@@ -830,11 +820,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 };
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage(getString(R.string.close_app))
-                        .setPositiveButton(getString(R.string.yes), dialogClickListener)
-                        .setNegativeButton(getString(R.string.cancel), dialogClickListener)
-                        .setNeutralButton(getString(R.string.log_out), dialogClickListener)
+                AlertDialog.Builder builderMainMenu = new AlertDialog.Builder(context);
+                builderMainMenu.setMessage(getString(R.string.close_app))
+                        .setPositiveButton(getString(R.string.yes), dialogClickListenerMainMenu)
+                        .setNegativeButton(getString(R.string.cancel), dialogClickListenerMainMenu)
+                        .setNeutralButton(getString(R.string.log_out), dialogClickListenerMainMenu)
                         .show();
                 break;
             case TASK_MASTER_TASKERS:
@@ -860,6 +850,24 @@ public class MainActivity extends AppCompatActivity {
             case THEIR_TASKS_IMAGE_SHOW:
                 changeScreen(THEIR_TASKS);
                 break;
+        }
+    }
+
+    private void hideKeyboard() {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            System.out.println(TAG + "{hideKeyboard} " + e.getMessage());
+        }
+    }
+
+    private void showKeyboard() {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        } catch (Exception e) {
+            System.out.println(TAG + "{showNoteInput} " + e.getMessage());
         }
     }
 
@@ -1007,6 +1015,7 @@ public class MainActivity extends AppCompatActivity {
     // general
 
     private void checkCredentials() {
+        hideKeyboard();
         signInButton.setEnabled(false);
         if (!loginUsernameField.getText().toString().isEmpty()) {
             String nameTemp = loginUsernameField.getText().toString().replaceAll("\\s+$", "");
@@ -1039,6 +1048,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 changeScreen(MAIN_MENU);
             } else {
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1049,13 +1059,14 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             info.setText("ERROR\nUsername cannot be empty");
+            Toast.makeText(context, getString(R.string.error_username_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     info.setText("");
                     signInButton.setEnabled(true);
                 }
-            }, 2000);
+            }, 3000);
         }
     }
 
@@ -1072,6 +1083,7 @@ public class MainActivity extends AppCompatActivity {
             response = response.replaceAll(newLine, "\n");
             info.setText(response);
             if (response.contains("New record created successfully")) {
+                Toast.makeText(context, getString(R.string.user_created), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1082,6 +1094,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, 1500);
             } else if (response.contains("User name already registered")) {
+                Toast.makeText(context, getString(R.string.user_exists), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1090,6 +1103,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, 2000);
             } else if (response.contains("User ID already exists")) {
+                Toast.makeText(context, getString(R.string.user_id_exists), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1099,7 +1113,8 @@ public class MainActivity extends AppCompatActivity {
                 }, 2000);
             }
         } else {
-            info.setText("ERROR\nName field cannot be empty");
+            info.setText("ERROR\nUsername field cannot be empty");
+            Toast.makeText(context, getString(R.string.error_username_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1204,6 +1219,8 @@ public class MainActivity extends AppCompatActivity {
 
                     TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
                     theirTasksListView.setAdapter(theirTasksListAdapter);
+                } else {
+                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -1270,6 +1287,8 @@ public class MainActivity extends AppCompatActivity {
 
                     MyTasksListAdapter MyTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
                     myTasksListView.setAdapter(MyTasksListAdapter);
+                } else {
+                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
             }
         }, 100);
@@ -1325,6 +1344,8 @@ public class MainActivity extends AppCompatActivity {
 
                     UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
                     usersListView.setAdapter(usersListAdapter);
+                } else {
+                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
             }
         }, 100);
@@ -1352,18 +1373,20 @@ public class MainActivity extends AppCompatActivity {
             info.setText(response);
 
             if (response.contains("New task created successfully")) {
+                Toast.makeText(context, getString(R.string.task_created), Toast.LENGTH_LONG).show();
+                addTaskTitle.setText("");
+                addTaskDescription.setText("");
+                if (justOne) changeScreen(TASK_MASTER_TASKS);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         addOneTaskButton.setEnabled(true);
                         addMoreTaskButton.setEnabled(true);
                         info.setText("");
-                        addTaskTitle.setText("");
-                        addTaskDescription.setText("");
-                        if (justOne) changeScreen(TASK_MASTER_TASKS);
                     }
                 }, 1500);
             } else {
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1374,6 +1397,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             info.setText("ERROR\nTitle field cannot be empty");
+            Toast.makeText(context, getString(R.string.error_title_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1419,6 +1443,8 @@ public class MainActivity extends AppCompatActivity {
         info.setText(response);
 
         if (response.contains("Task updated successfully")) {
+            Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
+            changeScreen(TASKER_TASKS);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1430,10 +1456,10 @@ public class MainActivity extends AppCompatActivity {
                     myTaskAttachment2DelPic.setEnabled(true);
                     myTaskSaveButton.setEnabled(true);
                     info.setText("");
-                    changeScreen(TASKER_TASKS);
                 }
             }, 1500);
         } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1472,15 +1498,17 @@ public class MainActivity extends AppCompatActivity {
         info.setText(response);
 
         if (response.contains("Task updated successfully")) {
+            Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
+            changeScreen(TASK_MASTER_TASKS);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     theirTasksSaveButton.setEnabled(true);
                     info.setText("");
-                    changeScreen(TASK_MASTER_TASKS);
                 }
             }, 1500);
         } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1509,17 +1537,19 @@ public class MainActivity extends AppCompatActivity {
             info.setText(response);
 
             if (response.contains("User updated")) {
+                Toast.makeText(context, getString(R.string.user_updated), Toast.LENGTH_LONG).show();
+                changeScreen(TASK_MASTER_TASKERS);
+                loadUsers();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         deleteUserButton.setEnabled(true);
                         updateUserButton.setEnabled(true);
                         info.setText("");
-                        changeScreen(TASK_MASTER_TASKERS);
-                        loadUsers();
                     }
                 }, 2000);
             } else {
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1530,7 +1560,8 @@ public class MainActivity extends AppCompatActivity {
                 }, 2000);
             }
         } else {
-            info.setText("");
+            info.setText("ERROR\nUsername field cannot be empty");
+            Toast.makeText(context, getString(R.string.error_username_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1557,17 +1588,19 @@ public class MainActivity extends AppCompatActivity {
                         info.setText(response);
 
                         if (response.contains("User deleted")) {
+                            Toast.makeText(context, getString(R.string.user_deleted), Toast.LENGTH_LONG).show();
+                            changeScreen(TASK_MASTER_TASKERS);
+                            loadUsers();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     deleteUserButton.setEnabled(true);
                                     updateUserButton.setEnabled(true);
                                     info.setText("");
-                                    changeScreen(TASK_MASTER_TASKERS);
-                                    loadUsers();
                                 }
                             }, 2000);
                         } else {
+                            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1597,7 +1630,7 @@ public class MainActivity extends AppCompatActivity {
         myTaskTitle.setText(myTasksTitle.get(which));
 
         if (myTasksDescription.get(which).isEmpty()) {
-            myTaskDescription.setText("No description");
+            myTaskDescription.setText(getString(R.string.no_description));
         } else {
             myTaskDescription.setText(myTasksDescription.get(which));
         }
@@ -1607,7 +1640,7 @@ public class MainActivity extends AppCompatActivity {
             String[] tempDate = tempDeadline[0].split("-");
             myTaskDeadline.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
         } else {
-            myTaskDeadline.setText("00-00-0000 00:00");
+            myTaskDeadline.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
         }
 
         if (myTasksAttachment1.get(which)) {
@@ -1812,32 +1845,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changePassword() {
+        hideKeyboard();
+        changePasswordChangeButton.setEnabled(false);
         if (changePasswordNew1Field.getText().toString().isEmpty() && changePasswordNew2Field.getText().toString().isEmpty()) {
-            info.setText("New password cannot be empty");
+            info.setText(getString(R.string.error_new_pass_empty));
+            Toast.makeText(context, getString(R.string.error_new_pass_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     info.setText("");
+                    changePasswordChangeButton.setEnabled(true);
                 }
             }, 2000);
         } else if (!changePasswordNew1Field.getText().toString().equals(changePasswordNew2Field.getText().toString())) {
-            info.setText("New password fields do not match");
+            info.setText(getString(R.string.error_new_pass_do_not_match));
+            Toast.makeText(context, getString(R.string.error_new_pass_do_not_match), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     info.setText("");
+                    changePasswordChangeButton.setEnabled(true);
                 }
             }, 2000);
         } else if (changePasswordNew1Field.getText().toString().length() < 8) {
-            info.setText("New password must have at least 8 characters");
+            info.setText(getString(R.string.error_new_pass_8_chars));
+            Toast.makeText(context, getString(R.string.error_new_pass_8_chars), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     info.setText("");
+                    changePasswordChangeButton.setEnabled(true);
                 }
             }, 2500);
         } else {
-            changePasswordChangeButton.setEnabled(false);
             String rawData = myID + fS + changePasswordOldField.getText().toString() + fS + changePasswordNew1Field.getText().toString();
             String response = contactServer(changePasswordPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
@@ -1845,6 +1885,7 @@ public class MainActivity extends AppCompatActivity {
             info.setText(response);
 
             if (response.contains("Password changed")) {
+                Toast.makeText(context, getString(R.string.pass_changed), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1857,6 +1898,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, 1500);
             } else {
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -2018,9 +2060,11 @@ public class MainActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
                         info.setText("Resizing picture...  ");
-                        myTaskAttachment1.setEnabled(false);
-                        myTaskAttachment2.setEnabled(false);
-                        myTaskSaveButton.setEnabled(false);
+                        if (selectedAttachment == 1) {
+                            myTaskAttachment1.setImageResource(R.drawable.uploading);
+                        } else {
+                            myTaskAttachment2.setImageResource(R.drawable.uploading);
+                        }
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -2033,24 +2077,16 @@ public class MainActivity extends AppCompatActivity {
                                         String uploadResult = uploadImage(image, imageThumb, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
                                         info.setText(uploadResult);
                                         populateMyTaskCard(selectedTask);
-                                        myTaskAttachment1.setEnabled(true);
-                                        myTaskAttachment2.setEnabled(true);
-                                        myTaskSaveButton.setEnabled(true);
-                                        if (uploadResult.contains("Picture uploaded successfully")) {
+                                        if (uploadResult.contains("Picture uploaded")) {
+                                            Toast.makeText(context, getString(R.string.picture_uploaded), Toast.LENGTH_LONG).show();
                                             if (selectedAttachment == 1) {
                                                 myTasksAttachment1.set(selectedTask, true);
                                             } else {
                                                 myTasksAttachment2.set(selectedTask, true);
                                             }
                                             populateMyTaskCard(selectedTask);
-                                            info.setText(info.getText() + contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1")));
-                                            myTaskAttachment1.setEnabled(true);
-                                            myTaskAttachment1TakePic.setEnabled(true);
-                                            myTaskAttachment1DelPic.setEnabled(true);
-                                            myTaskAttachment2.setEnabled(true);
-                                            myTaskAttachment2TakePic.setEnabled(true);
-                                            myTaskAttachment2DelPic.setEnabled(true);
-                                            myTaskSaveButton.setEnabled(true);
+                                            String response = contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1"));
+                                            info.setText(info.getText() + response);
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {

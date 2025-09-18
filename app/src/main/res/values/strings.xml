@@ -38,6 +38,7 @@
     <string name="tasker_comments">Tasker comments</string>
     <string name="task_master_comments">Task Master comments</string>
     <string name="no_comments">No comments</string>
+    <string name="no_description">No description</string>
 
     <string name="system_messages">System messages</string>
 
@@ -53,5 +54,20 @@
     <string name="cancel">Cancel</string>
     <string name="log_out">Log out</string>
 
+    <string name="error_username_empty">Username cannot be empty</string>
+    <string name="error_new_pass_empty">New password cannot be empty</string>
+    <string name="error_title_empty">Title field cannot be empty</string>
+    <string name="error_new_pass_do_not_match">New password fields do not match</string>
+    <string name="error_new_pass_8_chars">New password must have at least 8 characters</string>
+
+    <string name="pass_changed">Password changed</string>
+    <string name="user_created">New record created successfully</string>
+    <string name="user_exists">User name already registered</string>
+    <string name="user_id_exists">User ID already exists\nGenerate new ID and try again</string>
+    <string name="user_updated">User record updated</string>
+    <string name="user_deleted">User deleted</string>
+    <string name="task_created">New task created successfully</string>
+    <string name="task_updated">Task updated successfully</string>
+    <string name="picture_uploaded">Picture uploaded successfully</string>
 
 </resources>
