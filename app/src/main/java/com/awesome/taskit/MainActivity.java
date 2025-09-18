@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String fS = "10FXS01";
     private final String newLine = "10NXL01";
+    private String dS, hS;
 
     private ArrayList<String> usersNames;
     private ArrayList<String> usersIds;
@@ -217,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
+        dS = getString(R.string.date_separator);
+        hS = getString(R.string.hour_separator);
 
         executor = Executors.newSingleThreadExecutor();
         attachmentExecutor1 = Executors.newSingleThreadExecutor();
@@ -431,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
                         day = dpdDayOfMonth;
                         month = dpdMonthOfYear + 1;
                         year = dpdYear;
-                        addTaskDate.setText(day + "/" + month + "/" + year);
+                        addTaskDate.setText(day + dS + month + dS + year);
                         calendar.set(Calendar.YEAR, dpdYear);
                         calendar.set(Calendar.MONTH, dpdMonthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dpdDayOfMonth);
@@ -448,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
                         hour = tpdHourOfDay;
                         minute = tpdMinute;
-                        addTaskTime.setText(hour + ":" + String.format("%02d", minute));
+                        addTaskTime.setText(hour + hS + String.format("%02d", minute));
                         calendar.set(Calendar.HOUR_OF_DAY, tpdHourOfDay);
                         calendar.set(Calendar.MINUTE, tpdMinute);
                     }
@@ -500,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                         day = dpdDayOfMonth;
                         month = dpdMonthOfYear + 1;
                         year = dpdYear;
-                        theirTasksDate.setText(day + "/" + month + "/" + year);
+                        theirTasksDate.setText(day + dS + month + dS + year);
                         calendar.set(Calendar.YEAR, dpdYear);
                         calendar.set(Calendar.MONTH, dpdMonthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dpdDayOfMonth);
@@ -517,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
                         hour = tpdHourOfDay;
                         minute = tpdMinute;
-                        theirTasksTime.setText(hour + ":" + String.format("%02d", minute));
+                        theirTasksTime.setText(hour + hS + String.format("%02d", minute));
                         calendar.set(Calendar.HOUR_OF_DAY, tpdHourOfDay);
                         calendar.set(Calendar.MINUTE, tpdMinute);
                     }
@@ -587,9 +590,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     };
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Delete picture?")
-                            .setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener)
+                    builder.setMessage(getString(R.string.delete_picture))
+                            .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                            .setNegativeButton(getString(R.string.no), dialogClickListener)
                             .show();
                 }
 
@@ -654,9 +657,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     };
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Delete picture?")
-                            .setPositiveButton("Yes", dialogClickListener)
-                            .setNegativeButton("No", dialogClickListener)
+                    builder.setMessage(getString(R.string.delete_picture))
+                            .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                            .setNegativeButton(getString(R.string.no), dialogClickListener)
                             .show();
                 }
             }
@@ -748,10 +751,10 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
                 if (addTaskDate.getText().toString().isEmpty()) {
-                    addTaskDate.setText(day + "/" + (month + 1) + "/" + year);
+                    addTaskDate.setText(day + dS + (month + 1) + dS + year);
                 }
                 if (addTaskTime.getText().toString().isEmpty()) {
-                    addTaskTime.setText(hour + ":" + minute);
+                    addTaskTime.setText(hour + hS + minute);
                 }
                 break;
             case CHANGE_PASSWORD:
@@ -819,10 +822,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Close TaskIt?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("Cancel", dialogClickListener)
-                        .setNeutralButton("Logout", dialogClickListener)
+                builder.setMessage(getString(R.string.close_app))
+                        .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.cancel), dialogClickListener)
+                        .setNeutralButton(getString(R.string.log_out), dialogClickListener)
                         .show();
                 break;
             case TASK_MASTER_TASKERS:
@@ -1121,7 +1124,7 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 11) {
+                        if (line.length == 11 && line[10].equals("0")) {
                             theirTasksTaskId.add(line[0]);
                             theirTasksTaskerId.add(line[1]);
                             theirTasksTitle.add(line[2]);
@@ -1144,11 +1147,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             theirTasksTaskerComment.add(line[8]);
                             theirTasksTaskMasterComment.add(line[9]);
-                            if (line[10].equals("0")) {
-                                theirTasksTaskMasterMarkedAsDone.add(false);
-                            } else {
-                                theirTasksTaskMasterMarkedAsDone.add(true);
-                            }
+
+                            theirTasksTaskMasterMarkedAsDone.add(false);
                         }
                     }
 
@@ -1189,7 +1189,7 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 11) {
+                        if (line.length == 11 && line[10].equals("0")) {
                             myTasksTaskId.add(line[0]);
                             myTasksTaskMasterId.add(line[1]);
                             myTasksTitle.add(line[2]);
@@ -1212,11 +1212,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             myTasksTaskerComment.add(line[8]);
                             myTasksTaskMasterComment.add(line[9]);
-                            if (line[10].equals("0")) {
-                                myTasksTaskMasterMarkedAsDone.add(false);
-                            } else {
-                                myTasksTaskMasterMarkedAsDone.add(true);
-                            }
+
+                            myTasksTaskMasterMarkedAsDone.add(false);
                         }
                     }
 
@@ -1541,9 +1538,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Delete user?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("Cancel", dialogClickListener)
+        builder.setMessage(getString(R.string.delete_tasker_q))
+                .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                .setNegativeButton(getString(R.string.cancel), dialogClickListener)
                 .show();
     }
 
@@ -1554,7 +1551,7 @@ public class MainActivity extends AppCompatActivity {
         String[] tempDeadline = myTasksDeadline.get(which).split(" ");
         if (tempDeadline.length == 2) {
             String[] tempDate = tempDeadline[0].split("-");
-            myTaskDeadline.setText(tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0] + " " + tempDeadline[1].substring(0, 5));
+            myTaskDeadline.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
         } else {
             myTaskDeadline.setText("00-00-0000 00:00");
         }
@@ -1632,8 +1629,8 @@ public class MainActivity extends AppCompatActivity {
         if (tempDD.length() == 19 && tempDD.contains(" ")) {
             String[] tempEach = tempDD.split(" ");
             String[] dateEach = tempEach[0].split("-");
-            theirTasksDate.setText(dateEach[2] + "-" + dateEach[1] + "-" + dateEach[0]);
-            theirTasksTime.setText(tempEach[1].substring(0, 5));
+            theirTasksDate.setText(dateEach[2] + dS + dateEach[1] + dS + dateEach[0]);
+            theirTasksTime.setText(tempEach[1].substring(0, 2) + hS + tempEach[1].substring(3, 5));
             try {
                 day = Integer.parseInt(dateEach[2]);
                 month = Integer.parseInt(dateEach[1]);
@@ -1650,8 +1647,8 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(TAG + e.getMessage());
             }
         } else {
-            theirTasksDate.setText("00-00-0000");
-            theirTasksTime.setText("00:00");
+            theirTasksDate.setText("00" + dS + "00" + dS + "0000");
+            theirTasksTime.setText("00" + hS + "00");
         }
 
         if (theirTasksAttachment1.get(which)) {
@@ -1878,9 +1875,9 @@ public class MainActivity extends AppCompatActivity {
             String[] tempDeadline = deadline.get(position).split(" ");
             if (tempDeadline.length == 2) {
                 String[] tempDate = tempDeadline[0].split("-");
-                text3.setText(tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0] + " " + tempDeadline[1].substring(0, 5));
+                text3.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
             } else {
-                text3.setText("00-00-0000 00:00");
+                text3.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
             check.setChecked(done.get(position));
 
@@ -1924,9 +1921,9 @@ public class MainActivity extends AppCompatActivity {
             String[] tempDeadline = deadline.get(position).split(" ");
             if (tempDeadline.length == 2) {
                 String[] tempDate = tempDeadline[0].split("-");
-                text2.setText(tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0] + " " + tempDeadline[1].substring(0, 5));
+                text2.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
             } else {
-                text2.setText("00-00-0000 00:00");
+                text2.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
             check.setChecked(done.get(position));
 
@@ -1945,17 +1942,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkCameraPermission() {
         if (!hasCameraPermission()) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{Manifest.permission.CAMERA},
-                    CAMERA_PERMISSION_REQUEST
-            );
+            ActivityCompat.requestPermissions(activityContext, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
         }
     }
 
     private boolean hasCameraPermission() {
-        return ContextCompat.checkSelfPermission(
-                this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void prepareCamera() {

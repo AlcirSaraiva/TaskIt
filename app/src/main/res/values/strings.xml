@@ -35,4 +35,17 @@
     <string name="add_more">Save one &amp; add more</string>
     <string name="system_messages">System messages</string>
 
+    <string name="date_separator">/</string>
+    <string name="hour_separator">:</string>
+
+    <string name="delete_picture">Delete picture?</string>
+    <string name="delete_tasker_q">Delete tasker?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="close_app">Close TaskIt?</string>
+    <string name="cancel">Cancel</string>
+    <string name="log_out">Log out</string>
+
+
 </resources>
