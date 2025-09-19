@@ -1,7 +1,5 @@
 package com.awesome.taskit;
 
-import static android.app.PendingIntent.getActivity;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,7 +15,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -71,10 +68,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -86,7 +81,6 @@ import coil3.ImageLoader;
 import coil3.ImageLoaders;
 import coil3.Image_androidKt;
 import coil3.SingletonImageLoader;
-import coil3.network.NetworkHeaders;
 import coil3.request.CachePolicy;
 import coil3.request.ImageRequest;
 import coil3.target.ImageViewTarget;
@@ -137,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> myTasksTaskMasterComment;
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
-    private boolean justOne, showingImage;
+    private boolean showingImage;
     private int selectedTask, selectedAttachment, selectedUser;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -166,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId;
     private LinearLayout loginCard, taskMasterCard, taskerCard, taskerManagementCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addOneTaskButton, addMoreTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted;
-    private Spinner addTaskTaskerSpinner;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
+    private Spinner addTaskTaskerSpinner, addTaskNTimes;
     private ListView usersListView, theirTasksListView, myTasksListView;
     private ImageView imageShow;
 
@@ -215,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        month = calendar.get(Calendar.MONTH);
+        month = calendar.get(Calendar.MONTH) + 1;
         year = calendar.get(Calendar.YEAR);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
@@ -316,8 +310,15 @@ public class MainActivity extends AppCompatActivity {
         addTaskDescription = findViewById(R.id.add_task_description);
         addTaskDate = findViewById(R.id.add_task_date);
         addTaskTime = findViewById(R.id.add_task_time);
-        addOneTaskButton = findViewById(R.id.add_one_task_button);
-        addMoreTaskButton = findViewById(R.id.add_more_task_button);
+        addTaskNTimes = findViewById(R.id.add_task_n_times);
+        addTaskDay1 = findViewById(R.id.add_task_day_1);
+        addTaskDay2 = findViewById(R.id.add_task_day_2);
+        addTaskDay3 = findViewById(R.id.add_task_day_3);
+        addTaskDay4 = findViewById(R.id.add_task_day_4);
+        addTaskDay5 = findViewById(R.id.add_task_day_5);
+        addTaskDay6 = findViewById(R.id.add_task_day_6);
+        addTaskDay7 = findViewById(R.id.add_task_day_7);
+        addTaskButton = findViewById(R.id.add_one_task_button);
 
         myTaskTitle = findViewById(R.id.my_task_title);
         myTaskDescription = findViewById(R.id.my_task_description);
@@ -469,17 +470,9 @@ public class MainActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-        addOneTaskButton.setOnClickListener(new View.OnClickListener() {
+        addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                justOne = true;
-                addTask();
-            }
-        });
-        addMoreTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                justOne = false;
                 addTask();
             }
         });
@@ -732,12 +725,33 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_NEW_TASK:
                 taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
-                if (addTaskDate.getText().toString().isEmpty()) {
-                    addTaskDate.setText(day + dS + (month + 1) + dS + year);
+
+                calendar = Calendar.getInstance();
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH) + 1;
+                year = calendar.get(Calendar.YEAR);
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+                minute = calendar.get(Calendar.MINUTE);
+
+                addTaskDate.setText(day + dS + month + dS + year);
+                addTaskTime.setText(hour + hS + String.format("%02d", minute));
+
+                int n = 7;
+                String[] items = new String[n];
+                for (int i = 0; i < n; i ++) {
+                    items[i] =  "  " + (i + 1) + "  ";
                 }
-                if (addTaskTime.getText().toString().isEmpty()) {
-                    addTaskTime.setText(hour + hS + minute);
-                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+                addTaskNTimes.setAdapter(adapter);
+                addTaskNTimes.setSelection(0);
+
+                addTaskDay1.setChecked(true);
+                addTaskDay2.setChecked(true);
+                addTaskDay3.setChecked(true);
+                addTaskDay4.setChecked(true);
+                addTaskDay5.setChecked(true);
+                addTaskDay6.setChecked(true);
+                addTaskDay7.setChecked(true);
                 break;
             case CHANGE_PASSWORD:
                 taskMasterCard.setVisibility(View.GONE);
@@ -1352,48 +1366,64 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addTask() {
-        addOneTaskButton.setEnabled(false);
-        addMoreTaskButton.setEnabled(false);
+        addTaskButton.setEnabled(false);
+        String rawData;
         if (!addTaskTitle.getText().toString().isEmpty()) {
-            String rawData = generateID() + fS +                                                                            // task_id
-                             myID + fS +                                                                                    // task_master_id
-                             usersIds.get(usersNames.indexOf(addTaskTaskerSpinner.getSelectedItem().toString())) + fS +     // tasker_id
-                             addTaskTitle.getText().toString() + fS +                                                       // title
-                             addTaskDescription.getText().toString() + fS +                                                 // description
-                             year + "-" + (month + 1) + "-" + day + " " + hour + ":" + minute + ":00" + fS +                // deadline
-                             "0" + fS +                                                                                     // tasker_marked_as_done
-                             "0" + fS +                                                                                     // attachment_1
-                             "0" + fS +                                                                                     // attachment_2
-                             " " + fS +                                                                                     // tasker_comment
-                             " " + fS +                                                                                     // task_master_comment
-                             "0";                                                                                           // task_master_marked_as_done
+            int n = addTaskNTimes.getSelectedItemPosition() + 1;
+            System.out.println(TAG + 1);
+            for (int i = 0; i < n; i ++) {
 
-            String response = contactServer(addTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
-            response = response.replaceAll(newLine, "\n");
-            info.setText(response);
+                if (isValidWeekDay(calendar.get(Calendar.DAY_OF_WEEK))) {
+                    rawData = generateID() + fS +                                                                          // task_id
+                            myID + fS +                                                                                    // task_master_id
+                            usersIds.get(usersNames.indexOf(addTaskTaskerSpinner.getSelectedItem().toString())) + fS +     // tasker_id
+                            addTaskTitle.getText().toString() + fS +                                                       // title
+                            addTaskDescription.getText().toString() + fS +                                                 // description
+                            year + "-" + month + "-" + day + " " + hour + ":" + String.format("%02d", minute) + ":00" + fS +                // deadline
+                            "0" + fS +                                                                                     // tasker_marked_as_done
+                            "0" + fS +                                                                                     // attachment_1
+                            "0" + fS +                                                                                     // attachment_2
+                            " " + fS +                                                                                     // tasker_comment
+                            " " + fS +                                                                                     // task_master_comment
+                            "0";                                                                                           // task_master_marked_as_done
 
-            if (response.contains("New task created successfully")) {
-                Toast.makeText(context, getString(R.string.task_created), Toast.LENGTH_LONG).show();
-                addTaskTitle.setText("");
-                addTaskDescription.setText("");
-                if (justOne) changeScreen(TASK_MASTER_TASKS);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addOneTaskButton.setEnabled(true);
-                        addMoreTaskButton.setEnabled(true);
-                        info.setText("");
+                    String response = contactServer(addTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
+                    response = response.replaceAll(newLine, "\n");
+
+                    info.setText(response);
+
+                    if (response.contains("New task created successfully")) {
+                        if (i == n - 1) {
+                            Toast.makeText(context, getString(R.string.task_created), Toast.LENGTH_LONG).show();
+                            addTaskTitle.setText("");
+                            addTaskDescription.setText("");
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    addTaskButton.setEnabled(true);
+                                    info.setText("");
+                                }
+                            }, 1500);
+                            changeScreen(TASK_MASTER_TASKS);
+                        }
+                    } else if (i == n - 1) {
+                        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                addTaskButton.setEnabled(true);
+                            }
+                        }, 2000);
                     }
-                }, 1500);
-            } else {
-                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addOneTaskButton.setEnabled(true);
-                        addMoreTaskButton.setEnabled(true);
-                    }
-                }, 2000);
+                } else {
+                    i --;
+                }
+                if (i < n) {
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    day = calendar.get(Calendar.DAY_OF_MONTH);
+                    month = calendar.get(Calendar.MONTH) + 1;
+                    year = calendar.get(Calendar.YEAR);
+                }
             }
         } else {
             info.setText("ERROR\nTitle field cannot be empty");
@@ -1402,8 +1432,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     info.setText("");
-                    addOneTaskButton.setEnabled(true);
-                    addMoreTaskButton.setEnabled(true);
+                    addTaskButton.setEnabled(true);
                 }
             }, 2000);
         }
@@ -1478,7 +1507,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateTheirTasks() {
         if (!theirTasksTitleField.getText().toString().isEmpty()) theirTasksTitle.set(selectedTask, theirTasksTitleField.getText().toString());
         if (!theirTasksDescriptionField.getText().toString().isEmpty()) theirTasksDescription.set(selectedTask, theirTasksDescriptionField.getText().toString());
-        theirTasksDeadline.set(selectedTask, year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00");
+        theirTasksDeadline.set(selectedTask, year + "-" + month + "-" + day + " " + hour + ":" + String.format("%02d", minute));
         if (!theirTasksMyComments.getText().toString().isEmpty()) theirTasksTaskMasterComment.set(selectedTask, theirTasksMyComments.getText().toString());
         theirTasksTaskMasterMarkedAsDone.set(selectedTask, theirTasksDone.isChecked());
 
@@ -1727,7 +1756,7 @@ public class MainActivity extends AppCompatActivity {
 
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
+                calendar.set(Calendar.DAY_OF_MONTH , day);
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
                 calendar.set(Calendar.MINUTE, minute);
             } catch (Exception e) {
@@ -2263,6 +2292,43 @@ public class MainActivity extends AppCompatActivity {
             info.setText("ERROR\n" + e.getMessage());
             return bitmap;
         }
+    }
+
+    private boolean isValidWeekDay(int weekDay) {
+        boolean valid = false;
+
+        switch (weekDay) {
+            case Calendar.MONDAY:
+                valid = addTaskDay1.isChecked();
+                //System.out.println(TAG + "MONDAY: " + valid);
+                break;
+            case Calendar.TUESDAY:
+                valid = addTaskDay2.isChecked();
+                //System.out.println(TAG + "TUESDAY: " + valid);
+                break;
+            case Calendar.WEDNESDAY:
+                valid = addTaskDay3.isChecked();
+                //System.out.println(TAG + "WEDNESDAY: " + valid);
+                break;
+            case Calendar.THURSDAY:
+                valid = addTaskDay4.isChecked();
+                //System.out.println(TAG + "THURSDAY: " + valid);
+                break;
+            case Calendar.FRIDAY:
+                valid = addTaskDay5.isChecked();
+                //System.out.println(TAG + "FRIDAY: " + valid);
+                break;
+            case Calendar.SATURDAY:
+                valid = addTaskDay6.isChecked();
+                //System.out.println(TAG + "SATURDAY: " + valid);
+                break;
+            case Calendar.SUNDAY:
+                valid = addTaskDay7.isChecked();
+                //System.out.println(TAG + "SUNDAY: " + valid);
+                break;
+        }
+
+        return valid;
     }
 
 }
