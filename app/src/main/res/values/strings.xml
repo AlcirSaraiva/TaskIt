@@ -16,6 +16,8 @@
     <string name="tasks_assigned_to_me">Tasks assigned to me</string>
     <string name="admin">Admin</string>
     <string name="change_pass">Change password</string>
+    <string name="delete_done">Delete done tasks</string>
+    <string name="delete_done_tasks">Delete all tasks marked as finished?</string>
     <string name="old_pass">Old password</string>
     <string name="new_pass">New password</string>
     <string name="repeat_new_pass">Repeat new password</string>

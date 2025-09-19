@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId;
     private LinearLayout loginCard, taskMasterCard, taskerCard, taskerManagementCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, deleteDoneButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
     private Spinner addTaskTaskerSpinner, addTaskNTimes;
@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
     private final String updateAttachmentPHP = "https://www.solvaelys.com/taskit/update_attachment.php";
     private final String updateUserPHP = "https://www.solvaelys.com/taskit/update_user.php";
     private final String deleteUserPHP = "https://www.solvaelys.com/taskit/delete_user.php";
+    private final String deleteDoneTasksPHP = "https://www.solvaelys.com/taskit/delete_done_tasks.php";
     private final String taskImagesRemote = "https://www.solvaelys.com/taskit/images/";
 
     @Override
@@ -273,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
         addUserCardButton = findViewById(R.id.add_user_card_button);
         changePassCardButton = findViewById(R.id.change_pass_card_button);
+        deleteDoneButton = findViewById(R.id.delete_done_button);
 
         addUserNameField = findViewById(R.id.add_user_name_field);
         addUserTaskMaster = findViewById(R.id.add_user_task_master);
@@ -372,6 +374,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(CHANGE_PASSWORD);
+            }
+        });
+        deleteDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                deleteDoneTasks();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(getString(R.string.delete_done_tasks))
+                        .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.no), dialogClickListener)
+                        .show();
+
             }
         });
 
@@ -573,7 +598,7 @@ public class MainActivity extends AppCompatActivity {
                                     info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
                                     populateMyTaskCard(selectedTask);
                                     break;
-                                default:
+                                case DialogInterface.BUTTON_NEGATIVE:
                                     break;
                             }
                         }
@@ -584,9 +609,6 @@ public class MainActivity extends AppCompatActivity {
                             .setNegativeButton(getString(R.string.no), dialogClickListener)
                             .show();
                 }
-
-
-
             }
         });
         myTaskAttachment2.setOnClickListener(new View.OnClickListener() {
@@ -624,9 +646,7 @@ public class MainActivity extends AppCompatActivity {
                                     info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
                                     populateMyTaskCard(selectedTask);
                                     break;
-
                                 case DialogInterface.BUTTON_NEGATIVE:
-                                    //No button clicked
                                     break;
                             }
                         }
@@ -668,6 +688,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("taskmaster", false);
                 editor.putBoolean("admin", false);
                 editor.apply();
+                taskMaster = false;
+                admin = false;
                 break;
             case MAIN_MENU:
                 loginCard.setVisibility(View.GONE);
@@ -678,8 +700,10 @@ public class MainActivity extends AppCompatActivity {
                 if (taskMaster) taskMasterCard.setVisibility(View.VISIBLE);
                 if (admin) {
                     addUserCardButton.setVisibility(View.VISIBLE);
+                    deleteDoneButton.setVisibility(View.VISIBLE);
                 } else {
                     addUserCardButton.setVisibility(View.GONE);
+                    deleteDoneButton.setVisibility(View.GONE);
                 }
                 taskerCard.setVisibility(View.VISIBLE);
                 adminCard.setVisibility(View.VISIBLE);
@@ -829,6 +853,14 @@ public class MainActivity extends AppCompatActivity {
                             case DialogInterface.BUTTON_NEGATIVE:
                                 break;
                             case DialogInterface.BUTTON_NEUTRAL:
+
+
+
+
+
+
+
+
                                 changeScreen(LOGIN);
                                 break;
                         }
@@ -1041,12 +1073,12 @@ public class MainActivity extends AppCompatActivity {
                 String[] resp = response.split(newLine);
                 String[] temp = resp[0].split(fS);
                 myID = temp[1];
-                if (temp[2].equals("0")) {
+                if (temp[2].contains("0")) {
                     taskMaster = false;
                 } else {
                     taskMaster = true;
                 }
-                if (temp[3].equals("0")) {
+                if (temp[3].contains("0")) {
                     admin = false;
                 } else {
                     admin = true;
@@ -1653,6 +1685,14 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(getString(R.string.yes), dialogClickListener)
                 .setNegativeButton(getString(R.string.cancel), dialogClickListener)
                 .show();
+    }
+
+    private void deleteDoneTasks() {
+        String rawData = myID + fS + emptyData; // TODO should send password instead of emptyData
+        String response = contactServer(deleteDoneTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
+        response = response.replaceAll(newLine, "\n");
+        info.setText(response);
+        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
     }
 
     private void populateMyTaskCard(int which) {

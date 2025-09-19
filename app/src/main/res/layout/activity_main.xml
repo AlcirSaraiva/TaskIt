@@ -285,7 +285,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/change_pass"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginTop="5dp" />
+
+                <Button
+                    android:id="@+id/delete_done_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete_done"
+                    android:layout_marginTop="15dp"/>
 
             </LinearLayout>
 
@@ -798,7 +805,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"
