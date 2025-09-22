@@ -1822,7 +1822,14 @@ public class MainActivity extends AppCompatActivity {
             theirTasksTime.setText("00" + hS + "00");
         }
 
-        theirTasksLastModified.setText(theirTasksLastModifiedDateTime.get(which));
+        String tempMD = theirTasksLastModifiedDateTime.get(which);
+        if (tempMD.contains("0000-00-00 00:00:00")) {
+            theirTasksLastModified.setText("");
+        } else {
+            String[] tempEach1 = tempMD.split(" ");
+            String[] dateEach1 = tempEach1[0].split("-");
+            theirTasksLastModified.setText(dateEach1[2] + dS + dateEach1[1] + dS + dateEach1[0] + " " + tempEach1[1].substring(0, 2) + hS + tempEach1[1].substring(3, 5));
+        }
 
         if (theirTasksAttachment1.get(which)) {
             ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
