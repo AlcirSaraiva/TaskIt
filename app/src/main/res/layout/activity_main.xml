@@ -525,7 +525,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -571,8 +571,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-
 
                 <ListView
                     android:id="@+id/their_tasks_listview"

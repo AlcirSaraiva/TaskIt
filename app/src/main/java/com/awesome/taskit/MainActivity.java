@@ -2043,9 +2043,25 @@ public class MainActivity extends AppCompatActivity {
             text1.setText(name.get(position));
             text2.setText(title.get(position));
             String[] tempDeadline = deadline.get(position).split(" ");
+            Calendar now =  Calendar.getInstance();
+            Calendar taskDate = Calendar.getInstance();
+            int da, mo, ye, ho, mi;
             if (tempDeadline.length == 2) {
                 String[] tempDate = tempDeadline[0].split("-");
                 text3.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
+                da = Integer.parseInt(tempDate[2]);
+                mo = Integer.parseInt(tempDate[1]) - 1;
+                ye = Integer.parseInt(tempDate[0]);
+                ho = Integer.parseInt(tempDeadline[1].substring(0, 2));
+                mi = Integer.parseInt(tempDeadline[1].substring(3, 5));
+                taskDate.set(Calendar.YEAR, ye);
+                taskDate.set(Calendar.MONTH, mo);
+                taskDate.set(Calendar.DAY_OF_MONTH, da);
+                taskDate.set(Calendar.HOUR_OF_DAY, ho);
+                taskDate.set(Calendar.MINUTE, mi);
+                long nowMil = now.getTimeInMillis();
+                long taskMil = taskDate.getTimeInMillis();
+                if (nowMil > taskMil) text3.setTextColor(getColor(R.color.red));
             } else {
                 text3.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
@@ -2089,9 +2105,25 @@ public class MainActivity extends AppCompatActivity {
 
             text1.setText(title.get(position));
             String[] tempDeadline = deadline.get(position).split(" ");
+            Calendar now =  Calendar.getInstance();
+            Calendar taskDate = Calendar.getInstance();
+            int da, mo, ye, ho, mi;
             if (tempDeadline.length == 2) {
                 String[] tempDate = tempDeadline[0].split("-");
                 text2.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
+                da = Integer.parseInt(tempDate[2]);
+                mo = Integer.parseInt(tempDate[1]) - 1;
+                ye = Integer.parseInt(tempDate[0]);
+                ho = Integer.parseInt(tempDeadline[1].substring(0, 2));
+                mi = Integer.parseInt(tempDeadline[1].substring(3, 5));
+                taskDate.set(Calendar.YEAR, ye);
+                taskDate.set(Calendar.MONTH, mo);
+                taskDate.set(Calendar.DAY_OF_MONTH, da);
+                taskDate.set(Calendar.HOUR_OF_DAY, ho);
+                taskDate.set(Calendar.MINUTE, mi);
+                long nowMil = now.getTimeInMillis();
+                long taskMil = taskDate.getTimeInMillis();
+                if (nowMil > taskMil) text2.setTextColor(getColor(R.color.red));
             } else {
                 text2.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
