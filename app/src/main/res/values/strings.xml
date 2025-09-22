@@ -41,6 +41,7 @@
     <string name="task_master_comments">Task Master comments</string>
     <string name="no_comments">No comments</string>
     <string name="no_description">No description</string>
+    <string name="last_modified_on">Last modified on</string>
 
     <string name="system_messages">System messages</string>
 

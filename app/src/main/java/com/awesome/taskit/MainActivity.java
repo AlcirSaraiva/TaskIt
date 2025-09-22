@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> theirTasksTitle;
     private ArrayList<String> theirTasksDescription;
     private ArrayList<String> theirTasksDeadline;
+    private ArrayList<String> theirTasksLastModifiedDateTime;
     private ArrayList<Boolean> theirTasksTaskerMarkedAsDone;
     private ArrayList<Boolean> theirTasksAttachment1;
     private ArrayList<Boolean> theirTasksAttachment2;
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     private final int TASKER_MANAGEMENT = 12;
     private int currentScreen;
 
-    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId;
+    private TextView info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified;
     private LinearLayout loginCard, taskMasterCard, taskerCard, taskerManagementCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, deleteDoneButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
@@ -300,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksDescriptionField = findViewById(R.id.their_tasks_description);
         theirTasksDate = findViewById(R.id.their_tasks_date);
         theirTasksTime = findViewById(R.id.their_tasks_time);
+        theirTasksLastModified = findViewById(R.id.their_tasks_last_modified);
         theirTasksAttachmentIB1 = findViewById(R.id.their_tasks_attachment_ib_1);
         theirTasksAttachmentIB2 = findViewById(R.id.their_tasks_attachment_ib_2);
         theirTasksTComments = findViewById(R.id.their_tasks_t_comments);
@@ -904,7 +906,7 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {
-            System.out.println(TAG + "{hideKeyboard} " + e.getMessage());
+            //System.out.println(TAG + "{hideKeyboard} " + e.getMessage());
         }
     }
 
@@ -1177,12 +1179,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(myID));
+
                 if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
                     theirTasksTaskId = new ArrayList<>();
                     theirTasksTaskerId = new ArrayList<>();
                     theirTasksTitle = new ArrayList<>();
                     theirTasksDescription = new ArrayList<>();
                     theirTasksDeadline = new ArrayList<>();
+                    theirTasksLastModifiedDateTime = new ArrayList<>();
                     theirTasksTaskerMarkedAsDone = new ArrayList<>();
                     theirTasksAttachment1 = new ArrayList<>();
                     theirTasksAttachment2 = new ArrayList<>();
@@ -1194,25 +1198,24 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-
                         if (showCompleted.isChecked()) {
-                            if (line.length == 11) {
+                            if (line.length == 12) {
                                 theirTasksTaskId.add(line[0]);
                                 theirTasksTaskerId.add(line[1]);
                                 theirTasksTitle.add(line[2]);
                                 theirTasksDescription.add(line[3]);
                                 theirTasksDeadline.add(line[4]);
-                                if (line[5].equals("0")) {
+                                if (line[5].contains("0")) {
                                     theirTasksTaskerMarkedAsDone.add(false);
                                 } else {
                                     theirTasksTaskerMarkedAsDone.add(true);
                                 }
-                                if (line[6].equals("0")) {
+                                if (line[6].contains("0")) {
                                     theirTasksAttachment1.add(false);
                                 } else {
                                     theirTasksAttachment1.add(true);
                                 }
-                                if (line[6].equals("0")) {
+                                if (line[6].contains("0")) {
                                     theirTasksAttachment2.add(false);
                                 } else {
                                     theirTasksAttachment2.add(true);
@@ -1220,30 +1223,32 @@ public class MainActivity extends AppCompatActivity {
                                 theirTasksTaskerComment.add(line[8]);
                                 theirTasksTaskMasterComment.add(line[9]);
 
-                                if (line[10].equals("0")) {
+                                if (line[10].contains("0")) {
                                     theirTasksTaskMasterMarkedAsDone.add(false);
                                 } else {
                                     theirTasksTaskMasterMarkedAsDone.add(true);
                                 }
+
+                                theirTasksLastModifiedDateTime.add(line[11]);
                             }
                         } else {
-                            if (line.length == 11 && line[10].equals("0")) {
+                            if (line.length == 12 && line[10].contains("0")) {
                                 theirTasksTaskId.add(line[0]);
                                 theirTasksTaskerId.add(line[1]);
                                 theirTasksTitle.add(line[2]);
                                 theirTasksDescription.add(line[3]);
                                 theirTasksDeadline.add(line[4]);
-                                if (line[5].equals("0")) {
+                                if (line[5].contains("0")) {
                                     theirTasksTaskerMarkedAsDone.add(false);
                                 } else {
                                     theirTasksTaskerMarkedAsDone.add(true);
                                 }
-                                if (line[6].equals("0")) {
+                                if (line[6].contains("0")) {
                                     theirTasksAttachment1.add(false);
                                 } else {
                                     theirTasksAttachment1.add(true);
                                 }
-                                if (line[6].equals("0")) {
+                                if (line[6].contains("0")) {
                                     theirTasksAttachment2.add(false);
                                 } else {
                                     theirTasksAttachment2.add(true);
@@ -1252,6 +1257,8 @@ public class MainActivity extends AppCompatActivity {
                                 theirTasksTaskMasterComment.add(line[9]);
 
                                 theirTasksTaskMasterMarkedAsDone.add(false);
+
+                                theirTasksLastModifiedDateTime.add(line[11]);
                             }
                         }
                     }
@@ -1402,7 +1409,6 @@ public class MainActivity extends AppCompatActivity {
         String rawData;
         if (!addTaskTitle.getText().toString().isEmpty()) {
             int n = addTaskNTimes.getSelectedItemPosition() + 1;
-            System.out.println(TAG + 1);
             for (int i = 0; i < n; i ++) {
 
                 if (isValidWeekDay(calendar.get(Calendar.DAY_OF_WEEK))) {
@@ -1493,11 +1499,20 @@ public class MainActivity extends AppCompatActivity {
         String tempAttachment2 = "0";
         if (myTasksAttachment2.get(selectedTask)) tempAttachment2 = "1";
 
+        Calendar tempNow = Calendar.getInstance();
+        int da, mo, ye, ho, mi;
+        da = tempNow.get(Calendar.DAY_OF_MONTH);
+        mo = tempNow.get(Calendar.MONTH) + 1;
+        ye = tempNow.get(Calendar.YEAR);
+        ho = tempNow.get(Calendar.HOUR_OF_DAY);
+        mi = tempNow.get(Calendar.MINUTE);
+
         String rawData = myTasksTaskId.get(selectedTask) + fS +
                 tempMarked + fS +
                 tempAttachment1 + fS +
                 tempAttachment2 + fS +
-                myTasksTaskerComment.get(selectedTask);
+                myTasksTaskerComment.get(selectedTask) + fS +
+                ye + "-" + String.format("%02d", mo) + "-" + String.format("%02d", da) + " " + String.format("%02d", ho) + ":" + String.format("%02d", mi) + ":00";
 
         String response = contactServer(updateMyTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
@@ -1806,6 +1821,8 @@ public class MainActivity extends AppCompatActivity {
             theirTasksDate.setText("00" + dS + "00" + dS + "0000");
             theirTasksTime.setText("00" + hS + "00");
         }
+
+        theirTasksLastModified.setText(theirTasksLastModifiedDateTime.get(which));
 
         if (theirTasksAttachment1.get(which)) {
             ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);

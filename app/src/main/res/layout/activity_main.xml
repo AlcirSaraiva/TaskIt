@@ -525,7 +525,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
                 android:background="#ffcccccc"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -734,6 +734,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
                     android:hint="@string/my_comments"
+                    android:inputType="textCapSentences"
                     android:maxLines="3"
                     android:padding="5dp"
                     android:textSize="14sp"
@@ -1118,11 +1119,17 @@
                     android:textSize="14sp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deadline"
+                    android:layout_marginBottom="5dp"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="15dp"
                     android:weightSum="2" >
 
                     <TextView
@@ -1144,6 +1151,29 @@
                         android:padding="6dp"
                         android:gravity="end"
                         android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last_modified_on" />
+
+                    <TextView
+                        android:id="@+id/their_tasks_last_modified"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00-00-0000 00:00"
+                        android:gravity="end"
+                        android:background="#44aaaaaa"
+                        android:padding="6dp"
+                        android:layout_marginStart="10dp" />
 
                 </LinearLayout>
 
@@ -1193,6 +1223,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffaaaaaa"
                     android:hint="@string/my_comments"
+                    android:inputType="textCapSentences"
                     android:maxLines="3"
                     android:padding="5dp"
                     android:textSize="14sp"
