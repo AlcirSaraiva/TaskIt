@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1077,8 +1078,44 @@ public class MainActivity extends AppCompatActivity {
                 myID = temp[1];
                 if (temp[2].contains("0")) {
                     taskMaster = false;
+                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            2f
+                    );
+                    param1.topMargin = dpToPx(10);
+                    param1.bottomMargin = dpToPx(10);
+
+                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            1f
+                    );
+                    param2.topMargin = dpToPx(10);
+                    param2.bottomMargin = dpToPx(10);
+
+                    taskerCard.setLayoutParams(param1);
+                    adminCard.setLayoutParams(param2);
                 } else {
                     taskMaster = true;
+                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            1f
+                    );
+                    param1.topMargin = dpToPx(10);
+                    param1.bottomMargin = dpToPx(10);
+
+                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            1f
+                    );
+                    param2.topMargin = dpToPx(10);
+                    param2.bottomMargin = dpToPx(10);
+
+                    taskerCard.setLayoutParams(param1);
+                    adminCard.setLayoutParams(param2);
                 }
                 if (temp[3].contains("0")) {
                     admin = false;
@@ -2427,4 +2464,8 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
+    private int dpToPx(float dp) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
 }
