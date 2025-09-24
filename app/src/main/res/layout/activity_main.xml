@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     tools:context=".MainActivity"
     android:orientation="vertical">
@@ -105,7 +105,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/checkbox_text"
-                        android:text="@string/keep_logged_in" />
+                        android:text="@string/keep_logged_in"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -117,6 +119,8 @@
                             android:id="@+id/sign_in_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                             android:textSize="@dimen/buttons_text"
                             android:text="@string/log_in" />
 
@@ -371,6 +375,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_tasker"
                     android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                     android:layout_marginBottom="15dp" />
 
                 <ListView
@@ -426,7 +432,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_master" />
+                        android:text="@string/task_master"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply"/>
 
                     <CheckBox
                         android:id="@+id/add_user_admin"
@@ -434,7 +442,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textSize="@dimen/checkbox_text"
-                        android:text="@string/admin" />
+                        android:text="@string/admin"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply"/>
 
                 </LinearLayout>
 
@@ -454,6 +464,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                     android:text="@string/generate_new_id"/>
 
                 <LinearLayout
@@ -467,6 +479,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                         android:text="@string/add_tasker" />
 
                 </LinearLayout>
@@ -529,7 +543,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_master" />
+                        android:text="@string/task_master"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
 
                     <CheckBox
                         android:id="@+id/tasker_management_admin"
@@ -537,7 +553,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textSize="@dimen/checkbox_text"
-                        android:text="@string/admin" />
+                        android:text="@string/admin"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
 
                 </LinearLayout>
 
@@ -552,6 +570,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                         android:text="@string/delete_tasker" />
 
                     <LinearLayout
@@ -565,6 +585,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                             android:text="@string/save" />
 
                     </LinearLayout>
@@ -610,6 +632,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                             android:text="@string/new_task" />
 
                     </LinearLayout>
@@ -627,7 +651,9 @@
                             android:layout_height="wrap_content"
                             android:layoutDirection="rtl"
                             android:textSize="@dimen/checkbox_text"
-                            android:text="@string/show_completed" />
+                            android:text="@string/show_completed"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -842,7 +868,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/checkbox_text"
-                    android:text="@string/ive_completed_this_task" />
+                    android:text="@string/ive_completed_this_task"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -855,6 +883,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                         android:text="@string/save" />
 
                 </LinearLayout>
@@ -1014,7 +1044,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1037,7 +1069,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1060,7 +1094,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1083,7 +1119,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1106,7 +1144,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1129,7 +1169,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1152,7 +1194,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/checkbox_text"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 
@@ -1169,6 +1213,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                         android:text="@string/add_task_s"/>
 
                 </LinearLayout>
@@ -1353,7 +1399,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/checkbox_text"
-                    android:text="@string/task_is_complete" />
+                    android:text="@string/task_is_complete"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1366,6 +1414,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                         android:text="@string/save" />
 
                 </LinearLayout>
@@ -1442,6 +1492,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
                         android:text="@string/change_pass" />
 
                 </LinearLayout>

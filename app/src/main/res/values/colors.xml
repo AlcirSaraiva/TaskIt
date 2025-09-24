@@ -14,5 +14,6 @@
     <color name="grey_input_bg_50">#88AAAAAA</color>
     <color name="grey_panel_bg">#FF333333</color>
 
-
+    <color name="button_bg">#FF256EFF</color>
+    <color name="checkbox_bg">#639CFF</color>
 </resources>
