@@ -1,0 +1,11 @@
+<resources>
+    <dimen name="app_title">24sp</dimen>
+    <dimen name="title">20sp</dimen>
+    <dimen name="icons_text">16sp</dimen>
+    <dimen name="input">16sp</dimen>
+    <dimen name="text">16sp</dimen>
+    <dimen name="id">16sp</dimen>
+    <dimen name="buttons_text">16sp</dimen>
+    <dimen name="checkbox_text">16sp</dimen>
+    <dimen name="alert_text">6sp</dimen>
+</resources>

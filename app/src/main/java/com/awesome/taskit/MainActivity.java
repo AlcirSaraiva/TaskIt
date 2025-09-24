@@ -161,10 +161,10 @@ public class MainActivity extends AppCompatActivity {
     private final int TASKER_MANAGEMENT = 12;
     private int currentScreen;
 
-    private TextView appTitle, info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified;
+    private TextView appTitle, info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private LinearLayout loginCard, taskMasterCard, taskerCard, taskerManagementCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, changePassCardButton, deleteDoneButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
     private Spinner addTaskTaskerSpinner, addTaskNTimes;
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Image placeholder, fallback, error;
 
-    Typeface font1;
+    Typeface font1, font2;
 
     // network
     private boolean isOnline;
@@ -282,7 +282,9 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
         addUserCardButton = findViewById(R.id.add_user_card_button);
         changePassCardButton = findViewById(R.id.change_pass_card_button);
+        changePassCardButtonText = findViewById(R.id.change_pass_card_button_text);
         deleteDoneButton = findViewById(R.id.delete_done_button);
+        deleteDoneButtonText = findViewById(R.id.delete_done_button_text);
 
         addUserNameField = findViewById(R.id.add_user_name_field);
         addUserTaskMaster = findViewById(R.id.add_user_task_master);
@@ -413,6 +415,10 @@ public class MainActivity extends AppCompatActivity {
                 message.setTypeface(font1);
                 b1.setTypeface(font1);
                 b2.setTypeface(font1);
+
+                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
             }
         });
 
@@ -632,6 +638,10 @@ public class MainActivity extends AppCompatActivity {
                     message.setTypeface(font1);
                     b1.setTypeface(font1);
                     b2.setTypeface(font1);
+
+                    message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 }
             }
         });
@@ -688,6 +698,10 @@ public class MainActivity extends AppCompatActivity {
                     message.setTypeface(font1);
                     b1.setTypeface(font1);
                     b2.setTypeface(font1);
+
+                    message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 }
             }
         });
@@ -708,6 +722,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setFonts() {
         font1 = ResourcesCompat.getFont(this, R.font.new_year_new_day);
+        font2 = ResourcesCompat.getFont(this, R.font.nimbus_sans_regular);
 
         TextView loginTitle,
                 taskMasterCardTitle,
@@ -771,6 +786,8 @@ public class MainActivity extends AppCompatActivity {
 
         appTitle.setTypeface(font1);
         loginTitle.setTypeface(font1);
+        loginUsernameField.setTypeface(font2);
+        loginPasswordField.setTypeface(font2);
         loginKeep.setTypeface(font1);
         signInButton.setTypeface(font1);
 
@@ -782,19 +799,23 @@ public class MainActivity extends AppCompatActivity {
         taskerTasksCardButtonText.setTypeface(font1);
 
         adminCardTitle.setTypeface(font1);
-        changePassCardButton.setTypeface(font1);
-        deleteDoneButton.setTypeface(font1);
+        changePassCardButtonText.setTypeface(font1);
+        deleteDoneButtonText.setTypeface(font1);
 
         taskMasterTaskersCardTitle.setTypeface(font1);
         addUserCardButton.setTypeface(font1);
 
         addUserCardTitle.setTypeface(font1);
+        addUserNameField.setTypeface(font2);
         addUserTaskMaster.setTypeface(font1);
         addUserAdmin.setTypeface(font1);
+        addUserIdField.setTypeface(font2);
         addUserGenerateIdButton.setTypeface(font1);
         addUserAddButton.setTypeface(font1);
 
         taskerManagementCardTitle.setTypeface(font1);
+        taskerManagementNameField.setTypeface(font2);
+        taskerManagementId.setTypeface(font2);
         taskerManagementTaskMaster.setTypeface(font1);
         taskerManagementAdmin.setTypeface(font1);
         deleteUserButton.setTypeface(font1);
@@ -810,13 +831,20 @@ public class MainActivity extends AppCompatActivity {
         myTaskDescription.setTypeface(font1);
         myTaskDeadlineTitle.setTypeface(font1);
         myTaskDeadline.setTypeface(font1);
+        myTaskMyComments.setTypeface(font2);
         myTaskTmCommentsTitle.setTypeface(font1);
         myTaskTmComments.setTypeface(font1);
         myTaskDone.setTypeface(font1);
         myTaskSaveButton.setTypeface(font1);
 
         addTaskCardTitle.setTypeface(font1);
+        // TODO set typeface of spinner addTaskTaskerSpinner
+        addTaskTitle.setTypeface(font2);
+        addTaskDescription.setTypeface(font2);
+        addTaskDate.setTypeface(font2);
+        addTaskTime.setTypeface(font2);
         repeatTask.setTypeface(font1);
+        // TODO set typeface of spinner addTaskNTimes
         times.setTypeface(font1);
         weekdays.setTypeface(font1);
         addTaskDay1Text.setTypeface(font1);
@@ -829,15 +857,23 @@ public class MainActivity extends AppCompatActivity {
         addTaskButton.setTypeface(font1);
 
         theirTasksNameField.setTypeface(font1);
+        theirTasksTitleField.setTypeface(font2);
+        theirTasksDescriptionField.setTypeface(font2);
         theirTasksDeadline.setTypeface(font1);
+        theirTasksDate.setTypeface(font2);
+        theirTasksTime.setTypeface(font2);
         theirTasksLastModifiedTitle.setTypeface(font1);
         theirTasksLastModified.setTypeface(font1);
         theirTasksTCommentsTitle.setTypeface(font1);
         theirTasksTComments.setTypeface(font1);
+        theirTasksMyComments.setTypeface(font2);
         theirTasksDone.setTypeface(font1);
         theirTasksSaveButton.setTypeface(font1);
 
         changePasswordCardTitle.setTypeface(font1);
+        changePasswordOldField.setTypeface(font2);
+        changePasswordNew1Field.setTypeface(font2);
+        changePasswordNew2Field.setTypeface(font2);
         changePasswordChangeButton.setTypeface(font1);
     }
 
@@ -864,13 +900,56 @@ public class MainActivity extends AppCompatActivity {
                 taskMasterTasksCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.GONE);
                 changePasswordCard.setVisibility(View.GONE);
-                if (taskMaster) taskMasterCard.setVisibility(View.VISIBLE);
+                if (taskMaster) {
+                    taskMasterCard.setVisibility(View.VISIBLE);
+
+                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            1f
+                    );
+                    param1.topMargin = dpToPx(10);
+                    param1.bottomMargin = dpToPx(10);
+
+                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            1f
+                    );
+                    param2.topMargin = dpToPx(10);
+                    param2.bottomMargin = dpToPx(10);
+
+                    taskerCard.setLayoutParams(param1);
+                    adminCard.setLayoutParams(param2);
+                } else {
+                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            2f
+                    );
+                    param1.topMargin = dpToPx(10);
+                    param1.bottomMargin = dpToPx(10);
+
+                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0,
+                            1f
+                    );
+                    param2.topMargin = dpToPx(10);
+                    param2.bottomMargin = dpToPx(10);
+
+                    taskerCard.setLayoutParams(param1);
+                    adminCard.setLayoutParams(param2);
+                }
+
                 if (admin) {
                     addUserCardButton.setVisibility(View.VISIBLE);
                     deleteDoneButton.setVisibility(View.VISIBLE);
+                    deleteDoneButtonText.setVisibility(View.VISIBLE);
                 } else {
                     addUserCardButton.setVisibility(View.GONE);
                     deleteDoneButton.setVisibility(View.GONE);
+                    deleteDoneButtonText.setVisibility(View.GONE);
                 }
                 taskerCard.setVisibility(View.VISIBLE);
                 adminCard.setVisibility(View.VISIBLE);
@@ -1016,6 +1095,10 @@ public class MainActivity extends AppCompatActivity {
                 message.setTypeface(font1);
                 b1.setTypeface(font1);
                 b2.setTypeface(font1);
+
+                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 break;
             case MAIN_MENU:
                 DialogInterface.OnClickListener dialogClickListenerMainMenu = new DialogInterface.OnClickListener() {
@@ -1049,6 +1132,11 @@ public class MainActivity extends AppCompatActivity {
                 b11.setTypeface(font1);
                 b12.setTypeface(font1);
                 b13.setTypeface(font1);
+
+                message1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b11.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b12.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b13.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 break;
             case TASK_MASTER_TASKERS:
             case TASK_MASTER_TASKS:
@@ -1906,11 +1994,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(getString(R.string.delete_tasker_q))
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setMessage(getString(R.string.delete_tasker_q))
                 .setPositiveButton(getString(R.string.yes), dialogClickListener)
                 .setNegativeButton(getString(R.string.cancel), dialogClickListener)
                 .show();
+
+        TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+        Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
+        Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
+
+        message.setTypeface(font1);
+        b1.setTypeface(font1);
+        b2.setTypeface(font1);
+
+        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
     }
 
     private void deleteDoneTasks() {
@@ -1931,9 +2031,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String[] tempDeadline = myTasksDeadline.get(which).split(" ");
+        Calendar now =  Calendar.getInstance();
+        Calendar taskDate = Calendar.getInstance();
+        int da, mo, ye, ho, mi;
         if (tempDeadline.length == 2) {
             String[] tempDate = tempDeadline[0].split("-");
             myTaskDeadline.setText(tempDate[2] + dS + tempDate[1] + dS + tempDate[0] + " " + tempDeadline[1].substring(0, 2) + hS + tempDeadline[1].substring(3, 5));
+            da = Integer.parseInt(tempDate[2]);
+            mo = Integer.parseInt(tempDate[1]) - 1;
+            ye = Integer.parseInt(tempDate[0]);
+            ho = Integer.parseInt(tempDeadline[1].substring(0, 2));
+            mi = Integer.parseInt(tempDeadline[1].substring(3, 5));
+            taskDate.set(Calendar.YEAR, ye);
+            taskDate.set(Calendar.MONTH, mo);
+            taskDate.set(Calendar.DAY_OF_MONTH, da);
+            taskDate.set(Calendar.HOUR_OF_DAY, ho);
+            taskDate.set(Calendar.MINUTE, mi);
+            long nowMil = now.getTimeInMillis();
+            long taskMil = taskDate.getTimeInMillis();
+            if (nowMil > taskMil) myTaskDeadline.setTextColor(getColor(R.color.red));
+
         } else {
             myTaskDeadline.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
         }
@@ -2034,12 +2151,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String tempMD = theirTasksLastModifiedDateTime.get(which);
+        Calendar now =  Calendar.getInstance();
+        Calendar taskDate = Calendar.getInstance();
+        int da, mo, ye, ho, mi;
         if (tempMD.contains("0000-00-00 00:00:00")) {
             theirTasksLastModified.setText("");
         } else {
             String[] tempEach1 = tempMD.split(" ");
             String[] dateEach1 = tempEach1[0].split("-");
             theirTasksLastModified.setText(dateEach1[2] + dS + dateEach1[1] + dS + dateEach1[0] + " " + tempEach1[1].substring(0, 2) + hS + tempEach1[1].substring(3, 5));
+            da = Integer.parseInt(dateEach1[2]);
+            mo = Integer.parseInt(dateEach1[1]) - 1;
+            ye = Integer.parseInt(dateEach1[0]);
+            ho = Integer.parseInt(tempEach1[1].substring(0, 2));
+            mi = Integer.parseInt(tempEach1[1].substring(3, 5));
+            taskDate.set(Calendar.YEAR, ye);
+            taskDate.set(Calendar.MONTH, mo);
+            taskDate.set(Calendar.DAY_OF_MONTH, da);
+            taskDate.set(Calendar.HOUR_OF_DAY, ho);
+            taskDate.set(Calendar.MINUTE, mi);
+            long nowMil = now.getTimeInMillis();
+            long taskMil = taskDate.getTimeInMillis();
+            if (nowMil > taskMil) theirTasksLastModified.setTextColor(getColor(R.color.red));
         }
 
         if (theirTasksAttachment1.get(which)) {

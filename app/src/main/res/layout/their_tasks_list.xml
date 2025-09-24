@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
+                android:textSize="@dimen/text"
                 android:paddingStart="10dp"/>
 
             <TextView
@@ -32,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
+                android:textSize="@dimen/text"
                 android:gravity="end" />
 
         </LinearLayout>
@@ -48,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingStart="10dp"
+                android:textSize="@dimen/text"
                 android:layout_weight="9"/>
 
             <CheckBox

@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/app_title"/>
 
         <ImageButton
             android:id="@+id/back_button"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/login"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <EditText
                     android:id="@+id/login_username_field"
@@ -83,6 +83,7 @@
                     android:inputType="textCapSentences"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
@@ -94,6 +95,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
                 <LinearLayout
@@ -105,6 +107,7 @@
                         android:id="@+id/login_keep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
                         android:text="@string/keep_logged_in" />
 
                     <LinearLayout
@@ -117,6 +120,7 @@
                             android:id="@+id/sign_in_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
                             android:text="@string/log_in" />
 
                     </LinearLayout>
@@ -146,13 +150,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/task_master"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     android:weightSum="2">
 
                     <LinearLayout
@@ -176,7 +181,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/taskers"
-                            android:textSize="14sp"/>
+                            android:textSize="@dimen/icons_text"/>
 
                     </LinearLayout>
 
@@ -201,7 +206,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/their_tasks"
-                            android:textSize="14sp"/>
+                            android:textSize="@dimen/icons_text"/>
 
                     </LinearLayout>
 
@@ -230,12 +235,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tasker"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     android:weightSum="2">
 
                     <LinearLayout
@@ -259,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/my_tasks"
-                            android:textSize="14sp"/>
+                            android:textSize="@dimen/icons_text"/>
 
                     </LinearLayout>
 
@@ -288,21 +294,66 @@
                     android:layout_height="wrap_content"
                     android:text="@string/admin"
                     android:layout_marginBottom="10dp"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/title"/>
 
-                <Button
-                    android:id="@+id/change_pass_card_button"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/change_pass"
-                    android:layout_marginTop="5dp" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="2">
 
-                <Button
-                    android:id="@+id/delete_done_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/delete_done"
-                    android:layout_marginTop="15dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1" >
+
+                        <ImageButton
+                            android:id="@+id/change_pass_card_button"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/password"
+                            android:scaleType="fitCenter"
+                            android:background="#00000000"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:id="@+id/change_pass_card_button_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/change_pass"
+                            android:textSize="@dimen/icons_text"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                        <ImageButton
+                            android:id="@+id/delete_done_button"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/delete_done"
+                            android:scaleType="fitCenter"
+                            android:background="#00000000"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:id="@+id/delete_done_button_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/delete_done"
+                            android:textSize="@dimen/icons_text"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -327,13 +378,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/taskers"
                     android:layout_marginBottom="15dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <Button
                     android:id="@+id/add_user_card_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/add_tasker"
+                    android:textSize="@dimen/buttons_text"
                     android:layout_marginBottom="15dp" />
 
                 <ListView
@@ -364,7 +416,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_tasker"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <EditText
                     android:id="@+id/add_user_name_field"
@@ -376,6 +428,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
                 <LinearLayout
@@ -390,6 +443,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
                         android:text="@string/task_master" />
 
                     <CheckBox
@@ -397,6 +451,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
                         android:text="@string/admin" />
 
                 </LinearLayout>
@@ -408,13 +463,14 @@
                     android:text="@string/id"
                     android:background="#ffaaaaaa"
                     android:layout_marginBottom="15dp"
-                    android:padding="5dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/id"
+                    android:padding="5dp" />
 
                 <Button
                     android:id="@+id/add_user_generate_id_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
                     android:text="@string/generate_new_id"/>
 
                 <LinearLayout
@@ -427,6 +483,7 @@
                         android:id="@+id/add_user_add_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
                         android:text="@string/add_tasker" />
 
                 </LinearLayout>
@@ -454,7 +511,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tasker_management"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <EditText
                     android:id="@+id/tasker_management_name_field"
@@ -466,6 +523,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
                 <TextView
@@ -475,6 +533,7 @@
                     android:gravity="start|center_vertical"
                     android:background="#ffaaaaaa"
                     android:padding="5dp"
+                    android:textSize="@dimen/id"
                     android:layout_marginBottom="15dp" />
 
                 <LinearLayout
@@ -488,6 +547,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
                         android:text="@string/task_master" />
 
                     <CheckBox
@@ -495,6 +555,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
                         android:text="@string/admin" />
 
                 </LinearLayout>
@@ -509,6 +570,7 @@
                         android:id="@+id/delete_user_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
                         android:text="@string/delete_tasker" />
 
                     <LinearLayout
@@ -521,6 +583,7 @@
                             android:id="@+id/update_user_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
                             android:text="@string/save" />
 
                     </LinearLayout>
@@ -550,7 +613,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tasks"
                     android:layout_marginBottom="15dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -568,6 +631,7 @@
                             android:id="@+id/add_task_card_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
                             android:text="@string/new_task" />
 
                     </LinearLayout>
@@ -584,6 +648,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layoutDirection="rtl"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/show_completed" />
 
                     </LinearLayout>
@@ -618,7 +683,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tasks_assigned_to_me"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <ListView
                     android:id="@+id/my_tasks_listview"
@@ -656,8 +721,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/description"
-                    android:layout_marginBottom="15dp"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -670,14 +735,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/deadline"
+                        android:textSize="@dimen/text"
                         android:layout_marginEnd="6dp"/>
 
                     <TextView
                         android:id="@+id/my_task_deadline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/deadline"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/text"
+                        android:text="@string/deadline" />
 
                 </LinearLayout>
 
@@ -759,16 +825,17 @@
                     android:inputType="textCapSentences"
                     android:maxLines="3"
                     android:padding="5dp"
-                    android:textSize="14sp"
                     android:gravity="top"
-                    android:layout_marginBottom="15dp"/>
+                    android:textSize="@dimen/input"
+                    android:layout_marginBottom="20dp"/>
 
                 <TextView
                     android:id="@+id/my_task_tm_comments_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/task_master_comments"
-                    android:layout_marginBottom="5dp" />
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:id="@+id/my_task_tm_comments"
@@ -776,8 +843,8 @@
                     android:layout_height="wrap_content"
                     android:background="#44aaaaaa"
                     android:padding="5dp"
-                    android:layout_marginBottom="15dp"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -793,6 +860,7 @@
                             android:id="@+id/my_task_done"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/ive_completed_this_task" />
 
                     </LinearLayout>
@@ -807,6 +875,7 @@
                             android:id="@+id/my_task_save_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
                             android:text="@string/save" />
 
                     </LinearLayout>
@@ -836,7 +905,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/new_task"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <Spinner
                     android:id="@+id/add_task_tasker_spinner"
@@ -844,7 +913,7 @@
                     android:layout_height="35dp"
                     android:background="#ffaaaaaa"
                     android:spinnerMode="dropdown"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
                 <EditText
@@ -857,6 +926,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
@@ -869,6 +939,7 @@
                     android:lines="5"
                     android:gravity="top"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
                 <LinearLayout
@@ -886,6 +957,7 @@
                         android:layout_marginEnd="8dp"
                         android:padding="6dp"
                         android:gravity="end"
+                        android:textSize="@dimen/input"
                         android:layout_weight="1" />
 
                     <TextView
@@ -896,6 +968,7 @@
                         android:layout_marginStart="8dp"
                         android:padding="6dp"
                         android:gravity="end"
+                        android:textSize="@dimen/input"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -911,12 +984,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/repeat_task"
+                        android:textSize="@dimen/text"
                         android:layout_marginEnd="15dp" />
 
                     <Spinner
                         android:id="@+id/add_task_n_times"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/input"
                         android:spinnerMode="dropdown" />
 
                     <TextView
@@ -924,6 +999,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/time_s"
+                        android:textSize="@dimen/text"
                         android:layout_marginStart="5dp" />
 
                 </LinearLayout>
@@ -934,7 +1010,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/weekdays"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp" />
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -953,12 +1030,14 @@
                             android:id="@+id/add_task_day_1_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/monday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -974,12 +1053,14 @@
                             android:id="@+id/add_task_day_2_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/tuesday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -995,12 +1076,14 @@
                             android:id="@+id/add_task_day_3_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/wednesday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -1016,12 +1099,14 @@
                             android:id="@+id/add_task_day_4_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/thursday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -1037,12 +1122,14 @@
                             android:id="@+id/add_task_day_5_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/friday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -1058,12 +1145,14 @@
                             android:id="@+id/add_task_day_6_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/saturday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -1079,12 +1168,14 @@
                             android:id="@+id/add_task_day_7_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/sunday" />
 
                         <CheckBox
                             android:id="@+id/add_task_day_7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:checked="true" />
 
                     </LinearLayout>
@@ -1101,6 +1192,7 @@
                         android:id="@+id/add_one_task_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
                         android:text="@string/add_task_s"/>
 
                 </LinearLayout>
@@ -1126,7 +1218,7 @@
                     android:id="@+id/their_tasks_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/title"
                     android:layout_marginBottom="15dp" />
 
                 <EditText
@@ -1138,7 +1230,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
@@ -1151,7 +1243,7 @@
                     android:maxLines="2"
                     android:gravity="top"
                     android:padding="5dp"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
                 <TextView
@@ -1159,6 +1251,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/deadline"
+                    android:textSize="@dimen/text"
                     android:layout_marginBottom="5dp"/>
 
                 <LinearLayout
@@ -1176,6 +1269,7 @@
                         android:layout_marginEnd="8dp"
                         android:padding="6dp"
                         android:gravity="end"
+                        android:textSize="@dimen/input"
                         android:layout_weight="1" />
 
                     <TextView
@@ -1186,6 +1280,7 @@
                         android:layout_marginStart="8dp"
                         android:padding="6dp"
                         android:gravity="end"
+                        android:textSize="@dimen/input"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -1200,6 +1295,7 @@
                         android:id="@+id/their_tasks_last_modified_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text"
                         android:text="@string/last_modified_on" />
 
                     <TextView
@@ -1210,6 +1306,7 @@
                         android:gravity="end"
                         android:background="#44aaaaaa"
                         android:padding="6dp"
+                        android:textSize="@dimen/text"
                         android:layout_marginStart="10dp" />
 
                 </LinearLayout>
@@ -1244,6 +1341,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tasker_comments"
+                    android:textSize="@dimen/text"
                     android:layout_marginBottom="5dp" />
 
                 <TextView
@@ -1252,8 +1350,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:background="#44aaaaaa"
-                    android:padding="5dp"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text"
+                    android:padding="5dp" />
 
                 <EditText
                     android:id="@+id/their_tasks_my_comments"
@@ -1264,7 +1362,7 @@
                     android:inputType="textCapSentences"
                     android:maxLines="3"
                     android:padding="5dp"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/input"
                     android:gravity="top"
                     android:layout_marginBottom="15dp"/>
 
@@ -1282,6 +1380,7 @@
                             android:id="@+id/their_tasks_done"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
                             android:text="@string/task_is_complete" />
 
                     </LinearLayout>
@@ -1296,6 +1395,7 @@
                             android:id="@+id/their_tasks_save_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
                             android:text="@string/save" />
 
                     </LinearLayout>
@@ -1325,7 +1425,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/change_pass"
                     android:layout_marginBottom="20dp"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/title" />
 
                 <EditText
                     android:id="@+id/change_password_old_field"
@@ -1337,6 +1437,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="40dp"/>
 
                 <EditText
@@ -1349,6 +1450,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
@@ -1361,6 +1463,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:padding="5dp"
+                    android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
                 <LinearLayout
@@ -1373,6 +1476,7 @@
                         android:id="@+id/change_password_change_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
                         android:text="@string/change_pass" />
 
                 </LinearLayout>
