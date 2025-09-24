@@ -120,7 +120,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
                             android:textSize="@dimen/buttons_text"
                             android:text="@string/log_in" />
 
@@ -376,7 +377,8 @@
                     android:text="@string/add_tasker"
                     android:textSize="@dimen/buttons_text"
                     android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
                     android:layout_marginBottom="15dp" />
 
                 <ListView
@@ -465,7 +467,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/buttons_text"
                     android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
                     android:text="@string/generate_new_id"/>
 
                 <LinearLayout
@@ -481,6 +484,7 @@
                         android:textSize="@dimen/buttons_text"
                         android:background="@drawable/button_bg"
                         app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
                         android:text="@string/add_tasker" />
 
                 </LinearLayout>
@@ -572,6 +576,7 @@
                         android:textSize="@dimen/buttons_text"
                         android:background="@drawable/button_bg"
                         app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
                         android:text="@string/delete_tasker" />
 
                     <LinearLayout
@@ -586,7 +591,8 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/buttons_text"
                             android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
                             android:text="@string/save" />
 
                     </LinearLayout>
@@ -633,7 +639,8 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/buttons_text"
                             android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
                             android:text="@string/new_task" />
 
                     </LinearLayout>
@@ -885,6 +892,7 @@
                         android:textSize="@dimen/buttons_text"
                         android:background="@drawable/button_bg"
                         app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
                         android:text="@string/save" />
 
                 </LinearLayout>
@@ -1215,6 +1223,7 @@
                         android:textSize="@dimen/buttons_text"
                         android:background="@drawable/button_bg"
                         app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
                         android:text="@string/add_task_s"/>
 
                 </LinearLayout>
@@ -1416,6 +1425,7 @@
                         android:textSize="@dimen/buttons_text"
                         android:background="@drawable/button_bg"
                         app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
                         android:text="@string/save" />
 
                 </LinearLayout>
@@ -1494,6 +1504,7 @@
                         android:textSize="@dimen/buttons_text"
                         android:background="@drawable/button_bg"
                         app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
                         android:text="@string/change_pass" />
 
                 </LinearLayout>
