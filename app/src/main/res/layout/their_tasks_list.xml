@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="3dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,7 +12,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
-        android:background="#333"
+        android:background="@drawable/list_bg"
+        android:paddingTop="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="10dp"
         android:layout_marginBottom="6dp">
 
         <LinearLayout
@@ -23,16 +28,12 @@
                 android:id="@+id/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:textSize="@dimen/text"
-                android:paddingStart="10dp"/>
+                android:textSize="@dimen/text" />
 
             <TextView
                 android:id="@+id/text3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingEnd="10dp"
                 android:textSize="@dimen/text"
                 android:gravity="end" />
 
@@ -42,23 +43,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="5dp"
             android:weightSum="10">
 
             <TextView
                 android:id="@+id/text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingStart="10dp"
                 android:textSize="@dimen/text"
                 android:layout_weight="9"/>
 
             <CheckBox
                 android:id="@+id/check"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="5dp"
                 android:enabled="false"/>
 
         </LinearLayout>

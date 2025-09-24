@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:background="#333"
+        android:background="@drawable/list_bg"
+        android:padding="3dp"
         android:layout_marginBottom="6dp">
 
         <TextView

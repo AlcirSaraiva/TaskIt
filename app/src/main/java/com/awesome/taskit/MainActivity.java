@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     Typeface font1, font2;
 
     // network
-    private boolean isOnline;
+    private boolean isOnline; //TODO check if is online before calls to server
     private BroadcastReceiver receiver;
     private final String emptyData = "emptyData";
     private final String loginPHP = "https://www.solvaelys.com/taskit/login.php";
@@ -2049,7 +2049,7 @@ public class MainActivity extends AppCompatActivity {
             taskDate.set(Calendar.MINUTE, mi);
             long nowMil = now.getTimeInMillis();
             long taskMil = taskDate.getTimeInMillis();
-            if (nowMil > taskMil) myTaskDeadline.setTextColor(getColor(R.color.red));
+            if (nowMil > taskMil) myTaskDeadline.setTextColor(getColor(R.color.task_late));
 
         } else {
             myTaskDeadline.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
@@ -2172,7 +2172,7 @@ public class MainActivity extends AppCompatActivity {
             taskDate.set(Calendar.MINUTE, mi);
             long nowMil = now.getTimeInMillis();
             long taskMil = taskDate.getTimeInMillis();
-            if (nowMil > taskMil) theirTasksLastModified.setTextColor(getColor(R.color.red));
+            if (nowMil > taskMil) theirTasksLastModified.setTextColor(getColor(R.color.task_late));
         }
 
         if (theirTasksAttachment1.get(which)) {
@@ -2432,7 +2432,7 @@ public class MainActivity extends AppCompatActivity {
                 taskDate.set(Calendar.MINUTE, mi);
                 long nowMil = now.getTimeInMillis();
                 long taskMil = taskDate.getTimeInMillis();
-                if (nowMil > taskMil) text3.setTextColor(getColor(R.color.red));
+                if (nowMil > taskMil) text3.setTextColor(getColor(R.color.task_late));
             } else {
                 text3.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
@@ -2498,7 +2498,7 @@ public class MainActivity extends AppCompatActivity {
                 taskDate.set(Calendar.MINUTE, mi);
                 long nowMil = now.getTimeInMillis();
                 long taskMil = taskDate.getTimeInMillis();
-                if (nowMil > taskMil) text2.setTextColor(getColor(R.color.red));
+                if (nowMil > taskMil) text2.setTextColor(getColor(R.color.task_late));
             } else {
                 text2.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }

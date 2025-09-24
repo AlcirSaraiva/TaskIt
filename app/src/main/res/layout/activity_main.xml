@@ -30,7 +30,7 @@
             android:layout_height="30dp"
             android:src="@drawable/back"
             android:scaleType="fitCenter"
-            android:background="#00000000"
+            android:background="@color/transparent"
             android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
@@ -57,11 +57,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -77,12 +74,12 @@
                     android:id="@+id/login_username_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/username"
                     android:singleLine="true"
                     android:inputType="textCapSentences"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
@@ -90,11 +87,11 @@
                     android:id="@+id/login_password_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/password"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
@@ -136,11 +133,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="1"
                 android:visibility="gone" >
 
@@ -221,11 +215,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="1"
                 android:visibility="gone" >
 
@@ -280,11 +271,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="1"
                 android:visibility="gone" >
 
@@ -364,11 +352,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -402,11 +387,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -422,12 +404,12 @@
                     android:id="@+id/add_user_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/username"
                     android:inputType="textCapWords"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
@@ -461,10 +443,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/id"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg_50"
                     android:layout_marginBottom="15dp"
                     android:textSize="@dimen/id"
-                    android:padding="5dp" />
+                    android:textColor="@color/white_50"
+                    android:padding="10dp" />
 
                 <Button
                     android:id="@+id/add_user_generate_id_button"
@@ -497,11 +480,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -517,12 +497,12 @@
                     android:id="@+id/tasker_management_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/username"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
@@ -531,8 +511,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
-                    android:background="#ffaaaaaa"
-                    android:padding="5dp"
+                    android:background="@drawable/input_bg_50"
+                    android:padding="10dp"
+                    android:textColor="@color/white_50"
                     android:textSize="@dimen/id"
                     android:layout_marginBottom="15dp" />
 
@@ -599,11 +580,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -670,11 +648,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -700,11 +675,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -751,6 +723,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
                     android:weightSum="2">
 
                     <ImageButton
@@ -759,6 +732,8 @@
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:padding="5dp"
+                        android:background="@drawable/input_bg"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1" />
 
                     <ImageButton
@@ -767,6 +742,8 @@
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:padding="5dp"
+                        android:background="@drawable/input_bg"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -775,7 +752,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     android:weightSum="4">
 
                     <ImageButton
@@ -785,6 +763,8 @@
                         android:src="@drawable/camera"
                         android:scaleType="centerInside"
                         android:padding="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/input_bg"
                         android:layout_weight="1" />
 
                     <ImageButton
@@ -794,6 +774,9 @@
                         android:src="@drawable/delete"
                         android:scaleType="centerInside"
                         android:padding="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/input_bg"
                         android:layout_weight="1" />
 
                     <ImageButton
@@ -803,6 +786,9 @@
                         android:src="@drawable/camera"
                         android:scaleType="centerInside"
                         android:padding="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/input_bg"
                         android:layout_weight="1" />
 
                     <ImageButton
@@ -812,6 +798,8 @@
                         android:src="@drawable/delete"
                         android:scaleType="centerInside"
                         android:padding="5dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/input_bg"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -820,11 +808,11 @@
                     android:id="@+id/my_task_my_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/my_comments"
                     android:inputType="textCapSentences"
                     android:maxLines="3"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:gravity="top"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="20dp"/>
@@ -840,45 +828,34 @@
                 <TextView
                     android:id="@+id/my_task_tm_comments"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#44aaaaaa"
-                    android:padding="5dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/input_bg_50"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:textSize="@dimen/text"
                     android:layout_marginBottom="15dp" />
 
+                <CheckBox
+                    android:id="@+id/my_task_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/ive_completed_this_task" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom|end">
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/my_task_save_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-
-                        <CheckBox
-                            android:id="@+id/my_task_done"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/ive_completed_this_task" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end" >
-
-                        <Button
-                            android:id="@+id/my_task_save_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/buttons_text"
-                            android:text="@string/save" />
-
-                    </LinearLayout>
+                        android:textSize="@dimen/buttons_text"
+                        android:text="@string/save" />
 
                 </LinearLayout>
 
@@ -891,11 +868,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -910,22 +884,23 @@
                 <Spinner
                     android:id="@+id/add_task_tasker_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:background="#ffaaaaaa"
+                    android:layout_height="42dp"
+                    android:background="@drawable/input_bg"
                     android:spinnerMode="dropdown"
                     android:textSize="@dimen/input"
+                    android:paddingStart="5dp"
                     android:layout_marginBottom="15dp" />
 
                 <EditText
                     android:id="@+id/add_task_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:inputType="textCapSentences"
                     android:hint="@string/title"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
@@ -933,12 +908,12 @@
                     android:id="@+id/add_task_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/description"
                     android:singleLine="false"
                     android:lines="5"
                     android:gravity="top"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
@@ -953,9 +928,9 @@
                         android:id="@+id/add_task_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="#ffaaaaaa"
+                        android:background="@drawable/input_bg"
                         android:layout_marginEnd="8dp"
-                        android:padding="6dp"
+                        android:padding="10dp"
                         android:gravity="end"
                         android:textSize="@dimen/input"
                         android:layout_weight="1" />
@@ -964,9 +939,9 @@
                         android:id="@+id/add_task_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="#ffaaaaaa"
+                        android:background="@drawable/input_bg"
                         android:layout_marginStart="8dp"
-                        android:padding="6dp"
+                        android:padding="10dp"
                         android:gravity="end"
                         android:textSize="@dimen/input"
                         android:layout_weight="1" />
@@ -990,8 +965,9 @@
                     <Spinner
                         android:id="@+id/add_task_n_times"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="42dp"
                         android:textSize="@dimen/input"
+                        android:background="@drawable/input_bg"
                         android:spinnerMode="dropdown" />
 
                     <TextView
@@ -1000,7 +976,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/time_s"
                         android:textSize="@dimen/text"
-                        android:layout_marginStart="5dp" />
+                        android:layout_marginStart="15dp" />
 
                 </LinearLayout>
 
@@ -1206,11 +1182,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -1219,17 +1192,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/title"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="20dp" />
 
                 <EditText
                     android:id="@+id/their_tasks_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/title"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
@@ -1237,12 +1211,12 @@
                     android:id="@+id/their_tasks_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/description"
                     android:singleLine="false"
                     android:maxLines="2"
                     android:gravity="top"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
@@ -1265,9 +1239,9 @@
                         android:id="@+id/their_tasks_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="#ffaaaaaa"
+                        android:background="@drawable/input_bg"
                         android:layout_marginEnd="8dp"
-                        android:padding="6dp"
+                        android:padding="10dp"
                         android:gravity="end"
                         android:textSize="@dimen/input"
                         android:layout_weight="1" />
@@ -1276,9 +1250,9 @@
                         android:id="@+id/their_tasks_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="#ffaaaaaa"
+                        android:background="@drawable/input_bg"
                         android:layout_marginStart="8dp"
-                        android:padding="6dp"
+                        android:padding="10dp"
                         android:gravity="end"
                         android:textSize="@dimen/input"
                         android:layout_weight="1" />
@@ -1304,8 +1278,8 @@
                         android:layout_height="wrap_content"
                         android:text="00-00-0000 00:00"
                         android:gravity="end"
-                        android:background="#44aaaaaa"
-                        android:padding="6dp"
+                        android:background="@drawable/input_bg_50"
+                        android:padding="10dp"
                         android:textSize="@dimen/text"
                         android:layout_marginStart="10dp" />
 
@@ -1315,6 +1289,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="15dp"
                     android:weightSum="2">
 
@@ -1324,6 +1299,8 @@
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:padding="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/input_bg_50"
                         android:layout_weight="1" />
 
                     <ImageButton
@@ -1332,6 +1309,8 @@
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:padding="5dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/input_bg_50"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -1347,58 +1326,47 @@
                 <TextView
                     android:id="@+id/their_tasks_t_comments"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:layout_marginBottom="15dp"
-                    android:background="#44aaaaaa"
+                    android:background="@drawable/input_bg_50"
                     android:textSize="@dimen/text"
-                    android:padding="5dp" />
+                    android:paddingTop="15dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="15dp"/>
 
                 <EditText
                     android:id="@+id/their_tasks_my_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/my_comments"
                     android:inputType="textCapSentences"
                     android:maxLines="3"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:gravity="top"
                     android:layout_marginBottom="15dp"/>
 
+                <CheckBox
+                    android:id="@+id/their_tasks_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/task_is_complete" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical"
+                    android:gravity="bottom|end">
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/their_tasks_save_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-
-                        <CheckBox
-                            android:id="@+id/their_tasks_done"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/task_is_complete" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end" >
-
-                        <Button
-                            android:id="@+id/their_tasks_save_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/buttons_text"
-                            android:text="@string/save" />
-
-                    </LinearLayout>
+                        android:textSize="@dimen/buttons_text"
+                        android:text="@string/save" />
 
                 </LinearLayout>
 
@@ -1411,11 +1379,8 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:paddingTop="15dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
-                android:background="#ffcccccc"
+                android:padding="20dp"
+                android:background="@drawable/panel_bg"
                 android:layout_weight="3"
                 android:visibility="gone" >
 
@@ -1431,12 +1396,12 @@
                     android:id="@+id/change_password_old_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/old_pass"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="40dp"/>
 
@@ -1444,12 +1409,12 @@
                     android:id="@+id/change_password_new1_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/new_pass"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
@@ -1457,12 +1422,12 @@
                     android:id="@+id/change_password_new2_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffaaaaaa"
+                    android:background="@drawable/input_bg"
                     android:hint="@string/repeat_new_pass"
                     android:inputType="textVisiblePassword"
                     android:singleLine="true"
                     android:lines="1"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp"/>
 
@@ -1487,7 +1452,7 @@
                 android:id="@+id/image_show"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="#ff000000"
+                android:background="@color/black"
                 android:scaleType="centerCrop"
                 android:layout_marginTop="15dp"
                 android:layout_weight="3"
