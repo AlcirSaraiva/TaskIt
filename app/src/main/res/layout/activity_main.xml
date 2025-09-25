@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="@dimen/app_title"/>
+            android:textSize="@dimen/app_title"
+            android:textColor="@color/complementary_3"/>
 
         <ImageButton
             android:id="@+id/back_button"
@@ -752,34 +754,63 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:weightSum="2">
+                    android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:padding="5dp"
-                        android:background="@drawable/input_bg"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:weightSum="2">
 
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_2"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:padding="5dp"
-                        android:background="@drawable/input_bg"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1" />
+                        <ImageButton
+                            android:id="@+id/my_task_attachment_1"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/input_bg"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1" />
 
-                </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/my_task_attachment_2"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/input_bg"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:weightSum="2">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/corners"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/corners"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1340,35 +1371,65 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp"
-                    android:weightSum="2">
+                <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/their_tasks_attachment_ib_1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:padding="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/input_bg_50"
-                        android:layout_weight="1" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:weightSum="2">
 
-                    <ImageButton
-                        android:id="@+id/their_tasks_attachment_ib_2"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:padding="5dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/input_bg_50"
-                        android:layout_weight="1" />
+                        <ImageButton
+                            android:id="@+id/their_tasks_attachment_ib_1"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/input_bg_50"
+                            android:layout_weight="1" />
 
-                </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/their_tasks_attachment_ib_2"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/input_bg_50"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:weightSum="2">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/corners"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/corners"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/their_tasks_t_comments_title"
@@ -1515,7 +1576,6 @@
                 android:id="@+id/image_show"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/black"
                 android:scaleType="centerCrop"
                 android:layout_marginTop="15dp"
                 android:layout_weight="3"

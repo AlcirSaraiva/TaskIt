@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView usersListView, theirTasksListView, myTasksListView;
     private ImageView imageShow;
 
-    private Image placeholder, fallback, error;
+    private Image placeholder, placeholderBig, fallback, error;
 
     Typeface font1, font2;
 
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
         attachmentExecutor2 = Executors.newSingleThreadExecutor();
 
         placeholder = Image_androidKt.asImage(getDrawable(R.drawable.dowloading));
+        placeholderBig = Image_androidKt.asImage(getDrawable(R.drawable.dowloadingbig));
         fallback = Image_androidKt.asImage(getDrawable(R.drawable.fallback));
         error = Image_androidKt.asImage(getDrawable(R.drawable.error));
 
@@ -419,6 +420,9 @@ public class MainActivity extends AppCompatActivity {
                 message.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+                b1.setTextColor(getColor(R.color.yes));
+                b2.setTextColor(getColor(R.color.no));
             }
         });
 
@@ -642,6 +646,9 @@ public class MainActivity extends AppCompatActivity {
                     message.setTextSize(getResources().getDimension(R.dimen.alert_text));
                     b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
                     b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+                    b1.setTextColor(getColor(R.color.yes));
+                    b2.setTextColor(getColor(R.color.no));
                 }
             }
         });
@@ -702,6 +709,9 @@ public class MainActivity extends AppCompatActivity {
                     message.setTextSize(getResources().getDimension(R.dimen.alert_text));
                     b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
                     b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+                    b1.setTextColor(getColor(R.color.yes));
+                    b2.setTextColor(getColor(R.color.no));
                 }
             }
         });
@@ -1099,6 +1109,9 @@ public class MainActivity extends AppCompatActivity {
                 message.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+                b1.setTextColor(getColor(R.color.yes));
+                b2.setTextColor(getColor(R.color.no));
                 break;
             case MAIN_MENU:
                 DialogInterface.OnClickListener dialogClickListenerMainMenu = new DialogInterface.OnClickListener() {
@@ -1137,6 +1150,10 @@ public class MainActivity extends AppCompatActivity {
                 b11.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 b12.setTextSize(getResources().getDimension(R.dimen.alert_text));
                 b13.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+                b11.setTextColor(getColor(R.color.yes));
+                b12.setTextColor(getColor(R.color.no));
+                b13.setTextColor(getColor(R.color.logout));
                 break;
             case TASK_MASTER_TASKERS:
             case TASK_MASTER_TASKS:
@@ -2011,6 +2028,9 @@ public class MainActivity extends AppCompatActivity {
         message.setTextSize(getResources().getDimension(R.dimen.alert_text));
         b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
         b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+        b1.setTextColor(getColor(R.color.yes));
+        b2.setTextColor(getColor(R.color.no));
     }
 
     private void deleteDoneTasks() {
@@ -2257,7 +2277,7 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader showImageLoader = SingletonImageLoader.get(context);
         ImageRequest showImageRequest = new ImageRequest.Builder(context)
                 .data(taskImagesRemote + taskId + "-" + selectedAttachment + ".jpg")
-                .placeholder(placeholder)
+                .placeholder(placeholderBig)
                 .fallback(fallback)
                 .error(error)
                 .memoryCachePolicy(CachePolicy.DISABLED)
