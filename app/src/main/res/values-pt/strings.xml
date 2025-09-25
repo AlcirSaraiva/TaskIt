@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">TaskIt</string>
+
+    <string name="login">Login</string>
+    <string name="username">Usuário</string>
+    <string name="password">Senha</string>
+    <string name="keep_logged_in">Manter conectado</string>
+    <string name="log_in">Entrar</string>
+    <string name="task_master">Gerente de Tarefas</string>
+    <string name="tasker">Executor</string>
+    <string name="taskers">Executores</string>
+    <string name="their_tasks">Tarefas deles</string>
+    <string name="my_tasks">Minhas tarefas</string>
+    <string name="tasks">Tarefas</string>
+    <string name="new_task">Nova tarefa</string>
+    <string name="tasks_assigned_to_me">Tarefas atribuídas a mim</string>
+    <string name="admin">Administrador</string>
+    <string name="change_pass">Alterar senha</string>
+    <string name="delete_done">Excluir tarefas concluídas</string>
+    <string name="delete_done_tasks">Excluir todas as tarefas marcadas como concluídas?</string>
+    <string name="old_pass">Senha antiga</string>
+    <string name="new_pass">Nova senha</string>
+    <string name="repeat_new_pass">Repetir nova senha</string>
+    <string name="add_tasker">Adicionar executor</string>
+    <string name="name">Nome</string>
+    <string name="id">ID</string>
+    <string name="generate_new_id">Gerar novo ID</string>
+    <string name="tasker_management">Gerenciamento de executores</string>
+    <string name="delete_tasker">Excluir executor</string>
+    <string name="save">Salvar</string>
+    <string name="title">Título</string>
+    <string name="description">Descrição</string>
+    <string name="deadline">Prazo</string>
+    <string name="my_comments">Meus comentários</string>
+    <string name="task_is_complete">Marcar tarefa como concluída</string>
+    <string name="ive_completed_this_task">Concluí esta tarefa</string>
+    <string name="add_task_s">Adicionar tarefa(s)</string>
+    <string name="add_more">Salvar e adicionar outra</string>
+    <string name="show_completed">Mostrar concluídas</string>
+    <string name="tasker_comments">Comentários do executor</string>
+    <string name="task_master_comments">Comentários do gerente</string>
+    <string name="no_comments">Sem comentários</string>
+    <string name="no_description">Sem descrição</string>
+    <string name="last_modified_on">Última modificação em</string>
+
+    <string name="system_messages">Mensagens do sistema</string>
+
+    <string name="date_separator">/</string>
+    <string name="hour_separator">:</string>
+
+    <string name="delete_picture">Excluir imagem?</string>
+    <string name="delete_tasker_q">Excluir executor?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+
+    <string name="close_app">Fechar TaskIt?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="log_out">Sair</string>
+
+    <string name="error_username_empty">O campo Usuário não pode estar vazio</string>
+    <string name="error_new_pass_empty">A nova senha não pode estar vazia</string>
+    <string name="error_title_empty">O campo Título não pode estar vazio</string>
+    <string name="error_new_pass_do_not_match">As novas senhas não coincidem</string>
+    <string name="error_new_pass_8_chars">A nova senha deve ter pelo menos 8 caracteres</string>
+
+    <string name="pass_changed">Senha alterada</string>
+    <string name="user_created">Novo usuário criado com sucesso</string>
+    <string name="user_exists">Nome de usuário já registrado</string>
+    <string name="user_id_exists">ID de usuário já existe\nGere um novo ID e tente novamente</string>
+    <string name="user_updated">Usuário atualizado</string>
+    <string name="user_deleted">Usuário excluído</string>
+    <string name="task_created">Nova tarefa criada com sucesso</string>
+    <string name="task_updated">Tarefa atualizada com sucesso</string>
+    <string name="picture_uploaded">Imagem enviada com sucesso</string>
+
+    <string name="repeat_task">Repetir tarefa</string>
+    <string name="time_s">vez(es)</string>
+    <string name="weekdays">Dias da semana</string>
+    <string name="monday">S</string>
+    <string name="tuesday">T</string>
+    <string name="wednesday">Q</string>
+    <string name="thursday">Q</string>
+    <string name="friday">S</string>
+    <string name="saturday">S</string>
+    <string name="sunday">D</string>
+
+</resources>
