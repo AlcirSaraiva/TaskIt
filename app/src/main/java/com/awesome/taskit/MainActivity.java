@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -208,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
         activityContext = MainActivity.this;
+
+        activityContext.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         sharedPref = getSharedPreferences("com.awesome.taskit", Context.MODE_PRIVATE);
         myID = sharedPref.getString("myid", "");
