@@ -6,9 +6,9 @@
     <string name="password">Senha</string>
     <string name="keep_logged_in">Manter conectado</string>
     <string name="log_in">Entrar</string>
-    <string name="task_master">Gerente de Tarefas</string>
-    <string name="tasker">Executor</string>
-    <string name="taskers">Executores</string>
+    <string name="task_master">Task Master</string>
+    <string name="tasker">Tasker</string>
+    <string name="taskers">Taskers</string>
     <string name="their_tasks">Tarefas deles</string>
     <string name="my_tasks">Minhas tarefas</string>
     <string name="tasks">Tarefas</string>
@@ -21,12 +21,12 @@
     <string name="old_pass">Senha antiga</string>
     <string name="new_pass">Nova senha</string>
     <string name="repeat_new_pass">Repetir nova senha</string>
-    <string name="add_tasker">Adicionar executor</string>
+    <string name="add_tasker">Adicionar Tasker</string>
     <string name="name">Nome</string>
     <string name="id">ID</string>
     <string name="generate_new_id">Gerar novo ID</string>
-    <string name="tasker_management">Gerenciamento de executores</string>
-    <string name="delete_tasker">Excluir executor</string>
+    <string name="tasker_management">Gerenciamento de Tasker</string>
+    <string name="delete_tasker">Excluir Tasker</string>
     <string name="save">Salvar</string>
     <string name="title">Título</string>
     <string name="description">Descrição</string>
@@ -37,8 +37,8 @@
     <string name="add_task_s">Adicionar tarefa(s)</string>
     <string name="add_more">Salvar e adicionar outra</string>
     <string name="show_completed">Mostrar concluídas</string>
-    <string name="tasker_comments">Comentários do executor</string>
-    <string name="task_master_comments">Comentários do gerente</string>
+    <string name="tasker_comments">Comentários do Tasker</string>
+    <string name="task_master_comments">Comentários do Task Master</string>
     <string name="no_comments">Sem comentários</string>
     <string name="no_description">Sem descrição</string>
     <string name="last_modified_on">Última modificação em</string>
@@ -49,7 +49,7 @@
     <string name="hour_separator">:</string>
 
     <string name="delete_picture">Excluir imagem?</string>
-    <string name="delete_tasker_q">Excluir executor?</string>
+    <string name="delete_tasker_q">Excluir Tasker?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
 
