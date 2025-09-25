@@ -3,26 +3,34 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="white_50">#88FFFFFF</color>
+    <color name="text_50">#88000000</color>
 
     <color name="transparent">#00000000</color>
 
     <color name="task_late">#FFFF4040</color>
 
     <color name="grey_list_bg">#FFBBBBBB</color>
-    <color name="grey_input_bg">#FFAAAAAA</color>
-    <color name="grey_input_bg_50">#88AAAAAA</color>
-    <color name="grey_panel_bg">#FF333333</color>
+    <color name="grey_input_bg">#FFBBBBBB</color>
+    <color name="grey_input_bg_50">#88BBBBBB</color>
+    <color name="grey_panel_bg">#D5D5D5</color>
 
-    <color name="button_bg">#FF256EFF</color>
+    <color name="button_bg">#FF3c86ef</color>
     <color name="checkbox_bg">#639CFF</color>
 
     <color name="primary">#FF256EFF</color>
     <color name="complementary_2">#FFFF256E</color>
-    <color name="complementary_3">#FF6EFF25</color>
+    <color name="complementary_3">#FF5acc21</color>
 
     <color name="no">#FFe86262</color>
-    <color name="yes">#FFa6de8a</color>
-    <color name="logout">#FF8ab4ee</color>
+    <color name="yes">#4FB11D</color>
+    <color name="logout">#FF2c84ff</color>
+
+    <color name="icon_red">#FFff3030</color>
+    <color name="icon_red2">#F04747</color>
+    <color name="icon_green">#FF5acc21</color>
+    <color name="icon_blue">#FF2c84ff</color>
+
+    <color name="icon_neutral">#FF6f6f6f</color>
+    <color name="icon_neutral2">#7f7f7f</color>
 
 </resources>

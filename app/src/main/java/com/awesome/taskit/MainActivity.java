@@ -230,8 +230,8 @@ public class MainActivity extends AppCompatActivity {
         attachmentExecutor1 = Executors.newSingleThreadExecutor();
         attachmentExecutor2 = Executors.newSingleThreadExecutor();
 
-        placeholder = Image_androidKt.asImage(getDrawable(R.drawable.dowloading));
-        placeholderBig = Image_androidKt.asImage(getDrawable(R.drawable.dowloadingbig));
+        placeholder = Image_androidKt.asImage(getDrawable(R.drawable.downloading));
+        placeholderBig = Image_androidKt.asImage(getDrawable(R.drawable.downloading_big));
         fallback = Image_androidKt.asImage(getDrawable(R.drawable.fallback));
         error = Image_androidKt.asImage(getDrawable(R.drawable.error));
 
@@ -493,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int dpdYear, int dpdMonthOfYear, int dpdDayOfMonth) {
                         day = dpdDayOfMonth;
@@ -511,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
                         hour = tpdHourOfDay;
@@ -554,7 +554,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activityContext, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int dpdYear, int dpdMonthOfYear, int dpdDayOfMonth) {
                         day = dpdDayOfMonth;
@@ -572,7 +572,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(activityContext, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int tpdHourOfDay, int tpdMinute) {
                         hour = tpdHourOfDay;
@@ -1591,6 +1591,7 @@ public class MainActivity extends AppCompatActivity {
 
                     TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
                     theirTasksListView.setAdapter(theirTasksListAdapter);
+                    theirTasksListView.setDivider(null);
                 } else {
                     Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
@@ -1659,6 +1660,7 @@ public class MainActivity extends AppCompatActivity {
 
                     MyTasksListAdapter MyTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
                     myTasksListView.setAdapter(MyTasksListAdapter);
+                    myTasksListView.setDivider(null);
                 } else {
                     Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
@@ -1716,6 +1718,7 @@ public class MainActivity extends AppCompatActivity {
 
                     UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
                     usersListView.setAdapter(usersListAdapter);
+                    usersListView.setDivider(null);
                 } else {
                     Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }

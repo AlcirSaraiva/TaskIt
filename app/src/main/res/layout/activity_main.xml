@@ -460,7 +460,7 @@
                     android:background="@drawable/input_bg_50"
                     android:layout_marginBottom="15dp"
                     android:textSize="@dimen/id"
-                    android:textColor="@color/white_50"
+                    android:textColor="@color/text_50"
                     android:padding="10dp" />
 
                 <Button
@@ -533,7 +533,7 @@
                     android:gravity="start|center_vertical"
                     android:background="@drawable/input_bg_50"
                     android:padding="10dp"
-                    android:textColor="@color/white_50"
+                    android:textColor="@color/text_50"
                     android:textSize="@dimen/id"
                     android:layout_marginBottom="15dp" />
 
