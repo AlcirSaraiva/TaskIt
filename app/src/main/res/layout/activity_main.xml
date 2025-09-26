@@ -182,6 +182,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/taskers"
+                            android:gravity="center"
                             android:textSize="@dimen/icons_text"/>
 
                     </LinearLayout>
@@ -207,6 +208,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/their_tasks"
+                            android:gravity="center"
                             android:textSize="@dimen/icons_text"/>
 
                     </LinearLayout>
@@ -262,6 +264,7 @@
                             android:id="@+id/tasker_tasks_card_button_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="@string/my_tasks"
                             android:textSize="@dimen/icons_text"/>
 
@@ -287,7 +290,7 @@
                     android:id="@+id/admin_card_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/admin"
+                    android:text="@string/settings"
                     android:layout_marginBottom="10dp"
                     android:textSize="@dimen/title"/>
 
@@ -318,6 +321,7 @@
                             android:id="@+id/change_pass_card_button_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="@string/change_pass"
                             android:textSize="@dimen/icons_text"/>
 
@@ -344,6 +348,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/delete_done"
+                            android:gravity="center"
                             android:textSize="@dimen/icons_text"/>
 
                     </LinearLayout>
@@ -613,7 +618,7 @@
                 android:padding="20dp"
                 android:background="@drawable/panel_bg"
                 android:layout_weight="3"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <TextView
                     android:id="@+id/task_master_tasks_card_title"
@@ -626,31 +631,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/add_task_card_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
+                        android:text="@string/new_task" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/add_task_card_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/buttons_text"
-                            android:background="@drawable/button_bg"
-                            app:backgroundTint="@color/button_bg"
-                            android:backgroundTintMode="multiply"
-                            android:text="@string/new_task" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="end"
                         android:orientation="horizontal">
 
@@ -659,6 +654,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layoutDirection="rtl"
+                            android:textAlignment="textEnd"
                             android:textSize="@dimen/checkbox_text"
                             android:text="@string/show_completed"
                             android:buttonTint="@color/checkbox_bg"
