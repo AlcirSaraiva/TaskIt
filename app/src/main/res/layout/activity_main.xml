@@ -243,7 +243,7 @@
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:gravity="center_vertical"
-                        android:text="@string/my_tasks"
+                        android:text="@string/tasks_assigned_to_me"
                         android:textSize="@dimen/icons_text"/>
 
                 </LinearLayout>
