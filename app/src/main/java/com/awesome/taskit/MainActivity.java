@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle;
 
-    private Image placeholder, placeholderBig, fallback, error;
+    private Image placeholder, placeholderBig, fallback, fallbackBig, error, errorBig;
 
     Typeface font1, font2;
 
@@ -236,7 +236,9 @@ public class MainActivity extends AppCompatActivity {
         placeholder = Image_androidKt.asImage(getDrawable(R.drawable.downloading));
         placeholderBig = Image_androidKt.asImage(getDrawable(R.drawable.downloading_big));
         fallback = Image_androidKt.asImage(getDrawable(R.drawable.fallback));
+        fallbackBig = Image_androidKt.asImage(getDrawable(R.drawable.fallback_big));
         error = Image_androidKt.asImage(getDrawable(R.drawable.error));
+        errorBig = Image_androidKt.asImage(getDrawable(R.drawable.error_big));
 
         assignViews();
         assignViewListeners();
@@ -1442,7 +1444,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     theirTasksAttachment1.add(true);
                                 }
-                                if (line[6].contains("0")) {
+                                if (line[7].contains("0")) {
                                     theirTasksAttachment2.add(false);
                                 } else {
                                     theirTasksAttachment2.add(true);
@@ -1475,7 +1477,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     theirTasksAttachment1.add(true);
                                 }
-                                if (line[6].contains("0")) {
+                                if (line[7].contains("0")) {
                                     theirTasksAttachment2.add(false);
                                 } else {
                                     theirTasksAttachment2.add(true);
@@ -2192,8 +2194,8 @@ public class MainActivity extends AppCompatActivity {
         ImageRequest showImageRequest = new ImageRequest.Builder(context)
                 .data(taskImagesRemote + taskId + "-" + selectedAttachment + ".jpg")
                 .placeholder(placeholderBig)
-                .fallback(fallback)
-                .error(error)
+                .fallback(fallbackBig)
+                .error(errorBig)
                 .memoryCachePolicy(CachePolicy.DISABLED)
                 .diskCachePolicy(CachePolicy.DISABLED)
                 .networkCachePolicy(CachePolicy.ENABLED)
