@@ -160,17 +160,20 @@ public class MainActivity extends AppCompatActivity {
     private final int MY_TASK_IMAGE_SHOW = 10;
     private final int THEIR_TASKS_IMAGE_SHOW = 11;
     private final int TASKER_MANAGEMENT = 12;
-    private int currentScreen;
+    private int currentScreen, lastscreen;
 
     private TextView appTitle, info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
-    private LinearLayout loginCard, taskMasterCard, taskerCard, taskerManagementCard, adminCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton;
+    private LinearLayout llTasks, llUsers, llMyTasks, llDeleteDone, llChangePass;
+    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
     private Spinner addTaskTaskerSpinner, addTaskNTimes;
     private ListView usersListView, theirTasksListView, myTasksListView;
     private ImageView imageShow;
+    private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
+            addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle;
 
     private Image placeholder, placeholderBig, fallback, error;
 
@@ -242,10 +245,20 @@ public class MainActivity extends AppCompatActivity {
         prepareNetwork();
         prepareCamera();
 
+        if (!taskMaster) {
+            llTasks.setVisibility(View.GONE);
+        }
+        if (!admin) {
+            llUsers.setVisibility(View.GONE);
+            llDeleteDone.setVisibility(View.GONE);
+        }
+
         if (myID.isEmpty()) {
             changeScreen(LOGIN);
+        } else if (taskMaster) {
+            changeScreen(TASK_MASTER_TASKS);
         } else {
-            changeScreen(MAIN_MENU);
+            changeScreen(TASKER_TASKS);
         }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -259,15 +272,20 @@ public class MainActivity extends AppCompatActivity {
     // UI
 
     private void assignViews() {
+        menuButton = findViewById(R.id.menu_button);
         appTitle = findViewById(R.id.app_title);
         backButton = findViewById(R.id.back_button);
         info = findViewById(R.id.info);
 
         loginCard = findViewById(R.id.login_card);
-        taskMasterCard = findViewById(R.id.task_master_card);
-        taskerCard = findViewById(R.id.tasker_card);
         taskerManagementCard = findViewById(R.id.tasker_management_card);
-        adminCard = findViewById(R.id.admin_card);
+        menuCard = findViewById(R.id.menu_card);
+
+        llTasks = findViewById(R.id.ll_tasks);
+        llUsers = findViewById(R.id.ll_users);
+        llMyTasks = findViewById(R.id.ll_my_tasks);
+        llDeleteDone = findViewById(R.id.ll_delete_done);
+        llChangePass = findViewById(R.id.ll_change_pass);
 
         taskMasterTaskersCard = findViewById(R.id.task_master_taskers_card);
         taskMasterTasksCard = findViewById(R.id.task_master_tasks_card);
@@ -362,9 +380,47 @@ public class MainActivity extends AppCompatActivity {
         changePasswordChangeButton = findViewById(R.id.change_password_change_button);
 
         imageShow = findViewById(R.id.image_show);
+
+        loginTitle = findViewById(R.id.login_title);
+        taskMasterTaskersCardButtonText = findViewById(R.id.task_master_taskers_card_button_text);
+        taskMasterTasksCardButtonText = findViewById(R.id.task_master_tasks_card_button_text);
+        taskerTasksCardButtonText = findViewById(R.id.tasker_tasks_card_button_text);
+        menuCardTitle = findViewById(R.id.menu_card_title);
+        taskMasterTaskersCardTitle = findViewById(R.id.task_master_taskers_card_title);
+        addUserCardTitle = findViewById(R.id.add_user_card_title);
+        taskerManagementCardTitle = findViewById(R.id.tasker_management_card_title);
+        taskMasterTasksCardTitle = findViewById(R.id.task_master_tasks_card_title);
+        taskerTasksCardTitle = findViewById(R.id.tasker_tasks_card_title);
+        myTaskDeadlineTitle = findViewById(R.id.my_task_deadline_title);
+        myTaskTmCommentsTitle = findViewById(R.id.my_task_tm_comments_title);
+        addTaskCardTitle = findViewById(R.id.add_task_card_title);
+        repeatTask = findViewById(R.id.repeat_task);
+        times = findViewById(R.id.times);
+        weekdays = findViewById(R.id.weekdays);
+        addTaskDay1Text = findViewById(R.id.add_task_day_1_text);
+        addTaskDay2Text = findViewById(R.id.add_task_day_2_text);
+        addTaskDay3Text = findViewById(R.id.add_task_day_3_text);
+        addTaskDay4Text = findViewById(R.id.add_task_day_4_text);
+        addTaskDay5Text = findViewById(R.id.add_task_day_5_text);
+        addTaskDay6Text = findViewById(R.id.add_task_day_6_text);
+        addTaskDay7Text = findViewById(R.id.add_task_day_7_text);
+        theirTasksDeadlineText = findViewById(R.id.their_tasks_deadline);
+        theirTasksLastModifiedTitle = findViewById(R.id.their_tasks_last_modified_title);
+        theirTasksTCommentsTitle = findViewById(R.id.their_tasks_t_comments_title);
+        changePasswordCardTitle = findViewById(R.id.change_password_card_title);
     }
 
     private void assignViewListeners() {
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentScreen == MAIN_MENU) {
+                    changeScreen(lastscreen);
+                } else {
+                    changeScreen(MAIN_MENU);
+                }
+            }
+        });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -379,18 +435,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        addUserCardButton.setOnClickListener(new View.OnClickListener() {
+        // menu
+        taskMasterTasksCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeScreen(USER_ADD);
+                changeScreen(TASK_MASTER_TASKS);
             }
         });
-        changePassCardButton.setOnClickListener(new View.OnClickListener() {
+        taskMasterTasksCardButtonText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeScreen(CHANGE_PASSWORD);
+                changeScreen(TASK_MASTER_TASKS);
             }
         });
+
+        taskMasterTaskersCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASK_MASTER_TASKERS);
+            }
+        });
+        taskMasterTaskersCardButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASK_MASTER_TASKERS);
+            }
+        });
+
+        taskerTasksCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASKER_TASKS);
+            }
+        });
+        taskerTasksCardButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASKER_TASKS);
+            }
+        });
+
         deleteDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -428,6 +512,64 @@ public class MainActivity extends AppCompatActivity {
                 b2.setTextColor(getColor(R.color.no));
             }
         });
+        deleteDoneButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                deleteDoneTasks();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog alertDialog = new AlertDialog.Builder(context)
+                        .setMessage(getString(R.string.delete_done_tasks))
+                        .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.no), dialogClickListener)
+                        .show();
+
+                TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+                Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
+                Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
+
+                message.setTypeface(font1);
+                b1.setTypeface(font1);
+                b2.setTypeface(font1);
+
+                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+                b1.setTextColor(getColor(R.color.yes));
+                b2.setTextColor(getColor(R.color.no));
+            }
+        });
+
+        changePassCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(CHANGE_PASSWORD);
+            }
+        });
+        changePassCardButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(CHANGE_PASSWORD);
+            }
+        });
+
+
+        addUserCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(USER_ADD);
+            }
+        });
 
         addUserGenerateIdButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -455,20 +597,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        taskMasterTaskersCardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeScreen(TASK_MASTER_TASKERS);
-            }
-        });
-
-        taskMasterTasksCardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeScreen(TASK_MASTER_TASKS);
-            }
-        });
-
         showCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -477,12 +605,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        taskerTasksCardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeScreen(TASKER_TASKS);
-            }
-        });
         addTaskCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -737,66 +859,6 @@ public class MainActivity extends AppCompatActivity {
         font1 = ResourcesCompat.getFont(this, R.font.new_year_new_day);
         font2 = ResourcesCompat.getFont(this, R.font.nimbus_sans_regular);
 
-        TextView loginTitle,
-                taskMasterCardTitle,
-                taskMasterTaskersCardButtonText,
-                taskMasterTasksCardButtonText,
-                taskerCardTitle,
-                taskerTasksCardButtonText,
-                adminCardTitle,
-                taskMasterTaskersCardTitle,
-                addUserCardTitle,
-                taskerManagementCardTitle,
-                taskMasterTasksCardTitle,
-                taskerTasksCardTitle,
-                myTaskDeadlineTitle,
-                myTaskTmCommentsTitle,
-                addTaskCardTitle,
-                repeatTask,
-                times,
-                weekdays,
-                addTaskDay1Text,
-                addTaskDay2Text,
-                addTaskDay3Text,
-                addTaskDay4Text,
-                addTaskDay5Text,
-                addTaskDay6Text,
-                addTaskDay7Text,
-                theirTasksDeadline,
-                theirTasksLastModifiedTitle,
-                theirTasksTCommentsTitle,
-                changePasswordCardTitle;
-
-        loginTitle = findViewById(R.id.login_title);
-        taskMasterCardTitle = findViewById(R.id.task_master_card_title);
-        taskMasterTaskersCardButtonText = findViewById(R.id.task_master_taskers_card_button_text);
-        taskMasterTasksCardButtonText = findViewById(R.id.task_master_tasks_card_button_text);
-        taskerCardTitle = findViewById(R.id.tasker_card_title);
-        taskerTasksCardButtonText = findViewById(R.id.tasker_tasks_card_button_text);
-        adminCardTitle = findViewById(R.id.admin_card_title);
-        taskMasterTaskersCardTitle = findViewById(R.id.task_master_taskers_card_title);
-        addUserCardTitle = findViewById(R.id.add_user_card_title);
-        taskerManagementCardTitle = findViewById(R.id.tasker_management_card_title);
-        taskMasterTasksCardTitle = findViewById(R.id.task_master_tasks_card_title);
-        taskerTasksCardTitle = findViewById(R.id.tasker_tasks_card_title);
-        myTaskDeadlineTitle = findViewById(R.id.my_task_deadline_title);
-        myTaskTmCommentsTitle = findViewById(R.id.my_task_tm_comments_title);
-        addTaskCardTitle = findViewById(R.id.add_task_card_title);
-        repeatTask = findViewById(R.id.repeat_task);
-        times = findViewById(R.id.times);
-        weekdays = findViewById(R.id.weekdays);
-        addTaskDay1Text = findViewById(R.id.add_task_day_1_text);
-        addTaskDay2Text = findViewById(R.id.add_task_day_2_text);
-        addTaskDay3Text = findViewById(R.id.add_task_day_3_text);
-        addTaskDay4Text = findViewById(R.id.add_task_day_4_text);
-        addTaskDay5Text = findViewById(R.id.add_task_day_5_text);
-        addTaskDay6Text = findViewById(R.id.add_task_day_6_text);
-        addTaskDay7Text = findViewById(R.id.add_task_day_7_text);
-        theirTasksDeadline = findViewById(R.id.their_tasks_deadline);
-        theirTasksLastModifiedTitle = findViewById(R.id.their_tasks_last_modified_title);
-        theirTasksTCommentsTitle = findViewById(R.id.their_tasks_t_comments_title);
-        changePasswordCardTitle = findViewById(R.id.change_password_card_title);
-
         appTitle.setTypeface(font1);
         loginTitle.setTypeface(font1);
         loginUsernameField.setTypeface(font2);
@@ -804,14 +866,12 @@ public class MainActivity extends AppCompatActivity {
         loginKeep.setTypeface(font1);
         signInButton.setTypeface(font1);
 
-        taskMasterCardTitle.setTypeface(font1);
         taskMasterTaskersCardButtonText.setTypeface(font1);
         taskMasterTasksCardButtonText.setTypeface(font1);
 
-        taskerCardTitle.setTypeface(font1);
         taskerTasksCardButtonText.setTypeface(font1);
 
-        adminCardTitle.setTypeface(font1);
+        menuCardTitle.setTypeface(font1);
         changePassCardButtonText.setTypeface(font1);
         deleteDoneButtonText.setTypeface(font1);
 
@@ -872,7 +932,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksNameField.setTypeface(font1);
         theirTasksTitleField.setTypeface(font2);
         theirTasksDescriptionField.setTypeface(font2);
-        theirTasksDeadline.setTypeface(font1);
+        theirTasksDeadlineText.setTypeface(font1);
         theirTasksDate.setTypeface(font2);
         theirTasksTime.setTypeface(font2);
         theirTasksLastModifiedTitle.setTypeface(font1);
@@ -891,10 +951,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeScreen(int newScreen) {
+        hideAllScreens();
         switch (newScreen) {
             case LOGIN:
-                taskMasterCard.setVisibility(View.GONE);
-                taskerCard.setVisibility(View.GONE);
                 loginCard.setVisibility(View.VISIBLE);
                 loginUsernameField.setText("");
                 loginPasswordField.setText("");
@@ -908,53 +967,6 @@ public class MainActivity extends AppCompatActivity {
                 admin = false;
                 break;
             case MAIN_MENU:
-                loginCard.setVisibility(View.GONE);
-                taskMasterTaskersCard.setVisibility(View.GONE);
-                taskMasterTasksCard.setVisibility(View.GONE);
-                taskerTasksCard.setVisibility(View.GONE);
-                changePasswordCard.setVisibility(View.GONE);
-                if (taskMaster) {
-                    taskMasterCard.setVisibility(View.VISIBLE);
-
-                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            1f
-                    );
-                    param1.topMargin = dpToPx(10);
-                    param1.bottomMargin = dpToPx(10);
-
-                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            1f
-                    );
-                    param2.topMargin = dpToPx(10);
-                    param2.bottomMargin = dpToPx(10);
-
-                    taskerCard.setLayoutParams(param1);
-                    adminCard.setLayoutParams(param2);
-                } else {
-                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            2f
-                    );
-                    param1.topMargin = dpToPx(10);
-                    param1.bottomMargin = dpToPx(10);
-
-                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            1f
-                    );
-                    param2.topMargin = dpToPx(10);
-                    param2.bottomMargin = dpToPx(10);
-
-                    taskerCard.setLayoutParams(param1);
-                    adminCard.setLayoutParams(param2);
-                }
-
                 if (admin) {
                     addUserCardButton.setVisibility(View.VISIBLE);
                     deleteDoneButton.setVisibility(View.VISIBLE);
@@ -964,41 +976,24 @@ public class MainActivity extends AppCompatActivity {
                     deleteDoneButton.setVisibility(View.GONE);
                     deleteDoneButtonText.setVisibility(View.GONE);
                 }
-                taskerCard.setVisibility(View.VISIBLE);
-                adminCard.setVisibility(View.VISIBLE);
+                menuCard.setVisibility(View.VISIBLE);
                 loadUsers();
                 break;
             case TASK_MASTER_TASKERS:
-                taskMasterCard.setVisibility(View.GONE);
-                taskerCard.setVisibility(View.GONE);
-                adminCard.setVisibility(View.GONE);
-                addUserCard.setVisibility(View.GONE);
-                taskerManagementCard.setVisibility(View.GONE);
                 taskMasterTaskersCard.setVisibility(View.VISIBLE);
                 break;
             case TASKER_MANAGEMENT:
-                taskMasterTaskersCard.setVisibility(View.GONE);
                 taskerManagementCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
-                taskMasterCard.setVisibility(View.GONE);
-                taskerCard.setVisibility(View.GONE);
-                addTaskCard.setVisibility(View.GONE);
-                adminCard.setVisibility(View.GONE);
-                theirTasksCard.setVisibility(View.GONE);
                 taskMasterTasksCard.setVisibility(View.VISIBLE);
                 loadTheirTasks();
                 break;
             case TASKER_TASKS:
-                taskMasterCard.setVisibility(View.GONE);
-                taskerCard.setVisibility(View.GONE);
-                adminCard.setVisibility(View.GONE);
-                myTaskCard.setVisibility(View.GONE);
                 taskerTasksCard.setVisibility(View.VISIBLE);
                 loadMyTasks();
                 break;
             case USER_ADD:
-                taskMasterTaskersCard.setVisibility(View.GONE);
                 addUserCard.setVisibility(View.VISIBLE);
                 addUserNameField.setText("");
                 addUserIdField.setText(generateID());
@@ -1006,7 +1001,6 @@ public class MainActivity extends AppCompatActivity {
                 addUserAdmin.setChecked(false);
                 break;
             case TASK_MASTER_NEW_TASK:
-                taskMasterTasksCard.setVisibility(View.GONE);
                 addTaskCard.setVisibility(View.VISIBLE);
 
                 calendar = Calendar.getInstance();
@@ -1037,17 +1031,12 @@ public class MainActivity extends AppCompatActivity {
                 addTaskDay7.setChecked(true);
                 break;
             case CHANGE_PASSWORD:
-                taskMasterCard.setVisibility(View.GONE);
-                taskerCard.setVisibility(View.GONE);
-                adminCard.setVisibility(View.GONE);
                 changePasswordCard.setVisibility(View.VISIBLE);
                 changePasswordOldField.setText("");
                 changePasswordNew1Field.setText("");
                 changePasswordNew2Field.setText("");
                 break;
             case MY_TASK:
-                taskerTasksCard.setVisibility(View.GONE);
-                imageShow.setVisibility(View.GONE);
                 myTaskCard.setVisibility(View.VISIBLE);
                 if (!showingImage) {
                     populateMyTaskCard(selectedTask);
@@ -1056,8 +1045,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case THEIR_TASKS:
-                taskMasterTasksCard.setVisibility(View.GONE);
-                imageShow.setVisibility(View.GONE);
                 theirTasksCard.setVisibility(View.VISIBLE);
                 if (!showingImage) {
                     populateTheirTasksCard(selectedTask);
@@ -1066,16 +1053,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case MY_TASK_IMAGE_SHOW:
-                myTaskCard.setVisibility(View.GONE);
                 imageShow.setVisibility(View.VISIBLE);
                 showingImage = true;
                 break;
             case THEIR_TASKS_IMAGE_SHOW:
-                theirTasksCard.setVisibility(View.GONE);
                 imageShow.setVisibility(View.VISIBLE);
                 showingImage = true;
                 break;
         }
+        if (currentScreen != MAIN_MENU) lastscreen = currentScreen;
         currentScreen = newScreen;
     }
 
@@ -1083,86 +1069,18 @@ public class MainActivity extends AppCompatActivity {
         hideKeyboard();
         switch (currentScreen) {
             case LOGIN:
-                DialogInterface.OnClickListener dialogClickListenerLogin = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                finish();
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
-                        }
-                    }
-                };
-                AlertDialog alertDialog = new AlertDialog.Builder(context)
-                        .setMessage(getString(R.string.close_app))
-                        .setPositiveButton(getString(R.string.yes), dialogClickListenerLogin)
-                        .setNegativeButton(getString(R.string.cancel), dialogClickListenerLogin)
-                        .show();
-
-                TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
-                Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
-                Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
-
-                message.setTypeface(font1);
-                b1.setTypeface(font1);
-                b2.setTypeface(font1);
-
-                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
-
-                b1.setTextColor(getColor(R.color.yes));
-                b2.setTextColor(getColor(R.color.no));
+                askExit();
                 break;
             case MAIN_MENU:
-                DialogInterface.OnClickListener dialogClickListenerMainMenu = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                finish();
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
-                            case DialogInterface.BUTTON_NEUTRAL:
-                                changeScreen(LOGIN);
-                                break;
-                        }
-                    }
-                };
-                AlertDialog alertDialog1 = new AlertDialog.Builder(context)
-                        .setMessage(getString(R.string.close_app))
-                        .setPositiveButton(getString(R.string.yes), dialogClickListenerMainMenu)
-                        .setNegativeButton(getString(R.string.cancel), dialogClickListenerMainMenu)
-                        .setNeutralButton(getString(R.string.log_out), dialogClickListenerMainMenu)
-                        .show();
-
-                TextView message1 = (TextView) alertDialog1.findViewById(android.R.id.message);
-                Button b11 = (Button) alertDialog1.findViewById(android.R.id.button1);
-                Button b12 = (Button) alertDialog1.findViewById(android.R.id.button2);
-                Button b13 = (Button) alertDialog1.findViewById(android.R.id.button3);
-
-                message1.setTypeface(font1);
-                b11.setTypeface(font1);
-                b12.setTypeface(font1);
-                b13.setTypeface(font1);
-
-                message1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b11.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b12.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b13.setTextSize(getResources().getDimension(R.dimen.alert_text));
-
-                b11.setTextColor(getColor(R.color.yes));
-                b12.setTextColor(getColor(R.color.no));
-                b13.setTextColor(getColor(R.color.logout));
+                changeScreen(lastscreen);
                 break;
             case TASK_MASTER_TASKERS:
             case TASK_MASTER_TASKS:
             case TASKER_TASKS:
+                askExitOrLogout();
+                break;
             case CHANGE_PASSWORD:
-                changeScreen(MAIN_MENU);
+                changeScreen(lastscreen);
                 break;
             case USER_ADD:
             case TASKER_MANAGEMENT:
@@ -1200,6 +1118,21 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println(TAG + "{showNoteInput} " + e.getMessage());
         }
+    }
+
+    private void hideAllScreens() {
+        loginCard.setVisibility(View.GONE);
+        menuCard.setVisibility(View.GONE);
+        taskMasterTaskersCard.setVisibility(View.GONE);
+        taskMasterTasksCard.setVisibility(View.GONE);
+        taskerTasksCard.setVisibility(View.GONE);
+        changePasswordCard.setVisibility(View.GONE);
+        addUserCard.setVisibility(View.GONE);
+        taskerManagementCard.setVisibility(View.GONE);
+        addTaskCard.setVisibility(View.GONE);
+        theirTasksCard.setVisibility(View.GONE);
+        myTaskCard.setVisibility(View.GONE);
+        imageShow.setVisibility(View.GONE);
     }
 
     // network
@@ -1360,49 +1293,19 @@ public class MainActivity extends AppCompatActivity {
                 myID = temp[1];
                 if (temp[2].contains("0")) {
                     taskMaster = false;
-                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            2f
-                    );
-                    param1.topMargin = dpToPx(10);
-                    param1.bottomMargin = dpToPx(10);
-
-                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            1f
-                    );
-                    param2.topMargin = dpToPx(10);
-                    param2.bottomMargin = dpToPx(10);
-
-                    taskerCard.setLayoutParams(param1);
-                    adminCard.setLayoutParams(param2);
+                    llTasks.setVisibility(View.GONE);
                 } else {
                     taskMaster = true;
-                    LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            1f
-                    );
-                    param1.topMargin = dpToPx(10);
-                    param1.bottomMargin = dpToPx(10);
-
-                    LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            0,
-                            1f
-                    );
-                    param2.topMargin = dpToPx(10);
-                    param2.bottomMargin = dpToPx(10);
-
-                    taskerCard.setLayoutParams(param1);
-                    adminCard.setLayoutParams(param2);
+                    llTasks.setVisibility(View.VISIBLE);
                 }
                 if (temp[3].contains("0")) {
                     admin = false;
+                    llUsers.setVisibility(View.GONE);
+                    llDeleteDone.setVisibility(View.GONE);
                 } else {
                     admin = true;
+                    llUsers.setVisibility(View.VISIBLE);
+                    llDeleteDone.setVisibility(View.VISIBLE);
                 }
                 info.setText("");
                 signInButton.setEnabled(true);
@@ -1413,7 +1316,11 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean("admin", admin);
                     editor.apply();
                 }
-                changeScreen(MAIN_MENU);
+                if (taskMaster) {
+                    changeScreen(TASK_MASTER_TASKS);
+                } else {
+                    changeScreen(TASKER_TASKS);
+                }
             } else {
                 Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
@@ -2810,5 +2717,83 @@ public class MainActivity extends AppCompatActivity {
     private int dpToPx(float dp) {
         float density = context.getResources().getDisplayMetrics().density;
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    private void askExit() {
+        DialogInterface.OnClickListener dialogClickListenerLogin = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        finish();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setMessage(getString(R.string.close_app))
+                .setPositiveButton(getString(R.string.yes), dialogClickListenerLogin)
+                .setNegativeButton(getString(R.string.cancel), dialogClickListenerLogin)
+                .show();
+
+        TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+        Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
+        Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
+
+        message.setTypeface(font1);
+        b1.setTypeface(font1);
+        b2.setTypeface(font1);
+
+        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+        b1.setTextColor(getColor(R.color.yes));
+        b2.setTextColor(getColor(R.color.no));
+    }
+
+    private void askExitOrLogout() {
+        DialogInterface.OnClickListener dialogClickListenerMainMenu = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        finish();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                    case DialogInterface.BUTTON_NEUTRAL:
+                        changeScreen(LOGIN);
+                        break;
+                }
+            }
+        };
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setMessage(getString(R.string.close_app))
+                .setPositiveButton(getString(R.string.yes), dialogClickListenerMainMenu)
+                .setNegativeButton(getString(R.string.cancel), dialogClickListenerMainMenu)
+                .setNeutralButton(getString(R.string.log_out), dialogClickListenerMainMenu)
+                .show();
+
+        TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+        Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
+        Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
+        Button b3 = (Button) alertDialog.findViewById(android.R.id.button3);
+
+        message.setTypeface(font1);
+        b1.setTypeface(font1);
+        b2.setTypeface(font1);
+        b3.setTypeface(font1);
+
+        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b3.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+        b1.setTextColor(getColor(R.color.yes));
+        b2.setTextColor(getColor(R.color.no));
+        b3.setTextColor(getColor(R.color.logout));
     }
 }

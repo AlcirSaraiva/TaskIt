@@ -14,7 +14,7 @@
     <string name="tasks">Aufgaben</string>
     <string name="new_task">Hinzufügen</string>
     <string name="tasks_assigned_to_me">Mir zugewiesene Aufgaben</string>
-    <string name="settings">Einstellungen</string>
+    <string name="menu">Menü</string>
     <string name="admin">Administrator</string>
     <string name="change_pass">Passwort ändern</string>
     <string name="delete_done">Erledigte Aufgaben löschen</string>
