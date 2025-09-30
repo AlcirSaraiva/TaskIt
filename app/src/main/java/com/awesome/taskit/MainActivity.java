@@ -256,8 +256,10 @@ public class MainActivity extends AppCompatActivity {
         if (myID.isEmpty()) {
             changeScreen(LOGIN);
         } else if (taskMaster) {
+            loadUsers();
             changeScreen(TASK_MASTER_TASKS);
         } else {
+            loadUsers();
             changeScreen(TASKER_TASKS);
         }
 
@@ -977,7 +979,6 @@ public class MainActivity extends AppCompatActivity {
                     deleteDoneButtonText.setVisibility(View.GONE);
                 }
                 menuCard.setVisibility(View.VISIBLE);
-                loadUsers();
                 break;
             case TASK_MASTER_TASKERS:
                 taskMasterTaskersCard.setVisibility(View.VISIBLE);
