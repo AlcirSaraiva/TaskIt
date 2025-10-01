@@ -44,6 +44,7 @@
     <string name="no_description">Keine Beschreibung</string>
     <string name="last_modified_on">Zuletzt geändert am</string>
     <string name="use_as_template">Als Vorlage verwenden</string>
+    <string name="today">Heute</string>
 
     <string name="system_messages">Systemmeldungen</string>
 

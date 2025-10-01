@@ -44,6 +44,7 @@
     <string name="no_description">No description</string>
     <string name="last_modified_on">Last modified on</string>
     <string name="use_as_template">Use as template</string>
+    <string name="today">Today</string>
 
     <string name="system_messages">System messages</string>
 

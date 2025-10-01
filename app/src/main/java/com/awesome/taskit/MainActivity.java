@@ -576,7 +576,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         addUserCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1004,12 +1003,12 @@ public class MainActivity extends AppCompatActivity {
                 taskerManagementCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
-                taskMasterTasksCard.setVisibility(View.VISIBLE);
                 loadTheirTasks();
+                taskMasterTasksCard.setVisibility(View.VISIBLE);
                 break;
             case TASKER_TASKS:
-                taskerTasksCard.setVisibility(View.VISIBLE);
                 loadMyTasks();
+                taskerTasksCard.setVisibility(View.VISIBLE);
                 break;
             case USER_ADD:
                 addUserCard.setVisibility(View.VISIBLE);
@@ -1603,8 +1602,8 @@ public class MainActivity extends AppCompatActivity {
 
                     info.setText("");
 
-                    MyTasksListAdapter MyTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
-                    myTasksListView.setAdapter(MyTasksListAdapter);
+                    MyTasksListAdapter myTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
+                    myTasksListView.setAdapter(myTasksListAdapter);
                     myTasksListView.setDivider(null);
                 } else {
                     Toast.makeText(context, response, Toast.LENGTH_LONG).show();
@@ -2395,6 +2394,15 @@ public class MainActivity extends AppCompatActivity {
             TextView text3 = (TextView) view.findViewById(R.id.text3);
             CheckBox check = (CheckBox) view.findViewById(R.id.check);
 
+            LinearLayout openTheirTasksTrigger  = (LinearLayout) view.findViewById(R.id.open_their_tasks_trigger);
+            openTheirTasksTrigger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedTask = position;
+                    changeScreen(THEIR_TASKS);
+                }
+            });
+
             text1.setText(name.get(position));
             text2.setText(title.get(position));
             String[] tempDeadline = deadline.get(position).split(" ");
@@ -2416,6 +2424,8 @@ public class MainActivity extends AppCompatActivity {
                 taskDate.set(Calendar.MINUTE, mi);
                 long nowMil = now.getTimeInMillis();
                 long taskMil = taskDate.getTimeInMillis();
+
+                if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) text3.setTextColor(getColor(R.color.today));
                 if (nowMil > taskMil) text3.setTextColor(getColor(R.color.task_late));
             } else {
                 text3.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
@@ -2425,15 +2435,6 @@ public class MainActivity extends AppCompatActivity {
             text1.setTypeface(font1);
             text2.setTypeface(font1);
             text3.setTypeface(font1);
-
-            LinearLayout openTheirTasksTrigger  = (LinearLayout) view.findViewById(R.id.open_their_tasks_trigger);
-            openTheirTasksTrigger.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedTask = position;
-                    changeScreen(THEIR_TASKS);
-                }
-            });
 
             return view;
         }
@@ -2462,6 +2463,15 @@ public class MainActivity extends AppCompatActivity {
             TextView text2 = (TextView) view.findViewById(R.id.text2);
             CheckBox check = (CheckBox) view.findViewById(R.id.check);
 
+            LinearLayout openMyTaskTrigger  = (LinearLayout) view.findViewById(R.id.open_my_task_trigger);
+            openMyTaskTrigger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedTask = position;
+                    changeScreen(MY_TASK);
+                }
+            });
+
             text1.setText(title.get(position));
             String[] tempDeadline = deadline.get(position).split(" ");
             Calendar now =  Calendar.getInstance();
@@ -2482,7 +2492,18 @@ public class MainActivity extends AppCompatActivity {
                 taskDate.set(Calendar.MINUTE, mi);
                 long nowMil = now.getTimeInMillis();
                 long taskMil = taskDate.getTimeInMillis();
-                if (nowMil > taskMil) text2.setTextColor(getColor(R.color.task_late));
+                if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
+                    text2.setTextColor(getColor(R.color.today));
+                } else {
+                    text1.setTextColor(getColor(R.color.not_today));
+                    text2.setTextColor(getColor(R.color.not_today));
+                    check.setAlpha(0.3f);
+                    openMyTaskTrigger.setEnabled(false);
+                }
+                if (nowMil > taskMil) {
+                    text2.setTextColor(getColor(R.color.task_late));
+                    openMyTaskTrigger.setEnabled(true);
+                }
             } else {
                 text2.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
@@ -2491,14 +2512,7 @@ public class MainActivity extends AppCompatActivity {
             text1.setTypeface(font1);
             text2.setTypeface(font1);
 
-            LinearLayout openMyTaskTrigger  = (LinearLayout) view.findViewById(R.id.open_my_task_trigger);
-            openMyTaskTrigger.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedTask = position;
-                    changeScreen(MY_TASK);
-                }
-            });
+
 
             return view;
         }
