@@ -1096,7 +1096,11 @@ public class MainActivity extends AppCompatActivity {
                 showingImage = true;
                 break;
         }
-        if (currentScreen != MAIN_MENU) lastscreen = currentScreen;
+        if (currentScreen == MAIN_MENU){
+            menuButton.setImageResource(R.drawable.menu);
+        } else {
+            lastscreen = currentScreen;
+        }
         currentScreen = newScreen;
     }
 
