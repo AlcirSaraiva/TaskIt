@@ -428,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentScreen == MAIN_MENU) {
+                    menuButton.setImageResource(R.drawable.menu);
                     changeScreen(lastscreen);
                 } else {
                     changeScreen(MAIN_MENU);
@@ -985,6 +986,7 @@ public class MainActivity extends AppCompatActivity {
                 admin = false;
                 break;
             case MAIN_MENU:
+                menuButton.setImageResource(R.drawable.menu_opened);
                 if (admin) {
                     addUserCardButton.setVisibility(View.VISIBLE);
                     deleteDoneButton.setVisibility(View.VISIBLE);
@@ -1105,6 +1107,7 @@ public class MainActivity extends AppCompatActivity {
                 askExit();
                 break;
             case MAIN_MENU:
+                menuButton.setImageResource(R.drawable.menu);
                 changeScreen(lastscreen);
                 break;
             case TASK_MASTER_TASKERS:

@@ -14,7 +14,8 @@
     <color name="grey_list_bg">#FFBBBBBB</color>
     <color name="grey_input_bg">#FFBBBBBB</color>
     <color name="grey_input_bg_50">#88BBBBBB</color>
-    <color name="grey_panel_bg">#D5D5D5</color>
+    <color name="grey_panel_bg">#FFD5D5D5</color>
+    <color name="grey_panel_menu_bg">#FFE0E0E0</color>
 
     <color name="button_bg">#FF3c86ef</color>
     <color name="checkbox_bg">#639CFF</color>
@@ -34,5 +35,7 @@
 
     <color name="icon_neutral">#FF6f6f6f</color>
     <color name="icon_neutral2">#7f7f7f</color>
+
+    <color name="no_task_icon">#88BBBBBB</color>
 
 </resources>
