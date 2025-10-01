@@ -1536,6 +1536,12 @@ public class MainActivity extends AppCompatActivity {
                     TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
                     theirTasksListView.setAdapter(theirTasksListAdapter);
                     theirTasksListView.setDivider(null);
+
+                    if (theirTasksTitle.isEmpty()) {
+                        theirTasksListView.setVisibility(View.GONE);
+                    } else {
+                        theirTasksListView.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
@@ -1605,6 +1611,12 @@ public class MainActivity extends AppCompatActivity {
                     MyTasksListAdapter myTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
                     myTasksListView.setAdapter(myTasksListAdapter);
                     myTasksListView.setDivider(null);
+
+                    if (myTasksTitle.isEmpty()) {
+                        myTasksListView.setVisibility(View.GONE);
+                    } else {
+                        myTasksListView.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
