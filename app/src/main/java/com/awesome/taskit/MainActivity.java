@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout llTasks, llUsers, llMyTasks, llDeleteDone, llChangePass;
     private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger;
     private ScrollView theirTasksCard;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
@@ -335,6 +335,7 @@ public class MainActivity extends AppCompatActivity {
         updateUserButton = findViewById(R.id.update_user_button);
 
         addTaskCard = findViewById(R.id.add_task_card);
+        theirTasksReload = findViewById(R.id.their_tasks_reload);
         theirTasksListView = findViewById(R.id.their_tasks_listview);
         addTaskCardButton = findViewById(R.id.add_task_card_button);
         showCompleted = findViewById(R.id.show_completed);
@@ -383,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
         myTaskSaveButton = findViewById(R.id.my_task_save_button);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
+        myTasksReload = findViewById(R.id.my_tasks_reload);
         myTasksListView = findViewById(R.id.my_tasks_listview);
 
         usersListView = findViewById(R.id.users_listview);
@@ -622,6 +624,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_NEW_TASK);
+            }
+        });
+
+        theirTasksReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                theirTasksReload.setEnabled(false);
+                theirTasksReload.setImageResource(R.drawable.reload_disabled);
+                theirTasksListView.setVisibility(View.VISIBLE);
+                loadTheirTasks();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        theirTasksReload.setEnabled(true);
+                        theirTasksReload.setImageResource(R.drawable.reload);
+                    }
+                }, 5000);
+
+            }
+        });
+
+        myTasksReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myTasksReload.setEnabled(false);
+                myTasksReload.setImageResource(R.drawable.reload_disabled);
+                myTasksListView.setVisibility(View.VISIBLE);
+                loadMyTasks();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myTasksReload.setEnabled(true);
+                        myTasksReload.setImageResource(R.drawable.reload);
+                    }
+                }, 5000);
+
             }
         });
 
@@ -1541,6 +1579,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
+                    theirTasksListAdapter.notifyDataSetChanged();
                     theirTasksListView.setAdapter(theirTasksListAdapter);
                     theirTasksListView.setDivider(null);
 
@@ -1616,6 +1655,7 @@ public class MainActivity extends AppCompatActivity {
                     info.setText("");
 
                     MyTasksListAdapter myTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
+                    myTasksListAdapter.notifyDataSetChanged();
                     myTasksListView.setAdapter(myTasksListAdapter);
                     myTasksListView.setDivider(null);
 
