@@ -40,6 +40,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -164,9 +165,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView appTitle, info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private LinearLayout llTasks, llUsers, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, theirTasksCard, taskerTrigger;
+    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger;
+    private ScrollView theirTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
     private Spinner addTaskTaskerSpinner, addTaskNTimes;
@@ -174,10 +176,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle;
+    private String templateName = "";
+    private String templateTitle = "";
+    private String templateDescription = "";
+    private String templateTime = "";
 
     private Image placeholder, placeholderBig, fallback, fallbackBig, error, errorBig;
 
-    Typeface font1, font2;
+    private Typeface font1, font2;
+
+    private ArrayAdapter<String> taskerSpinnerAdapter;
 
     // network
     private boolean isOnline; //TODO check if is online before calls to server
@@ -342,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksTComments = findViewById(R.id.their_tasks_t_comments);
         theirTasksMyComments = findViewById(R.id.their_tasks_my_comments);
         theirTasksDone = findViewById(R.id.their_tasks_done);
+        theirTasksTemplateButton = findViewById(R.id.their_tasks_template_button);
         theirTasksSaveButton = findViewById(R.id.their_tasks_save_button);
 
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
@@ -711,6 +720,12 @@ public class MainActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+        theirTasksTemplateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                useAsTemplate();
+            }
+        });
         theirTasksSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1006,6 +1021,18 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_NEW_TASK:
                 addTaskCard.setVisibility(View.VISIBLE);
 
+                if (!templateName.isEmpty()) addTaskTaskerSpinner.setSelection(taskerSpinnerAdapter.getPosition(templateName));
+                if (!templateTitle.isEmpty()) {
+                    addTaskTitle.setText(templateTitle);
+                } else {
+                    addTaskTitle.setText("");
+                }
+                if (!templateDescription.isEmpty()) {
+                    addTaskDescription.setText(templateDescription);
+                } else {
+                    addTaskDescription.setText("");
+                }
+
                 calendar = Calendar.getInstance();
                 day = calendar.get(Calendar.DAY_OF_MONTH);
                 month = calendar.get(Calendar.MONTH) + 1;
@@ -1014,6 +1041,10 @@ public class MainActivity extends AppCompatActivity {
                 minute = calendar.get(Calendar.MINUTE);
 
                 addTaskDate.setText(day + dS + month + dS + year);
+                if (!templateTime.isEmpty()) {
+                    hour = Integer.parseInt(templateTime.substring(0, 2));
+                    minute = Integer.parseInt(templateTime.substring(3));
+                }
                 addTaskTime.setText(hour + hS + String.format("%02d", minute));
 
                 int n = 7;
@@ -1091,6 +1122,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case TASK_MASTER_NEW_TASK:
             case THEIR_TASKS:
+                templateName = "";
+                templateTitle = "";
+                templateDescription = "";
+                templateTime = "";
                 changeScreen(TASK_MASTER_TASKS);
                 break;
             case MY_TASK:
@@ -1623,8 +1658,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String[] items = tempUsersNames.toArray(new String[tempUsersNames.size()]);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
-                    addTaskTaskerSpinner.setAdapter(adapter);
+                    taskerSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+                    addTaskTaskerSpinner.setAdapter(taskerSpinnerAdapter);
 
                     UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
                     usersListView.setAdapter(usersListAdapter);
@@ -1640,6 +1675,11 @@ public class MainActivity extends AppCompatActivity {
         addTaskButton.setEnabled(false);
         String rawData;
         if (!addTaskTitle.getText().toString().isEmpty()) {
+            templateName = "";
+            templateTitle = "";
+            templateDescription = "";
+            templateTime = "";
+
             int n = addTaskNTimes.getSelectedItemPosition() + 1;
             for (int i = 0; i < n; i ++) {
 
@@ -1824,6 +1864,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 2000);
         }
+    }
+
+    private void useAsTemplate() {
+        templateName = theirTasksNameField.getText().toString();
+        templateTitle = theirTasksTitleField.getText().toString();
+        templateDescription = theirTasksDescriptionField.getText().toString();
+        templateTime = theirTasksTime.getText().toString();
+        changeScreen(TASK_MASTER_NEW_TASK);
     }
 
     private void updateUser() {

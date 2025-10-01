@@ -43,6 +43,7 @@
     <string name="no_comments">Sem comentários</string>
     <string name="no_description">Sem descrição</string>
     <string name="last_modified_on">Última modificação em</string>
+    <string name="use_as_template">Usar como modelo</string>
 
     <string name="system_messages">Mensagens do sistema</string>
 
