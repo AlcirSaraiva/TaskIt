@@ -1370,10 +1370,10 @@ public class MainActivity extends AppCompatActivity {
             response = response.replaceAll(newLine, "\n");
             info.setText(response);
             if (response.contains("Login successful")) {
-                loadUsers();
                 String[] resp = response.split(newLine);
                 String[] temp = resp[0].split(fS);
                 myID = temp[1];
+                loadUsers();
                 if (temp[2].contains("0")) {
                     taskMaster = false;
                     llTasks.setVisibility(View.GONE);
