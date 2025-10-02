@@ -75,6 +75,12 @@
     <string name="task_created">New task created successfully</string>
     <string name="task_updated">Task updated successfully</string>
     <string name="picture_uploaded">Picture uploaded successfully</string>
+    <string name="departments">Departments</string>
+    <string name="add_department">Add department</string>
+    <string name="department_name">Department\'s name</string>
+    <string name="obs">Remark</string>
+    <string name="department_management">Department management</string>
+    <string name="delete_department">Delete department</string>
 
     <string name="repeat_task">Repeat task</string>
     <string name="time_s">time(s)</string>

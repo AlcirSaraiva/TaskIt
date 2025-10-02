@@ -75,6 +75,12 @@
     <string name="task_created">Nova tarefa criada com sucesso</string>
     <string name="task_updated">Tarefa atualizada com sucesso</string>
     <string name="picture_uploaded">Imagem enviada com sucesso</string>
+    <string name="departments">Departmentos</string>
+    <string name="add_department">Adicionar departmento</string>
+    <string name="department_name">Nome do departmento</string>
+    <string name="obs">Observação</string>
+    <string name="department_management">Gerenciamento de departamento</string>
+    <string name="delete_department">Excluir departmento</string>
 
     <string name="repeat_task">Repetir tarefa</string>
     <string name="time_s">vez(es)</string>

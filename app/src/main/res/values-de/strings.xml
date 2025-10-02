@@ -75,6 +75,12 @@
     <string name="task_created">Neue Aufgabe erfolgreich erstellt</string>
     <string name="task_updated">Aufgabe erfolgreich aktualisiert</string>
     <string name="picture_uploaded">Bild erfolgreich hochgeladen</string>
+    <string name="departments">Abteilungen</string>
+    <string name="add_department">Abteilung hinzufügen</string>
+    <string name="department_name">Abteilung-Name</string>
+    <string name="obs">Anmerkung</string>
+    <string name="department_management">Abteilung-Verwaltung</string>
+    <string name="delete_department">Abteilung löschen</string>
 
     <string name="repeat_task">Aufgabe wiederholen</string>
     <string name="time_s">Mal</string>

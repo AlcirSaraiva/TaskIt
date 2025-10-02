@@ -48,876 +48,523 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/main_containner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/main_containner"
+            android:id="@+id/login_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/login_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/login_username_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/username"
+                android:singleLine="true"
+                android:inputType="textCapSentences"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/login_password_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/password"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
 
             <LinearLayout
-                android:id="@+id/login_card"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/login_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/title" />
-
-                <EditText
-                    android:id="@+id/login_username_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/username"
-                    android:singleLine="true"
-                    android:inputType="textCapSentences"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp"/>
-
-                <EditText
-                    android:id="@+id/login_password_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/password"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/login_keep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/keep_logged_in"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end" >
-
-                        <Button
-                            android:id="@+id/sign_in_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/button_bg"
-                            app:backgroundTint="@color/button_bg"
-                            android:backgroundTintMode="multiply"
-                            android:textSize="@dimen/buttons_text"
-                            android:text="@string/log_in" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menu_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_menu_bg"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/menu_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="@dimen/title"/>
-
-                <LinearLayout
-                    android:id="@+id/ll_tasks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:paddingStart="10dp" >
-
-                    <ImageButton
-                        android:id="@+id/task_master_tasks_card_button"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/their_tasks"
-                        android:scaleType="fitCenter"
-                        android:background="#00000000" />
-
-                    <TextView
-                        android:id="@+id/task_master_tasks_card_button_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/their_tasks"
-                        android:textSize="@dimen/icons_text"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_users"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:paddingStart="10dp" >
-
-                    <ImageButton
-                        android:id="@+id/task_master_taskers_card_button"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/taskers"
-                        android:scaleType="fitCenter"
-                        android:background="#00000000" />
-
-                    <TextView
-                        android:id="@+id/task_master_taskers_card_button_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/taskers"
-                        android:textSize="@dimen/icons_text"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_my_tasks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:paddingStart="10dp" >
-
-                    <ImageButton
-                        android:id="@+id/tasker_tasks_card_button"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/my_tasks"
-                        android:scaleType="fitCenter"
-                        android:background="#00000000"/>
-
-                    <TextView
-                        android:id="@+id/tasker_tasks_card_button_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/tasks_assigned_to_me"
-                        android:textSize="@dimen/icons_text"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_delete_done"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:paddingStart="10dp" >
-
-                    <ImageButton
-                        android:id="@+id/delete_done_button"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/delete_done"
-                        android:scaleType="fitCenter"
-                        android:background="#00000000" />
-
-                    <TextView
-                        android:id="@+id/delete_done_button_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/delete_done"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/icons_text"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_change_pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:paddingStart="10dp" >
-
-                    <ImageButton
-                        android:id="@+id/change_pass_card_button"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/password"
-                        android:scaleType="fitCenter"
-                        android:background="#00000000" />
-
-                    <TextView
-                        android:id="@+id/change_pass_card_button_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/change_pass"
-                        android:textSize="@dimen/icons_text"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/task_master_taskers_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/task_master_taskers_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/taskers"
-                    android:layout_marginBottom="15dp"
-                    android:textSize="@dimen/title" />
-
-                <Button
-                    android:id="@+id/add_user_card_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_tasker"
-                    android:textSize="@dimen/buttons_text"
-                    android:background="@drawable/button_bg"
-                    app:backgroundTint="@color/button_bg"
-                    android:backgroundTintMode="multiply"
-                    android:layout_marginBottom="15dp" />
-
-                <ListView
-                    android:id="@+id/users_listview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_user_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/add_user_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_tasker"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/title" />
-
-                <EditText
-                    android:id="@+id/add_user_name_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/username"
-                    android:inputType="textCapWords"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:layout_marginBottom="15dp">
-
-                    <CheckBox
-                        android:id="@+id/add_user_task_master"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_master"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply"/>
-
-                    <CheckBox
-                        android:id="@+id/add_user_admin"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/admin"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/add_user_id_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/id"
-                    android:background="@drawable/input_bg_50"
-                    android:layout_marginBottom="15dp"
-                    android:textSize="@dimen/id"
-                    android:textColor="@color/text_50"
-                    android:padding="10dp" />
-
-                <Button
-                    android:id="@+id/add_user_generate_id_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/buttons_text"
-                    android:background="@drawable/button_bg"
-                    app:backgroundTint="@color/button_bg"
-                    android:backgroundTintMode="multiply"
-                    android:text="@string/generate_new_id"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/add_user_add_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/add_tasker" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tasker_management_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/tasker_management_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tasker_management"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/title" />
-
-                <EditText
-                    android:id="@+id/tasker_management_name_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/username"
-                    android:inputType="textVisiblePassword"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp" />
-
-                <TextView
-                    android:id="@+id/tasker_management_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start|center_vertical"
-                    android:background="@drawable/input_bg_50"
-                    android:padding="10dp"
-                    android:textColor="@color/text_50"
-                    android:textSize="@dimen/id"
-                    android:layout_marginBottom="15dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <CheckBox
-                        android:id="@+id/tasker_management_task_master"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_master"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
-
-                    <CheckBox
-                        android:id="@+id/tasker_management_admin"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/admin"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/delete_user_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/delete_tasker" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
-
-                        <Button
-                            android:id="@+id/update_user_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/buttons_text"
-                            android:background="@drawable/button_bg"
-                            app:backgroundTint="@color/button_bg"
-                            android:backgroundTintMode="multiply"
-                            android:text="@string/save" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/task_master_tasks_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="15dp" >
-
-                    <TextView
-                        android:id="@+id/task_master_tasks_card_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/their_tasks"
-                        android:textSize="@dimen/title" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
-
-                        <ImageButton
-                            android:id="@+id/their_tasks_reload"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/reload"
-                            android:scaleType="fitCenter"
-                            android:background="@color/transparent" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/add_task_card_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/new_task" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/show_completed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layoutDirection="rtl"
-                            android:textAlignment="textEnd"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/show_completed"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/their_tasks_listview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/no_tasks"
-                    android:background="@color/transparent"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tasker_tasks_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/tasker_tasks_card_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tasks_assigned_to_me"
-                        android:textSize="@dimen/title" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
-
-                        <ImageButton
-                            android:id="@+id/my_tasks_reload"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/reload"
-                            android:scaleType="fitCenter"
-                            android:background="@color/transparent" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/my_tasks_listview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/no_tasks"
-                    android:background="@color/transparent"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/my_task_card"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/my_task_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/my_task_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:textSize="@dimen/text"
-                    android:layout_marginBottom="15dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="15dp" >
-
-                    <TextView
-                        android:id="@+id/my_task_deadline_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/deadline"
-                        android:textSize="@dimen/text"
-                        android:layout_marginEnd="6dp"/>
-
-                    <TextView
-                        android:id="@+id/my_task_deadline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text"
-                        android:text="@string/deadline" />
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="5dp"
-                        android:weightSum="2">
-
-                        <ImageButton
-                            android:id="@+id/my_task_attachment_1"
-                            android:layout_width="0dp"
-                            android:layout_height="100dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/input_bg"
-                            android:layout_marginEnd="5dp"
-                            android:layout_weight="1" />
-
-                        <ImageButton
-                            android:id="@+id/my_task_attachment_2"
-                            android:layout_width="0dp"
-                            android:layout_height="100dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/input_bg"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="1" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="5dp"
-                        android:weightSum="2">
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/corners"
-                            android:layout_marginEnd="5dp"
-                            android:layout_weight="1" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/corners"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="1" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:weightSum="4">
-
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_1_take_pic"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/camera"
-                        android:scaleType="centerInside"
-                        android:padding="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/input_bg"
-                        android:layout_weight="1" />
-
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_1_del_pic"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/delete"
-                        android:scaleType="centerInside"
-                        android:padding="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/input_bg"
-                        android:layout_weight="1" />
-
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_2_take_pic"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/camera"
-                        android:scaleType="centerInside"
-                        android:padding="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/input_bg"
-                        android:layout_weight="1" />
-
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_2_del_pic"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/delete"
-                        android:scaleType="centerInside"
-                        android:padding="5dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/input_bg"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/my_task_my_comments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/my_comments"
-                    android:inputType="textCapSentences"
-                    android:maxLines="3"
-                    android:padding="10dp"
-                    android:gravity="top"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="20dp"/>
-
-                <TextView
-                    android:id="@+id/my_task_tm_comments_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/task_master_comments"
-                    android:textSize="@dimen/text"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/my_task_tm_comments"
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:background="@drawable/input_bg_50"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:textSize="@dimen/text"
-                    android:layout_marginBottom="15dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <CheckBox
-                    android:id="@+id/my_task_done"
+                    android:id="@+id/login_keep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/checkbox_text"
-                    android:text="@string/ive_completed_this_task"
+                    android:text="@string/keep_logged_in"
                     android:buttonTint="@color/checkbox_bg"
-                    android:buttonTintMode="multiply" />
+                    android:buttonTintMode="multiply"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom|end">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end" >
 
                     <Button
-                        android:id="@+id/my_task_save_button"
+                        android:id="@+id/sign_in_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
+                        android:textSize="@dimen/buttons_text"
+                        android:text="@string/log_in" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_menu_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/menu_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu"
+                android:layout_marginBottom="10dp"
+                android:textSize="@dimen/title"/>
+
+            <LinearLayout
+                android:id="@+id/ll_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/task_master_tasks_card_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/their_tasks"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000" />
+
+                <TextView
+                    android:id="@+id/task_master_tasks_card_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/their_tasks"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/task_master_taskers_card_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/taskers"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000" />
+
+                <TextView
+                    android:id="@+id/task_master_taskers_card_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/taskers"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_departments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/departments_card_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/departments"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:id="@+id/departments_card_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/departments"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_my_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/tasker_tasks_card_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/my_tasks"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:id="@+id/tasker_tasks_card_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/tasks_assigned_to_me"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_delete_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/delete_done_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/delete_done"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000" />
+
+                <TextView
+                    android:id="@+id/delete_done_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/delete_done"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_change_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/change_pass_card_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/password"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000" />
+
+                <TextView
+                    android:id="@+id/change_pass_card_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/change_pass"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/task_master_taskers_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/task_master_taskers_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taskers"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/title" />
+
+            <Button
+                android:id="@+id/add_user_card_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_tasker"
+                android:textSize="@dimen/buttons_text"
+                android:background="@drawable/button_bg"
+                app:backgroundTint="@color/button_bg"
+                android:backgroundTintMode="multiply"
+                android:layout_marginBottom="15dp" />
+
+            <ListView
+                android:id="@+id/users_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_user_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/add_user_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_tasker"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/add_user_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/username"
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginBottom="15dp">
+
+                <CheckBox
+                    android:id="@+id/add_user_task_master"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/task_master"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply"/>
+
+                <CheckBox
+                    android:id="@+id/add_user_admin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/admin"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/add_user_id_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/id"
+                android:background="@drawable/input_bg_50"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/id"
+                android:textColor="@color/text_50"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/add_user_generate_id_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/buttons_text"
+                android:background="@drawable/button_bg"
+                app:backgroundTint="@color/button_bg"
+                android:backgroundTintMode="multiply"
+                android:text="@string/generate_new_id"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/add_user_add_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/add_tasker" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tasker_management_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tasker_management_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tasker_management"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/tasker_management_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/username"
+                android:inputType="textVisiblePassword"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
+
+            <TextView
+                android:id="@+id/tasker_management_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:background="@drawable/input_bg_50"
+                android:padding="10dp"
+                android:textColor="@color/text_50"
+                android:textSize="@dimen/id"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <CheckBox
+                    android:id="@+id/tasker_management_task_master"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/task_master"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply" />
+
+                <CheckBox
+                    android:id="@+id/tasker_management_admin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/admin"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/delete_user_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/delete_tasker" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/update_user_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/buttons_text"
@@ -930,41 +577,926 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/departments_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/departments_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/departments"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/title" />
+
+            <Button
+                android:id="@+id/add_department_card_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_department"
+                android:textSize="@dimen/buttons_text"
+                android:background="@drawable/button_bg"
+                app:backgroundTint="@color/button_bg"
+                android:backgroundTintMode="multiply"
+                android:layout_marginBottom="15dp" />
+
+            <ListView
+                android:id="@+id/departments_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_department_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/add_department_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_department"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/add_department_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/department_name"
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/add_department_obs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/obs"
+                android:singleLine="false"
+                android:lines="3"
+                android:gravity="top"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
+
             <LinearLayout
-                android:id="@+id/add_task_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone" >
+                android:gravity="bottom">
 
-                <TextView
-                    android:id="@+id/add_task_card_title"
+                <Button
+                    android:id="@+id/add_department_add_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_task"
-                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/add_department" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/department_management_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/department_management_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/department_management"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/department_management_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/department_name"
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/department_management_obs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/obs"
+                android:singleLine="false"
+                android:lines="3"
+                android:gravity="top"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/delete_department_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/delete_department" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/update_department_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
+                        android:text="@string/save" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/task_master_tasks_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp" >
+
+                <TextView
+                    android:id="@+id/task_master_tasks_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/their_tasks"
                     android:textSize="@dimen/title" />
 
-                <Spinner
-                    android:id="@+id/add_task_tasker_spinner"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <ImageButton
+                        android:id="@+id/their_tasks_reload"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/reload"
+                        android:scaleType="fitCenter"
+                        android:background="@color/transparent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add_task_card_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/new_task" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/show_completed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layoutDirection="rtl"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/show_completed"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/their_tasks_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/no_tasks"
+                android:background="@color/transparent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tasker_tasks_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tasker_tasks_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tasks_assigned_to_me"
+                    android:textSize="@dimen/title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <ImageButton
+                        android:id="@+id/my_tasks_reload"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/reload"
+                        android:scaleType="fitCenter"
+                        android:background="@color/transparent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/my_tasks_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/no_tasks"
+                android:background="@color/transparent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/my_task_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/my_task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:layout_marginBottom="20dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/my_task_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp" >
+
+                <TextView
+                    android:id="@+id/my_task_deadline_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deadline"
+                    android:textSize="@dimen/text"
+                    android:layout_marginEnd="6dp"/>
+
+                <TextView
+                    android:id="@+id/my_task_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text"
+                    android:text="@string/deadline" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="2">
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/input_bg"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_2"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/input_bg"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="2">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/corners"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/corners"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:weightSum="4">
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_1_take_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
                     android:background="@drawable/input_bg"
-                    android:spinnerMode="dropdown"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_1_del_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/delete"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_2_take_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_2_del_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/delete"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/my_task_my_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/my_comments"
+                android:inputType="textCapSentences"
+                android:maxLines="3"
+                android:padding="10dp"
+                android:gravity="top"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/my_task_tm_comments_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_master_comments"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/my_task_tm_comments"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/input_bg_50"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="15dp" />
+
+            <CheckBox
+                android:id="@+id/my_task_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/checkbox_text"
+                android:text="@string/ive_completed_this_task"
+                android:buttonTint="@color/checkbox_bg"
+                android:buttonTintMode="multiply" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom|end">
+
+                <Button
+                    android:id="@+id/my_task_save_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/save" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_task_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/add_task_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_task"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <Spinner
+                android:id="@+id/add_task_tasker_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/input_bg"
+                android:spinnerMode="dropdown"
+                android:textSize="@dimen/input"
+                android:paddingStart="5dp"
+                android:layout_marginBottom="15dp" />
+
+            <EditText
+                android:id="@+id/add_task_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:inputType="textCapSentences"
+                android:hint="@string/title"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/add_task_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/description"
+                android:singleLine="false"
+                android:lines="5"
+                android:gravity="top"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                android:weightSum="2" >
+
+                <TextView
+                    android:id="@+id/add_task_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_bg"
+                    android:layout_marginEnd="8dp"
+                    android:padding="10dp"
+                    android:gravity="end"
                     android:textSize="@dimen/input"
-                    android:paddingStart="5dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/add_task_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_bg"
+                    android:layout_marginStart="8dp"
+                    android:padding="10dp"
+                    android:gravity="end"
+                    android:textSize="@dimen/input"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/repeat_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/repeat_task"
+                    android:textSize="@dimen/text"
+                    android:layout_marginEnd="15dp" />
+
+                <Spinner
+                    android:id="@+id/add_task_n_times"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:textSize="@dimen/input"
+                    android:background="@drawable/input_bg"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:id="@+id/times"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_s"
+                    android:textSize="@dimen/text"
+                    android:layout_marginStart="15dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/weekdays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weekdays"
+                android:layout_marginTop="15dp"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="7">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_1_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/monday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_2_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/tuesday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_3_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/wednesday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_4_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/thursday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_5_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/friday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_6_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/saturday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/add_task_day_7_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/sunday" />
+
+                    <CheckBox
+                        android:id="@+id/add_task_day_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/checkbox_text"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/add_one_task_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/add_task_s"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/their_tasks_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/their_tasks_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/title"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="20dp" />
 
                 <EditText
-                    android:id="@+id/add_task_title"
+                    android:id="@+id/their_tasks_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/input_bg"
-                    android:inputType="textCapSentences"
                     android:hint="@string/title"
                     android:singleLine="true"
                     android:lines="1"
@@ -973,27 +1505,35 @@
                     android:layout_marginBottom="15dp"/>
 
                 <EditText
-                    android:id="@+id/add_task_description"
+                    android:id="@+id/their_tasks_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/input_bg"
                     android:hint="@string/description"
                     android:singleLine="false"
-                    android:lines="5"
+                    android:maxLines="2"
                     android:gravity="top"
                     android:padding="10dp"
                     android:textSize="@dimen/input"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:id="@+id/their_tasks_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deadline"
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="5dp"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="15dp"
                     android:weightSum="2" >
 
                     <TextView
-                        android:id="@+id/add_task_date"
+                        android:id="@+id/their_tasks_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/input_bg"
@@ -1004,7 +1544,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/add_task_time"
+                        android:id="@+id/their_tasks_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/input_bg"
@@ -1020,598 +1560,265 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp" >
+                    android:layout_marginBottom="10dp" >
 
                     <TextView
-                        android:id="@+id/repeat_task"
+                        android:id="@+id/their_tasks_last_modified_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/repeat_task"
                         android:textSize="@dimen/text"
-                        android:layout_marginEnd="15dp" />
-
-                    <Spinner
-                        android:id="@+id/add_task_n_times"
-                        android:layout_width="wrap_content"
-                        android:layout_height="42dp"
-                        android:textSize="@dimen/input"
-                        android:background="@drawable/input_bg"
-                        android:spinnerMode="dropdown" />
+                        android:text="@string/last_modified_on" />
 
                     <TextView
-                        android:id="@+id/times"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/their_tasks_last_modified"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/time_s"
+                        android:text="00-00-0000 00:00"
+                        android:gravity="end"
+                        android:background="@drawable/input_bg_50"
+                        android:padding="10dp"
                         android:textSize="@dimen/text"
-                        android:layout_marginStart="15dp" />
+                        android:layout_marginStart="10dp" />
 
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:weightSum="2">
+
+                        <ImageButton
+                            android:id="@+id/their_tasks_attachment_ib_1"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/input_bg_50"
+                            android:layout_weight="1" />
+
+                        <ImageButton
+                            android:id="@+id/their_tasks_attachment_ib_2"
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/input_bg_50"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:weightSum="2">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/corners"
+                            android:layout_weight="1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/corners"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/weekdays"
+                    android:id="@+id/their_tasks_t_comments_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tasker_comments"
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
+                    android:id="@+id/their_tasks_t_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/input_bg_50"
+                    android:textSize="@dimen/text"
+                    android:paddingTop="15dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="15dp"/>
+
+                <EditText
+                    android:id="@+id/their_tasks_my_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_bg"
+                    android:hint="@string/my_comments"
+                    android:inputType="textCapSentences"
+                    android:maxLines="3"
+                    android:padding="10dp"
+                    android:textSize="@dimen/input"
+                    android:gravity="top"
+                    android:layout_marginBottom="15dp"/>
+
+                <CheckBox
+                    android:id="@+id/their_tasks_done"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/weekdays"
-                    android:layout_marginTop="15dp"
-                    android:textSize="@dimen/text"
-                    android:layout_marginBottom="15dp" />
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/task_is_complete"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="7">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_1_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/monday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_2_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/tuesday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_3_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/wednesday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_4_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/thursday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_5_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/friday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_6_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/saturday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/add_task_day_7_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:text="@string/sunday" />
-
-                        <CheckBox
-                            android:id="@+id/add_task_day_7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/checkbox_text"
-                            android:checked="true"
-                            android:buttonTint="@color/checkbox_bg"
-                            android:buttonTintMode="multiply" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/add_one_task_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/add_task_s"/>
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/their_tasks_template_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
+                            android:text="@string/use_as_template" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <Button
+                            android:id="@+id/their_tasks_save_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
+                            android:text="@string/save" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <ScrollView
-                android:id="@+id/their_tasks_card"
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/change_password_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:layout_weight="3"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/change_password_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_pass"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/change_password_old_field"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/old_pass"
+                android:inputType="textVisiblePassword"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="40dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <EditText
+                android:id="@+id/change_password_new1_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/new_pass"
+                android:inputType="textVisiblePassword"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
 
-                    <TextView
-                        android:id="@+id/their_tasks_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/title"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="20dp" />
-
-                    <EditText
-                        android:id="@+id/their_tasks_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/input_bg"
-                        android:hint="@string/title"
-                        android:singleLine="true"
-                        android:lines="1"
-                        android:padding="10dp"
-                        android:textSize="@dimen/input"
-                        android:layout_marginBottom="15dp"/>
-
-                    <EditText
-                        android:id="@+id/their_tasks_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/input_bg"
-                        android:hint="@string/description"
-                        android:singleLine="false"
-                        android:maxLines="2"
-                        android:gravity="top"
-                        android:padding="10dp"
-                        android:textSize="@dimen/input"
-                        android:layout_marginBottom="15dp" />
-
-                    <TextView
-                        android:id="@+id/their_tasks_deadline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/deadline"
-                        android:textSize="@dimen/text"
-                        android:layout_marginBottom="5dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="15dp"
-                        android:weightSum="2" >
-
-                        <TextView
-                            android:id="@+id/their_tasks_date"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/input_bg"
-                            android:layout_marginEnd="8dp"
-                            android:padding="10dp"
-                            android:gravity="end"
-                            android:textSize="@dimen/input"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/their_tasks_time"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/input_bg"
-                            android:layout_marginStart="8dp"
-                            android:padding="10dp"
-                            android:gravity="end"
-                            android:textSize="@dimen/input"
-                            android:layout_weight="1" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="10dp" >
-
-                        <TextView
-                            android:id="@+id/their_tasks_last_modified_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text"
-                            android:text="@string/last_modified_on" />
-
-                        <TextView
-                            android:id="@+id/their_tasks_last_modified"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="00-00-0000 00:00"
-                            android:gravity="end"
-                            android:background="@drawable/input_bg_50"
-                            android:padding="10dp"
-                            android:textSize="@dimen/text"
-                            android:layout_marginStart="10dp" />
-
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="15dp"
-                            android:weightSum="2">
-
-                            <ImageButton
-                                android:id="@+id/their_tasks_attachment_ib_1"
-                                android:layout_width="0dp"
-                                android:layout_height="100dp"
-                                android:scaleType="centerCrop"
-                                android:layout_marginEnd="5dp"
-                                android:background="@drawable/input_bg_50"
-                                android:layout_weight="1" />
-
-                            <ImageButton
-                                android:id="@+id/their_tasks_attachment_ib_2"
-                                android:layout_width="0dp"
-                                android:layout_height="100dp"
-                                android:scaleType="centerCrop"
-                                android:layout_marginStart="5dp"
-                                android:background="@drawable/input_bg_50"
-                                android:layout_weight="1" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="15dp"
-                            android:weightSum="2">
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="100dp"
-                                android:layout_marginEnd="5dp"
-                                android:background="@drawable/corners"
-                                android:layout_weight="1" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="100dp"
-                                android:layout_marginStart="5dp"
-                                android:background="@drawable/corners"
-                                android:layout_weight="1" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/their_tasks_t_comments_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tasker_comments"
-                        android:textSize="@dimen/text"
-                        android:layout_marginBottom="5dp" />
-
-                    <TextView
-                        android:id="@+id/their_tasks_t_comments"
-                        android:layout_width="match_parent"
-                        android:layout_height="42dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@drawable/input_bg_50"
-                        android:textSize="@dimen/text"
-                        android:paddingTop="15dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="15dp"/>
-
-                    <EditText
-                        android:id="@+id/their_tasks_my_comments"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/input_bg"
-                        android:hint="@string/my_comments"
-                        android:inputType="textCapSentences"
-                        android:maxLines="3"
-                        android:padding="10dp"
-                        android:textSize="@dimen/input"
-                        android:gravity="top"
-                        android:layout_marginBottom="15dp"/>
-
-                    <CheckBox
-                        android:id="@+id/their_tasks_done"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_is_complete"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" >
-
-                            <Button
-                                android:id="@+id/their_tasks_template_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="@dimen/buttons_text"
-                                android:background="@drawable/button_bg"
-                                app:backgroundTint="@color/button_bg"
-                                android:backgroundTintMode="multiply"
-                                android:text="@string/use_as_template" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="end">
-
-                            <Button
-                                android:id="@+id/their_tasks_save_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="@dimen/buttons_text"
-                                android:background="@drawable/button_bg"
-                                app:backgroundTint="@color/button_bg"
-                                android:backgroundTintMode="multiply"
-                                android:text="@string/save" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </ScrollView>
+            <EditText
+                android:id="@+id/change_password_new2_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/repeat_new_pass"
+                android:inputType="textVisiblePassword"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
 
             <LinearLayout
-                android:id="@+id/change_password_card"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="20dp"
-                android:background="@drawable/panel_bg"
-                android:layout_weight="3"
-                android:visibility="gone" >
+                android:gravity="bottom">
 
-                <TextView
-                    android:id="@+id/change_password_card_title"
+                <Button
+                    android:id="@+id/change_password_change_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/change_pass"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/title" />
-
-                <EditText
-                    android:id="@+id/change_password_old_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/old_pass"
-                    android:inputType="textVisiblePassword"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="40dp"/>
-
-                <EditText
-                    android:id="@+id/change_password_new1_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/new_pass"
-                    android:inputType="textVisiblePassword"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp"/>
-
-                <EditText
-                    android:id="@+id/change_password_new2_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/repeat_new_pass"
-                    android:inputType="textVisiblePassword"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom">
-
-                    <Button
-                        android:id="@+id/change_password_change_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/change_pass" />
-
-                </LinearLayout>
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/change_pass" />
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/image_show"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="15dp"
-                android:layout_weight="3"
-                android:visibility="gone"/>
-
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_show"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="15dp"
+            android:layout_weight="3"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
