@@ -2143,7 +2143,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String tempMD = theirTasksLastModifiedDateTime.get(which);
-        Calendar now =  Calendar.getInstance();
         Calendar taskDate = Calendar.getInstance();
         int da, mo, ye, ho, mi;
         if (tempMD.contains("0000-00-00 00:00:00")) {
@@ -2162,9 +2161,13 @@ public class MainActivity extends AppCompatActivity {
             taskDate.set(Calendar.DAY_OF_MONTH, da);
             taskDate.set(Calendar.HOUR_OF_DAY, ho);
             taskDate.set(Calendar.MINUTE, mi);
-            long nowMil = now.getTimeInMillis();
+            long calMil = calendar.getTimeInMillis();
             long taskMil = taskDate.getTimeInMillis();
-            if (nowMil > taskMil) theirTasksLastModified.setTextColor(getColor(R.color.task_late));
+            if (calMil <= taskMil) {
+                theirTasksLastModified.setTextColor(getColor(R.color.task_late));
+            } else {
+                theirTasksLastModified.setTextColor(getColor(R.color.today));
+            }
         }
 
         if (theirTasksAttachment1.get(which)) {
