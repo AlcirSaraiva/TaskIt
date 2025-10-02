@@ -1370,6 +1370,7 @@ public class MainActivity extends AppCompatActivity {
             response = response.replaceAll(newLine, "\n");
             info.setText(response);
             if (response.contains("Login successful")) {
+                loadUsers();
                 String[] resp = response.split(newLine);
                 String[] temp = resp[0].split(fS);
                 myID = temp[1];
@@ -1398,6 +1399,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putBoolean("admin", admin);
                     editor.apply();
                 }
+
                 if (taskMaster) {
                     changeScreen(TASK_MASTER_TASKS);
                 } else {
@@ -1483,122 +1485,115 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadTheirTasks() {
         info.setText("Contacting server...  ");
+        theirTasksTaskId = new ArrayList<>();
+        theirTasksTaskerId = new ArrayList<>();
+        theirTasksTitle = new ArrayList<>();
+        theirTasksDescription = new ArrayList<>();
+        theirTasksDeadline = new ArrayList<>();
+        theirTasksLastModifiedDateTime = new ArrayList<>();
+        theirTasksTaskerMarkedAsDone = new ArrayList<>();
+        theirTasksAttachment1 = new ArrayList<>();
+        theirTasksAttachment2 = new ArrayList<>();
+        theirTasksTaskerComment = new ArrayList<>();
+        theirTasksTaskMasterComment = new ArrayList<>();
+        theirTasksTaskMasterMarkedAsDone = new ArrayList<>();
+        String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(myID));
+        if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+            String[] lines = response.split(newLine);
+            String[] line;
+            for (int i = 0; i < lines.length; i ++) {
+                line = lines[i].split(fS);
+                if (showCompleted.isChecked()) {
+                    if (line.length == 12) {
+                        theirTasksTaskId.add(line[0]);
+                        theirTasksTaskerId.add(line[1]);
+                        theirTasksTitle.add(line[2]);
+                        theirTasksDescription.add(line[3]);
+                        theirTasksDeadline.add(line[4]);
+                        if (line[5].contains("0")) {
+                            theirTasksTaskerMarkedAsDone.add(false);
+                        } else {
+                            theirTasksTaskerMarkedAsDone.add(true);
+                        }
+                        if (line[6].contains("0")) {
+                            theirTasksAttachment1.add(false);
+                        } else {
+                            theirTasksAttachment1.add(true);
+                        }
+                        if (line[7].contains("0")) {
+                            theirTasksAttachment2.add(false);
+                        } else {
+                            theirTasksAttachment2.add(true);
+                        }
+                        theirTasksTaskerComment.add(line[8]);
+                        theirTasksTaskMasterComment.add(line[9]);
+
+                        if (line[10].contains("0")) {
+                            theirTasksTaskMasterMarkedAsDone.add(false);
+                        } else {
+                            theirTasksTaskMasterMarkedAsDone.add(true);
+                        }
+
+                        theirTasksLastModifiedDateTime.add(line[11]);
+                    }
+                } else {
+                    if (line.length == 12 && line[10].contains("0")) {
+                        theirTasksTaskId.add(line[0]);
+                        theirTasksTaskerId.add(line[1]);
+                        theirTasksTitle.add(line[2]);
+                        theirTasksDescription.add(line[3]);
+                        theirTasksDeadline.add(line[4]);
+                        if (line[5].contains("0")) {
+                            theirTasksTaskerMarkedAsDone.add(false);
+                        } else {
+                            theirTasksTaskerMarkedAsDone.add(true);
+                        }
+                        if (line[6].contains("0")) {
+                            theirTasksAttachment1.add(false);
+                        } else {
+                            theirTasksAttachment1.add(true);
+                        }
+                        if (line[7].contains("0")) {
+                            theirTasksAttachment2.add(false);
+                        } else {
+                            theirTasksAttachment2.add(true);
+                        }
+                        theirTasksTaskerComment.add(line[8]);
+                        theirTasksTaskMasterComment.add(line[9]);
+
+                        theirTasksTaskMasterMarkedAsDone.add(false);
+
+                        theirTasksLastModifiedDateTime.add(line[11]);
+                    }
+                }
+            }
+
+            info.setText("");
+
+            ArrayList<String> tasksTaskerName = new ArrayList<>();
+            for (int i = 0; i < theirTasksTaskerId.size(); i ++) {
+                tasksTaskerName.add(usersNames.get(usersIds.indexOf(theirTasksTaskerId.get(i))));
+            }
+
+            TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
+            theirTasksListAdapter.notifyDataSetChanged();
+            theirTasksListView.setAdapter(theirTasksListAdapter);
+            theirTasksListView.setDivider(null);
+
+            if (theirTasksTitle.isEmpty()) {
+                theirTasksListView.setVisibility(View.GONE);
+            } else {
+                theirTasksListView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(myID));
-
-                if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
-                    theirTasksTaskId = new ArrayList<>();
-                    theirTasksTaskerId = new ArrayList<>();
-                    theirTasksTitle = new ArrayList<>();
-                    theirTasksDescription = new ArrayList<>();
-                    theirTasksDeadline = new ArrayList<>();
-                    theirTasksLastModifiedDateTime = new ArrayList<>();
-                    theirTasksTaskerMarkedAsDone = new ArrayList<>();
-                    theirTasksAttachment1 = new ArrayList<>();
-                    theirTasksAttachment2 = new ArrayList<>();
-                    theirTasksTaskerComment = new ArrayList<>();
-                    theirTasksTaskMasterComment = new ArrayList<>();
-                    theirTasksTaskMasterMarkedAsDone = new ArrayList<>();
-
-                    String[] lines = response.split(newLine);
-                    String[] line;
-                    for (int i = 0; i < lines.length; i ++) {
-                        line = lines[i].split(fS);
-                        if (showCompleted.isChecked()) {
-                            if (line.length == 12) {
-                                theirTasksTaskId.add(line[0]);
-                                theirTasksTaskerId.add(line[1]);
-                                theirTasksTitle.add(line[2]);
-                                theirTasksDescription.add(line[3]);
-                                theirTasksDeadline.add(line[4]);
-                                if (line[5].contains("0")) {
-                                    theirTasksTaskerMarkedAsDone.add(false);
-                                } else {
-                                    theirTasksTaskerMarkedAsDone.add(true);
-                                }
-                                if (line[6].contains("0")) {
-                                    theirTasksAttachment1.add(false);
-                                } else {
-                                    theirTasksAttachment1.add(true);
-                                }
-                                if (line[7].contains("0")) {
-                                    theirTasksAttachment2.add(false);
-                                } else {
-                                    theirTasksAttachment2.add(true);
-                                }
-                                theirTasksTaskerComment.add(line[8]);
-                                theirTasksTaskMasterComment.add(line[9]);
-
-                                if (line[10].contains("0")) {
-                                    theirTasksTaskMasterMarkedAsDone.add(false);
-                                } else {
-                                    theirTasksTaskMasterMarkedAsDone.add(true);
-                                }
-
-                                theirTasksLastModifiedDateTime.add(line[11]);
-                            }
-                        } else {
-                            if (line.length == 12 && line[10].contains("0")) {
-                                theirTasksTaskId.add(line[0]);
-                                theirTasksTaskerId.add(line[1]);
-                                theirTasksTitle.add(line[2]);
-                                theirTasksDescription.add(line[3]);
-                                theirTasksDeadline.add(line[4]);
-                                if (line[5].contains("0")) {
-                                    theirTasksTaskerMarkedAsDone.add(false);
-                                } else {
-                                    theirTasksTaskerMarkedAsDone.add(true);
-                                }
-                                if (line[6].contains("0")) {
-                                    theirTasksAttachment1.add(false);
-                                } else {
-                                    theirTasksAttachment1.add(true);
-                                }
-                                if (line[7].contains("0")) {
-                                    theirTasksAttachment2.add(false);
-                                } else {
-                                    theirTasksAttachment2.add(true);
-                                }
-                                theirTasksTaskerComment.add(line[8]);
-                                theirTasksTaskMasterComment.add(line[9]);
-
-                                theirTasksTaskMasterMarkedAsDone.add(false);
-
-                                theirTasksLastModifiedDateTime.add(line[11]);
-                            }
-                        }
-                    }
-
-                    info.setText("");
-
-                    ArrayList<String> tasksTaskerName = new ArrayList<>();
-                    for (int i = 0; i < theirTasksTaskerId.size(); i ++) {
-                        tasksTaskerName.add(usersNames.get(usersIds.indexOf(theirTasksTaskerId.get(i))));
-                    }
-
-                    TheirTasksListAdapter theirTasksListAdapter = new TheirTasksListAdapter(activityContext, tasksTaskerName, theirTasksTitle, theirTasksDeadline, theirTasksTaskerMarkedAsDone);
-                    theirTasksListAdapter.notifyDataSetChanged();
-                    theirTasksListView.setAdapter(theirTasksListAdapter);
-                    theirTasksListView.setDivider(null);
-
-                    if (theirTasksTitle.isEmpty()) {
-                        theirTasksListView.setVisibility(View.GONE);
-                    } else {
-                        theirTasksListView.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
-                }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showCompleted.setEnabled(true);
-                    }
-                }, 2000);
+                showCompleted.setEnabled(true);
             }
-        }, 100);
+        }, 2000);
     }
 
     private void loadMyTasks() {
@@ -1673,60 +1668,54 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadUsers() {
         info.setText("Contacting server...  ");
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String response = contactServer(loadUsersPHP, Java_AES_Cipher.encryptSimple(emptyData));
-                if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
-                    usersNames = new ArrayList<>();
-                    usersIds = new ArrayList<>();
-                    usersTaskMaster = new ArrayList<>();
-                    usersAdmin = new ArrayList<>();
-
-                    String[] lines = response.split(newLine);
-                    String[] line;
-                    for (int i = 0; i < lines.length; i ++) {
-                        line = lines[i].split(fS);
-                        if (line.length == 4) {// && !line[1].equals(myID)) {
-                            usersNames.add(line[0]);
-                            usersIds.add(line[1]);
-                            if (line[2].equals("0")) {
-                                usersTaskMaster.add(false);
-                            } else {
-                                usersTaskMaster.add(true);
-                            }
-                            if (line[3].equals("0")) {
-                                usersAdmin.add(false);
-                            } else {
-                                usersAdmin.add(true);
-                            }
-                        }
+        usersNames = new ArrayList<>();
+        usersIds = new ArrayList<>();
+        usersTaskMaster = new ArrayList<>();
+        usersAdmin = new ArrayList<>();
+        String response = contactServer(loadUsersPHP, Java_AES_Cipher.encryptSimple(emptyData));
+        if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+            String[] lines = response.split(newLine);
+            String[] line;
+            for (int i = 0; i < lines.length; i ++) {
+                line = lines[i].split(fS);
+                if (line.length == 4) {// && !line[1].equals(myID)) {
+                    usersNames.add(line[0]);
+                    usersIds.add(line[1]);
+                    if (line[2].equals("0")) {
+                        usersTaskMaster.add(false);
+                    } else {
+                        usersTaskMaster.add(true);
                     }
-
-                    info.setText("");
-
-                    ArrayList<String> tempUsersNames = new ArrayList<>();
-                    ArrayList<String> tempUsersIds = new ArrayList<>();
-
-                    for (int i = 0; i < usersIds.size(); i ++) {
-                        if (!usersIds.get(i).equals(myID)) {
-                            tempUsersNames.add(usersNames.get(i));
-                            tempUsersIds.add(usersIds.get(i));
-                        }
+                    if (line[3].equals("0")) {
+                        usersAdmin.add(false);
+                    } else {
+                        usersAdmin.add(true);
                     }
-
-                    String[] items = tempUsersNames.toArray(new String[tempUsersNames.size()]);
-                    taskerSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
-                    addTaskTaskerSpinner.setAdapter(taskerSpinnerAdapter);
-
-                    UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
-                    usersListView.setAdapter(usersListAdapter);
-                    usersListView.setDivider(null);
-                } else {
-                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
                 }
             }
-        }, 100);
+
+            info.setText("");
+
+            ArrayList<String> tempUsersNames = new ArrayList<>();
+            ArrayList<String> tempUsersIds = new ArrayList<>();
+
+            for (int i = 0; i < usersIds.size(); i ++) {
+                if (!usersIds.get(i).equals(myID)) {
+                    tempUsersNames.add(usersNames.get(i));
+                    tempUsersIds.add(usersIds.get(i));
+                }
+            }
+
+            String[] items = tempUsersNames.toArray(new String[tempUsersNames.size()]);
+            taskerSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+            addTaskTaskerSpinner.setAdapter(taskerSpinnerAdapter);
+
+            UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
+            usersListView.setAdapter(usersListAdapter);
+            usersListView.setDivider(null);
+        } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addTask() {
@@ -2100,7 +2089,7 @@ public class MainActivity extends AppCompatActivity {
         if (myTasksAttachment1.get(which)) {
             ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
             ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                    .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
+                    .data(taskImagesRemote + myID + "/" + myTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
                     .placeholder(placeholder)
                     .fallback(fallback)
                     .error(error)
@@ -2125,7 +2114,7 @@ public class MainActivity extends AppCompatActivity {
         if (myTasksAttachment2.get(which)) {
             ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
             ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                    .data(taskImagesRemote + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
+                    .data(taskImagesRemote + myID + "/" + myTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
                     .placeholder(placeholder)
                     .fallback(fallback)
                     .error(error)
@@ -2220,7 +2209,7 @@ public class MainActivity extends AppCompatActivity {
         if (theirTasksAttachment1.get(which)) {
             ImageLoader attachment1ImageLoader = SingletonImageLoader.get(context);
             ImageRequest attachment1Request = new ImageRequest.Builder(context)
-                    .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
+                    .data(taskImagesRemote + theirTasksTaskerId.get(selectedTask) + "/" + theirTasksTaskId.get(selectedTask) + "-1-thumb.jpg")
                     .placeholder(placeholder)
                     .fallback(fallback)
                     .error(error)
@@ -2245,7 +2234,7 @@ public class MainActivity extends AppCompatActivity {
         if (theirTasksAttachment2.get(which)) {
             ImageLoader attachment2ImageLoader = SingletonImageLoader.get(context);
             ImageRequest attachment2Request = new ImageRequest.Builder(context)
-                    .data(taskImagesRemote + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
+                    .data(taskImagesRemote + theirTasksTaskerId.get(selectedTask) + "/" + theirTasksTaskId.get(selectedTask) + "-2-thumb.jpg")
                     .placeholder(placeholder)
                     .fallback(fallback)
                     .error(error)
@@ -2289,16 +2278,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadShowImage(boolean showTheirs) {
-        String taskId;
+        String taskId, taskerId;
         if (showTheirs) {
             taskId = theirTasksTaskId.get(selectedTask);
+            taskerId = theirTasksTaskerId.get(selectedTask);
         } else {
             taskId = myTasksTaskId.get(selectedTask);
+            taskerId = myID;
         }
 
         ImageLoader showImageLoader = SingletonImageLoader.get(context);
         ImageRequest showImageRequest = new ImageRequest.Builder(context)
-                .data(taskImagesRemote + taskId + "-" + selectedAttachment + ".jpg")
+                .data(taskImagesRemote + taskerId + "/" + taskId + "-" + selectedAttachment + ".jpg")
                 .placeholder(placeholderBig)
                 .fallback(fallbackBig)
                 .error(errorBig)
@@ -2610,7 +2601,7 @@ public class MainActivity extends AppCompatActivity {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        String uploadResult = uploadImage(image, imageThumb, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
+                                        String uploadResult = uploadImage(image, imageThumb, Java_AES_Cipher.encryptSimple(myID + fS + myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
                                         info.setText(uploadResult);
                                         populateMyTaskCard(selectedTask);
                                         if (uploadResult.contains("Picture uploaded")) {
