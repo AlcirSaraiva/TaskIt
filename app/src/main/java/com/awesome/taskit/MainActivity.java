@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     private final int TASKER_MANAGEMENT = 12;
     private int currentScreen, lastscreen;
 
-    private TextView appTitle, info, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
+    private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private LinearLayout llTasks, llUsers, llMyTasks, llDeleteDone, llChangePass;
     private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger;
     private ScrollView theirTasksCard;
@@ -287,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
         menuButton = findViewById(R.id.menu_button);
         appTitle = findViewById(R.id.app_title);
         backButton = findViewById(R.id.back_button);
-        info = findViewById(R.id.info);
 
         loginCard = findViewById(R.id.login_card);
         taskerManagementCard = findViewById(R.id.tasker_management_card);
@@ -803,7 +802,7 @@ public class MainActivity extends AppCompatActivity {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     selectedAttachment = 1;
                                     myTasksAttachment1.set(selectedTask, false);
-                                    info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                                    contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0"));
                                     populateMyTaskCard(selectedTask);
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -866,7 +865,7 @@ public class MainActivity extends AppCompatActivity {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     selectedAttachment = 2;
                                     myTasksAttachment2.set(selectedTask, false);
-                                    info.setText(contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0")));
+                                    contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "0"));
                                     populateMyTaskCard(selectedTask);
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -1368,7 +1367,6 @@ public class MainActivity extends AppCompatActivity {
             String rawData = nameTemp + fS + loginPasswordField.getText().toString();
             String response = contactServer(loginPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
-            info.setText(response);
             if (response.contains("Login successful")) {
                 String[] resp = response.split(newLine);
                 String[] temp = resp[0].split(fS);
@@ -1390,7 +1388,6 @@ public class MainActivity extends AppCompatActivity {
                     llUsers.setVisibility(View.VISIBLE);
                     llDeleteDone.setVisibility(View.VISIBLE);
                 }
-                info.setText("");
                 signInButton.setEnabled(true);
                 if (loginKeep.isChecked()) {
                     SharedPreferences.Editor editor = sharedPref.edit();
@@ -1410,18 +1407,15 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        info.setText("");
                         signInButton.setEnabled(true);
                     }
                 }, 2000);
             }
         } else {
-            info.setText("ERROR\nUsername cannot be empty");
             Toast.makeText(context, getString(R.string.error_username_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    info.setText("");
                     signInButton.setEnabled(true);
                 }
             }, 3000);
@@ -1439,14 +1433,12 @@ public class MainActivity extends AppCompatActivity {
             String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB;
             String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
-            info.setText(response);
             if (response.contains("New record created successfully")) {
                 Toast.makeText(context, getString(R.string.user_created), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         addUserAddButton.setEnabled(true);
-                        info.setText("");
                         loadUsers();
                         changeScreen(TASK_MASTER_TASKERS);
                     }
@@ -1456,7 +1448,6 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        info.setText("");
                         addUserAddButton.setEnabled(true);
                     }
                 }, 2000);
@@ -1465,18 +1456,15 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        info.setText("Generate new ID and try again");
                         addUserAddButton.setEnabled(true);
                     }
                 }, 2000);
             }
         } else {
-            info.setText("ERROR\nUsername field cannot be empty");
             Toast.makeText(context, getString(R.string.error_username_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    info.setText("");
                     addUserAddButton.setEnabled(true);
                 }
             }, 2000);
@@ -1484,7 +1472,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTheirTasks() {
-        info.setText("Contacting server...  ");
         theirTasksTaskId = new ArrayList<>();
         theirTasksTaskerId = new ArrayList<>();
         theirTasksTitle = new ArrayList<>();
@@ -1568,8 +1555,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            info.setText("");
-
             ArrayList<String> tasksTaskerName = new ArrayList<>();
             for (int i = 0; i < theirTasksTaskerId.size(); i ++) {
                 tasksTaskerName.add(usersNames.get(usersIds.indexOf(theirTasksTaskerId.get(i))));
@@ -1597,7 +1582,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMyTasks() {
-        info.setText("Contacting server...  ");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -1647,8 +1631,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    info.setText("");
-
                     MyTasksListAdapter myTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
                     myTasksListAdapter.notifyDataSetChanged();
                     myTasksListView.setAdapter(myTasksListAdapter);
@@ -1667,7 +1649,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUsers() {
-        info.setText("Contacting server...  ");
         usersNames = new ArrayList<>();
         usersIds = new ArrayList<>();
         usersTaskMaster = new ArrayList<>();
@@ -1693,8 +1674,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
-            info.setText("");
 
             ArrayList<String> tempUsersNames = new ArrayList<>();
             ArrayList<String> tempUsersIds = new ArrayList<>();
@@ -1747,8 +1726,6 @@ public class MainActivity extends AppCompatActivity {
                     String response = contactServer(addTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
                     response = response.replaceAll(newLine, "\n");
 
-                    info.setText(response);
-
                     if (response.contains("New task created successfully")) {
                         if (i == n - 1) {
                             Toast.makeText(context, getString(R.string.task_created), Toast.LENGTH_LONG).show();
@@ -1758,7 +1735,6 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     addTaskButton.setEnabled(true);
-                                    info.setText("");
                                 }
                             }, 1500);
                             changeScreen(TASK_MASTER_TASKS);
@@ -1783,12 +1759,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else {
-            info.setText("ERROR\nTitle field cannot be empty");
             Toast.makeText(context, getString(R.string.error_title_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    info.setText("");
                     addTaskButton.setEnabled(true);
                 }
             }, 2000);
@@ -1835,7 +1809,6 @@ public class MainActivity extends AppCompatActivity {
 
         String response = contactServer(updateMyTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
-        info.setText(response);
 
         if (response.contains("Task updated successfully")) {
             Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
@@ -1850,7 +1823,6 @@ public class MainActivity extends AppCompatActivity {
                     myTaskAttachment2TakePic.setEnabled(true);
                     myTaskAttachment2DelPic.setEnabled(true);
                     myTaskSaveButton.setEnabled(true);
-                    info.setText("");
                 }
             }, 1500);
         } else {
@@ -1890,7 +1862,6 @@ public class MainActivity extends AppCompatActivity {
 
         String response = contactServer(updateTheirTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
-        info.setText(response);
 
         if (response.contains("Task updated successfully")) {
             Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
@@ -1899,7 +1870,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     theirTasksSaveButton.setEnabled(true);
-                    info.setText("");
                 }
             }, 1500);
         } else {
@@ -1937,7 +1907,6 @@ public class MainActivity extends AppCompatActivity {
 
             String response = contactServer(updateUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
-            info.setText(response);
 
             if (response.contains("User updated")) {
                 Toast.makeText(context, getString(R.string.user_updated), Toast.LENGTH_LONG).show();
@@ -1948,7 +1917,6 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         deleteUserButton.setEnabled(true);
                         updateUserButton.setEnabled(true);
-                        info.setText("");
                     }
                 }, 2000);
             } else {
@@ -1958,19 +1926,16 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         deleteUserButton.setEnabled(true);
                         updateUserButton.setEnabled(true);
-                        info.setText("");
                     }
                 }, 2000);
             }
         } else {
-            info.setText("ERROR\nUsername field cannot be empty");
             Toast.makeText(context, getString(R.string.error_username_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     deleteUserButton.setEnabled(true);
                     updateUserButton.setEnabled(true);
-                    info.setText("");
                 }
             }, 2000);
         }
@@ -1983,12 +1948,11 @@ public class MainActivity extends AppCompatActivity {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         String rawData = usersIds.get(selectedUser);
                         String response = contactServer(deleteUserPHP, Java_AES_Cipher.encryptSimple(rawData));
                         response = response.replaceAll(newLine, "\n");
-                        info.setText(response);
 
                         if (response.contains("User deleted")) {
                             Toast.makeText(context, getString(R.string.user_deleted), Toast.LENGTH_LONG).show();
@@ -1999,7 +1963,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     deleteUserButton.setEnabled(true);
                                     updateUserButton.setEnabled(true);
-                                    info.setText("");
                                 }
                             }, 2000);
                         } else {
@@ -2009,7 +1972,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     deleteUserButton.setEnabled(true);
                                     updateUserButton.setEnabled(true);
-                                    info.setText("");
                                 }
                             }, 2000);
                         }
@@ -2048,7 +2010,6 @@ public class MainActivity extends AppCompatActivity {
         String rawData = myID + fS + emptyData; // TODO should send password instead of emptyData
         String response = contactServer(deleteDoneTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
-        info.setText(response);
         Toast.makeText(context, response, Toast.LENGTH_LONG).show();
     }
 
@@ -2318,32 +2279,26 @@ public class MainActivity extends AppCompatActivity {
         hideKeyboard();
         changePasswordChangeButton.setEnabled(false);
         if (changePasswordNew1Field.getText().toString().isEmpty() && changePasswordNew2Field.getText().toString().isEmpty()) {
-            info.setText(getString(R.string.error_new_pass_empty));
             Toast.makeText(context, getString(R.string.error_new_pass_empty), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    info.setText("");
                     changePasswordChangeButton.setEnabled(true);
                 }
             }, 2000);
         } else if (!changePasswordNew1Field.getText().toString().equals(changePasswordNew2Field.getText().toString())) {
-            info.setText(getString(R.string.error_new_pass_do_not_match));
             Toast.makeText(context, getString(R.string.error_new_pass_do_not_match), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    info.setText("");
                     changePasswordChangeButton.setEnabled(true);
                 }
             }, 2000);
         } else if (changePasswordNew1Field.getText().toString().length() < 8) {
-            info.setText(getString(R.string.error_new_pass_8_chars));
             Toast.makeText(context, getString(R.string.error_new_pass_8_chars), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    info.setText("");
                     changePasswordChangeButton.setEnabled(true);
                 }
             }, 2500);
@@ -2352,7 +2307,6 @@ public class MainActivity extends AppCompatActivity {
             String response = contactServer(changePasswordPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             response = response.replaceAll(fS, " - ");
-            info.setText(response);
 
             if (response.contains("Password changed")) {
                 Toast.makeText(context, getString(R.string.pass_changed), Toast.LENGTH_LONG).show();
@@ -2363,7 +2317,6 @@ public class MainActivity extends AppCompatActivity {
                         changePasswordNew1Field.setText("");
                         changePasswordNew2Field.setText("");
                         changePasswordChangeButton.setEnabled(true);
-                        info.setText("");
                         changeScreen(MAIN_MENU);
                     }
                 }, 1500);
@@ -2373,7 +2326,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         changePasswordChangeButton.setEnabled(true);
-                        info.setText("");
                     }
                 }, 1500);
             }
@@ -2586,7 +2538,6 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        info.setText("Resizing picture...  ");
                         if (selectedAttachment == 1) {
                             myTaskAttachment1.setImageResource(R.drawable.uploading);
                         } else {
@@ -2602,7 +2553,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         String uploadResult = uploadImage(image, imageThumb, Java_AES_Cipher.encryptSimple(myID + fS + myTasksTaskId.get(selectedTask) + fS + selectedAttachment));
-                                        info.setText(uploadResult);
                                         populateMyTaskCard(selectedTask);
                                         if (uploadResult.contains("Picture uploaded")) {
                                             Toast.makeText(context, getString(R.string.picture_uploaded), Toast.LENGTH_LONG).show();
@@ -2612,14 +2562,7 @@ public class MainActivity extends AppCompatActivity {
                                                 myTasksAttachment2.set(selectedTask, true);
                                             }
                                             populateMyTaskCard(selectedTask);
-                                            String response = contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1"));
-                                            info.setText(info.getText() + response);
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    info.setText("");
-                                                }
-                                            }, 4000);
+                                            contactServer(updateAttachmentPHP, Java_AES_Cipher.encryptSimple(myTasksTaskId.get(selectedTask) + fS + selectedAttachment + fS + "1"));
                                         }
                                     }
                                 }, 100);
@@ -2639,7 +2582,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 cameraLauncher.launch(intent);
             } catch (IOException e) {
-                info.setText("ERROR\n" + e.getMessage());
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -2655,7 +2598,6 @@ public class MainActivity extends AppCompatActivity {
             File inputFile = new File(imagePath);
 
             if (!inputFile.exists()) {
-                info.setText("ERROR\nFile does not exist: " + inputFile.getAbsolutePath());
                 return;
             }
 
@@ -2665,7 +2607,6 @@ public class MainActivity extends AppCompatActivity {
             Bitmap originalBitmap = BitmapFactory.decodeFile(inputFile.getAbsolutePath(), options);
 
             if (originalBitmap == null) {
-                info.setText("ERROR\nFailed to decode image.");
                 return;
             }
 
@@ -2740,9 +2681,8 @@ public class MainActivity extends AppCompatActivity {
             }
             scaledBitmap.recycle();
             thumbBitmap.recycle();
-            info.setText("Image saved\nUploading picture...\n");
         } catch (Exception e) {
-            info.setText("ERROR\n" + e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -2787,7 +2727,7 @@ public class MainActivity extends AppCompatActivity {
             return rotatedBitmap;
 
         } catch (Exception e) {
-            info.setText("ERROR\n" + e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             return bitmap;
         }
     }

@@ -564,7 +564,7 @@
                 android:layout_marginBottom="10dp"
                 android:padding="20dp"
                 android:background="@drawable/panel_bg"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1610,34 +1610,6 @@
                 android:layout_marginTop="15dp"
                 android:layout_weight="3"
                 android:visibility="gone"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/info_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/system_messages"/>
-
-            <TextView
-                android:id="@+id/info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#333"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:padding="10dp"/>
 
         </LinearLayout>
 
