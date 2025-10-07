@@ -25,7 +25,7 @@
     <string name="add_tasker">Nutzer hinzufügen</string>
     <string name="name">Name</string>
     <string name="id">ID</string>
-    <string name="generate_new_id">Neue ID generieren</string>
+    <string name="generate_new_id">Neue ID</string>
     <string name="tasker_management">Nutzer-Verwaltung</string>
     <string name="delete_tasker">Nutzer löschen</string>
     <string name="save">Speichern</string>
@@ -82,6 +82,7 @@
     <string name="task_updated">Aufgabe erfolgreich aktualisiert</string>
     <string name="picture_uploaded">Bild erfolgreich hochgeladen</string>
     <string name="departments">Abteilungen</string>
+    <string name="department">Abteilung</string>
     <string name="add_department">Abteilung hinzufügen</string>
     <string name="department_name">Abteilung-Name</string>
     <string name="obs">Anmerkung</string>

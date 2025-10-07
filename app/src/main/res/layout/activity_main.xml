@@ -398,14 +398,14 @@
                 android:lines="1"
                 android:padding="10dp"
                 android:textSize="@dimen/input"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="10dp">
 
                 <CheckBox
                     android:id="@+id/add_user_task_master"
@@ -429,26 +429,59 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/add_user_id_field"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/id"
-                android:background="@drawable/input_bg_50"
-                android:layout_marginBottom="15dp"
-                android:textSize="@dimen/id"
-                android:textColor="@color/text_50"
-                android:padding="10dp" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <Button
-                android:id="@+id/add_user_generate_id_button"
+                <TextView
+                    android:id="@+id/add_user_id_field"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/id"
+                    android:background="@drawable/input_bg_50"
+                    android:textSize="@dimen/id"
+                    android:textColor="@color/text_50"
+                    android:padding="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end|center_vertical">
+
+                    <Button
+                        android:id="@+id/add_user_generate_id_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
+                        android:text="@string/generate_new_id"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/add_user_department_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/buttons_text"
-                android:background="@drawable/button_bg"
-                app:backgroundTint="@color/button_bg"
-                android:backgroundTintMode="multiply"
-                android:text="@string/generate_new_id"/>
+                android:text="@string/department"
+                android:textSize="@dimen/text"
+                android:layout_marginTop="15dp"/>
+
+            <Spinner
+                android:id="@+id/add_user_department_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/input_bg"
+                android:spinnerMode="dropdown"
+                android:textSize="@dimen/input"
+                android:paddingStart="5dp"
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -479,7 +512,7 @@
             android:layout_marginBottom="10dp"
             android:padding="20dp"
             android:background="@drawable/panel_bg"
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <TextView
                 android:id="@+id/tasker_management_card_title"
@@ -513,11 +546,29 @@
                 android:textSize="@dimen/id"
                 android:layout_marginBottom="15dp" />
 
+            <TextView
+                android:id="@+id/tasker_management_department_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/department"
+                android:textSize="@dimen/text" />
+
+            <Spinner
+                android:id="@+id/tasker_management_department_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/input_bg"
+                android:spinnerMode="dropdown"
+                android:textSize="@dimen/input"
+                android:paddingStart="5dp"
+                android:layout_marginTop="10dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:layout_marginTop="10dp">
 
                 <CheckBox
                     android:id="@+id/tasker_management_task_master"

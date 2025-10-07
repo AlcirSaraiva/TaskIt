@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> usersNames;
     private ArrayList<String> usersIds;
+    private ArrayList<String> usersDepartment;
     private ArrayList<Boolean> usersTaskMaster;
     private ArrayList<Boolean> usersAdmin;
 
@@ -177,12 +178,12 @@ public class MainActivity extends AppCompatActivity {
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
-    private Spinner addTaskTaskerSpinner, addTaskNTimes;
+    private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, taskerManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
-            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle;
+            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUuserDepartmentText, taskerManagementDepartmentText;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Typeface font1, font2;
 
-    private ArrayAdapter<String> taskerSpinnerAdapter;
+    private ArrayAdapter<String> taskerSpinnerAdapter, departmentsSpinnerAdapter;
 
     // network
     private boolean isOnline; //TODO check if is online before calls to server
@@ -341,10 +342,14 @@ public class MainActivity extends AppCompatActivity {
         addUserAdmin = findViewById(R.id.add_user_admin);
         addUserIdField = findViewById(R.id.add_user_id_field);
         addUserGenerateIdButton = findViewById(R.id.add_user_generate_id_button);
+        addUuserDepartmentText = findViewById(R.id.add_user_department_text);
+        addUserDepartmentSpinner = findViewById(R.id.add_user_department_spinner);
         addUserAddButton = findViewById(R.id.add_user_add_button);
 
         taskerManagementNameField = findViewById(R.id.tasker_management_name_field);
         taskerManagementId = findViewById(R.id.tasker_management_id);
+        taskerManagementDepartmentText = findViewById(R.id.tasker_management_department_text);
+        taskerManagementDepartmentSpinner = findViewById(R.id.tasker_management_department_spinner);
         taskerManagementTaskMaster = findViewById(R.id.tasker_management_task_master);
         taskerManagementAdmin = findViewById(R.id.tasker_management_admin);
         deleteUserButton = findViewById(R.id.delete_user_button);
@@ -1015,11 +1020,13 @@ public class MainActivity extends AppCompatActivity {
         addUserAdmin.setTypeface(font1);
         addUserIdField.setTypeface(font2);
         addUserGenerateIdButton.setTypeface(font1);
+        addUuserDepartmentText.setTypeface(font1);
         addUserAddButton.setTypeface(font1);
 
         taskerManagementCardTitle.setTypeface(font1);
         taskerManagementNameField.setTypeface(font2);
         taskerManagementId.setTypeface(font2);
+        taskerManagementDepartmentText.setTypeface(font1);
         taskerManagementTaskMaster.setTypeface(font1);
         taskerManagementAdmin.setTypeface(font1);
         deleteUserButton.setTypeface(font1);
@@ -1540,7 +1547,7 @@ public class MainActivity extends AppCompatActivity {
 
         addUserAddButton.setEnabled(false);
         if (!addUserNameField.getText().toString().isEmpty()) {
-            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB;
+            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB + fS + addUserDepartmentSpinner.getSelectedItem().toString();
             String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             if (response.contains("New record created successfully")) {
@@ -1815,6 +1822,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            String[] items = departmentNames.toArray(new String[departmentNames.size()]);
+            departmentsSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+            addUserDepartmentSpinner.setAdapter(departmentsSpinnerAdapter);
+            taskerManagementDepartmentSpinner.setAdapter(departmentsSpinnerAdapter);
+
             DepartmentsListAdapter departmentsListAdapter = new DepartmentsListAdapter(activityContext, departmentNames);
             departmentsListView.setAdapter(departmentsListAdapter);
             departmentsListView.setDivider(null);
@@ -1826,6 +1838,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadUsers() {
         usersNames = new ArrayList<>();
         usersIds = new ArrayList<>();
+        usersDepartment = new ArrayList<>();
         usersTaskMaster = new ArrayList<>();
         usersAdmin = new ArrayList<>();
         String response = contactServer(loadUsersPHP, Java_AES_Cipher.encryptSimple(emptyData));
@@ -1834,19 +1847,20 @@ public class MainActivity extends AppCompatActivity {
             String[] line;
             for (int i = 0; i < lines.length; i ++) {
                 line = lines[i].split(fS);
-                if (line.length == 4) {// && !line[1].equals(myID)) {
+                if (line.length == 5) {
                     usersNames.add(line[0]);
                     usersIds.add(line[1]);
-                    if (line[2].equals("0")) {
+                    if (line[2].contains("0")) {
                         usersTaskMaster.add(false);
                     } else {
                         usersTaskMaster.add(true);
                     }
-                    if (line[3].equals("0")) {
+                    if (line[3].contains("0")) {
                         usersAdmin.add(false);
                     } else {
                         usersAdmin.add(true);
                     }
+                    usersDepartment.add(line[4]);
                 }
             }
 
@@ -2078,7 +2092,8 @@ public class MainActivity extends AppCompatActivity {
             String rawData = usersIds.get(selectedUser) + fS +
                     taskerManagementNameField.getText().toString() + fS +
                     tempTaskMaster + fS +
-                    tempAdmin;
+                    tempAdmin + fS +
+                    taskerManagementDepartmentSpinner.getSelectedItem().toString();
 
             String response = contactServer(updateUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
@@ -2527,6 +2542,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateTaskerManagement() {
         taskerManagementNameField.setText(usersNames.get(selectedUser));
         taskerManagementId.setText(usersIds.get(selectedUser));
+        taskerManagementDepartmentSpinner.setSelection(departmentsSpinnerAdapter.getPosition(usersDepartment.get(selectedUser)));
         taskerManagementTaskMaster.setChecked(usersTaskMaster.get(selectedUser));
         taskerManagementAdmin.setChecked(usersAdmin.get(selectedUser));
     }
