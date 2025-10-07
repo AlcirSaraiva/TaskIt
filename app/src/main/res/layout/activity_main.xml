@@ -588,7 +588,7 @@
             android:layout_marginBottom="10dp"
             android:padding="20dp"
             android:background="@drawable/panel_bg"
-            android:visibility="visible" >
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/departments_card_title"
@@ -649,7 +649,7 @@
                 android:layout_marginBottom="15dp"/>
 
             <EditText
-                android:id="@+id/add_department_obs"
+                android:id="@+id/add_department_obs_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/input_bg"
@@ -714,7 +714,7 @@
                 android:layout_marginBottom="15dp"/>
 
             <EditText
-                android:id="@+id/department_management_obs"
+                android:id="@+id/department_management_obs_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/input_bg"

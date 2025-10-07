@@ -165,22 +165,24 @@ public class MainActivity extends AppCompatActivity {
     private final int THEIR_TASKS_IMAGE_SHOW = 11;
     private final int TASKER_MANAGEMENT = 12;
     private final int DEPARTMENTS = 13;
+    private final int DEPARTMENT_ADD = 14;
+    private final int DEPARTMENT_MANAGEMENT = 15;
     private int currentScreen, lastscreen;
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard;
+    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard;
     private ScrollView theirTasksCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton;
-    private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton;
+    private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
     private Spinner addTaskTaskerSpinner, addTaskNTimes;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
-            departmentsCardTitle;
+            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -198,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
     private final String emptyData = "emptyData";
     private final String loginPHP = "https://www.solvaelys.com/taskit/login.php";
     private final String addUserPHP = "https://www.solvaelys.com/taskit/add_user.php";
+    private final String addDepartmentPHP = "https://www.solvaelys.com/taskit/add_department.php";
     private final String loadUsersPHP = "https://www.solvaelys.com/taskit/load_users.php";
     private final String loadDepartmentsPHP = "https://www.solvaelys.com/taskit/load_departments.php";
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
@@ -349,6 +352,19 @@ public class MainActivity extends AppCompatActivity {
         departmentsCardTitle = findViewById(R.id.departments_card_title);
         addDepartmentCardButton = findViewById(R.id.add_department_card_button);
         departmentsListView = findViewById(R.id.departments_listview);
+
+        addDepartmentCard = findViewById(R.id.add_department_card);
+        addDepartmentCardTitle = findViewById(R.id.add_department_card_title);
+        addDepartmentNameField = findViewById(R.id.add_department_name_field);
+        addDepartmentObsField = findViewById(R.id.add_department_obs_field);
+        addDepartmentAddButton = findViewById(R.id.add_department_add_button);
+
+        departmentManagementCard = findViewById(R.id.department_management_card);
+        departmentManagementCardTitle = findViewById(R.id.department_management_card_title);
+        departmentManagementNameField = findViewById(R.id.department_management_name_field);
+        departmentManagementObsField = findViewById(R.id.department_management_obs_field);
+        deleteDepartmentButton = findViewById(R.id.delete_department_button);
+        updateDepartmentButton = findViewById(R.id.update_department_button);
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksReload = findViewById(R.id.their_tasks_reload);
@@ -943,6 +959,25 @@ public class MainActivity extends AppCompatActivity {
         addDepartmentCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeScreen(DEPARTMENT_ADD);
+            }
+        });
+        addDepartmentAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDepartment();
+            }
+        });
+
+        deleteDepartmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        updateDepartmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -990,6 +1025,17 @@ public class MainActivity extends AppCompatActivity {
 
         departmentsCardTitle.setTypeface(font1);
         addDepartmentCardButton.setTypeface(font1);
+
+        addDepartmentCardTitle.setTypeface(font1);
+        addDepartmentNameField.setTypeface(font2);
+        addDepartmentObsField.setTypeface(font2);
+        addDepartmentAddButton.setTypeface(font1);
+
+        departmentManagementCardTitle.setTypeface(font1);
+        departmentManagementNameField.setTypeface(font2);
+        departmentManagementObsField.setTypeface(font2);
+        deleteDepartmentButton.setTypeface(font1);
+        updateDepartmentButton.setTypeface(font1);
 
         taskMasterTasksCardTitle.setTypeface(font1);
         addTaskCardButton.setTypeface(font1);
@@ -1084,6 +1130,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case DEPARTMENTS:
                 departmentsCard.setVisibility(View.VISIBLE);
+                break;
+            case DEPARTMENT_ADD:
+                addDepartmentCard.setVisibility(View.VISIBLE);
+                addDepartmentNameField.setText("");
+                addDepartmentObsField.setText("");
+                break;
+            case DEPARTMENT_MANAGEMENT:
+                departmentManagementCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
                 loadTheirTasks();
@@ -1208,6 +1262,10 @@ public class MainActivity extends AppCompatActivity {
             case TASKER_MANAGEMENT:
                 changeScreen(TASK_MASTER_TASKERS);
                 break;
+            case DEPARTMENT_ADD:
+            case DEPARTMENT_MANAGEMENT:
+                changeScreen(DEPARTMENTS);
+                break;
             case TASK_MASTER_NEW_TASK:
             case THEIR_TASKS:
                 templateName = "";
@@ -1251,6 +1309,8 @@ public class MainActivity extends AppCompatActivity {
         menuCard.setVisibility(View.GONE);
         taskMasterTaskersCard.setVisibility(View.GONE);
         departmentsCard.setVisibility(View.GONE);
+        addDepartmentCard.setVisibility(View.GONE);
+        departmentManagementCard.setVisibility(View.GONE);
         taskMasterTasksCard.setVisibility(View.GONE);
         taskerTasksCard.setVisibility(View.GONE);
         changePasswordCard.setVisibility(View.GONE);
@@ -1514,6 +1574,42 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     addUserAddButton.setEnabled(true);
+                }
+            }, 2000);
+        }
+    }
+
+    private void addDepartment() {
+        addDepartmentAddButton.setEnabled(false);
+        if (!addDepartmentNameField.getText().toString().isEmpty()) {
+            String rawData = addDepartmentNameField.getText().toString() + fS + addDepartmentObsField.getText().toString();
+            String response = contactServer(addDepartmentPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+            if (response.contains("New record created successfully")) {
+                Toast.makeText(context, getString(R.string.department_created), Toast.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addDepartmentAddButton.setEnabled(true);
+                        loadDepartments();
+                        changeScreen(DEPARTMENTS);
+                    }
+                }, 1500);
+            } else if (response.contains("Department name already registered")) {
+                Toast.makeText(context, getString(R.string.department_exists), Toast.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addDepartmentAddButton.setEnabled(true);
+                    }
+                }, 2000);
+            }
+        } else {
+            Toast.makeText(context, getString(R.string.error_department_empty), Toast.LENGTH_LONG).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addDepartmentAddButton.setEnabled(true);
                 }
             }, 2000);
         }
@@ -2312,6 +2408,11 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementAdmin.setChecked(usersAdmin.get(selectedUser));
     }
 
+    private void populateDepartmentManagement() {
+        departmentManagementNameField.setText(departmentNames.get(selectedDepartment));
+        departmentManagementObsField.setText(departmentObs.get(selectedDepartment));
+    }
+
     private void loadShowImage(boolean showTheirs) {
         String taskId, taskerId;
         if (showTheirs) {
@@ -2468,8 +2569,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selectedDepartment = position;
-                    //changeScreen(DEPARTMENT_MANAGEMENT);
-                    //populateDepartmentManagement();
+                    changeScreen(DEPARTMENT_MANAGEMENT);
+                    populateDepartmentManagement();
                 }
             });
             text1.setText(name.get(position));

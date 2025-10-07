@@ -61,6 +61,7 @@
     <string name="log_out">Abmelden</string>
 
     <string name="error_username_empty">Nutzername darf nicht leer sein</string>
+    <string name="error_department_empty">Abteilungsname darf nicht leer sein</string>
     <string name="error_new_pass_empty">Neues Passwort darf nicht leer sein</string>
     <string name="error_title_empty">Titel darf nicht leer sein</string>
     <string name="error_new_pass_do_not_match">Die neuen Passwörter stimmen nicht überein</string>
@@ -68,7 +69,9 @@
 
     <string name="pass_changed">Passwort geändert</string>
     <string name="user_created">Neuer Nutzer erfolgreich erstellt</string>
+    <string name="department_created">Neue Abteilung erfolgreich erstellt</string>
     <string name="user_exists">Nutzername bereits registriert</string>
+    <string name="department_exists">Abteilungsname bereits registriert</string>
     <string name="user_id_exists">Nutzer-ID existiert bereits\nNeue ID generieren und erneut versuchen</string>
     <string name="user_updated">Nutzerdaten aktualisiert</string>
     <string name="user_deleted">Nutzer gelöscht</string>

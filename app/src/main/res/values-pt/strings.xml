@@ -60,7 +60,8 @@
     <string name="cancel">Cancelar</string>
     <string name="log_out">Logout</string>
 
-    <string name="error_username_empty">O campo Usuário não pode estar vazio</string>
+    <string name="error_username_empty">O nome do usuário não pode estar vazio</string>
+    <string name="error_department_empty">O nome do departamento não pode estar vazio</string>
     <string name="error_new_pass_empty">A nova senha não pode estar vazia</string>
     <string name="error_title_empty">O campo Título não pode estar vazio</string>
     <string name="error_new_pass_do_not_match">As novas senhas não coincidem</string>
@@ -68,7 +69,9 @@
 
     <string name="pass_changed">Senha alterada</string>
     <string name="user_created">Novo usuário criado com sucesso</string>
+    <string name="department_created">Novo departamento criado com sucesso</string>
     <string name="user_exists">Nome de usuário já registrado</string>
+    <string name="department_exists">Nome de departamento já registrado</string>
     <string name="user_id_exists">ID de usuário já existe\nGere um novo ID e tente novamente</string>
     <string name="user_updated">Usuário atualizado</string>
     <string name="user_deleted">Usuário excluído</string>
