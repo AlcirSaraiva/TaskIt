@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
     private final String newLine = "10NXL01";
     private String dS, hS;
 
+    private ArrayList<String> departmentNames;
+    private ArrayList<String> departmentObs;
+
     private ArrayList<String> usersNames;
     private ArrayList<String> usersIds;
     private ArrayList<Boolean> usersTaskMaster;
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
     private boolean showingImage;
-    private int selectedTask, selectedAttachment, selectedUser;
+    private int selectedTask, selectedAttachment, selectedUser, selectedDepartment;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
     private static final int CAMERA_PERMISSION_REQUEST = 100;
@@ -161,21 +164,23 @@ public class MainActivity extends AppCompatActivity {
     private final int MY_TASK_IMAGE_SHOW = 10;
     private final int THEIR_TASKS_IMAGE_SHOW = 11;
     private final int TASKER_MANAGEMENT = 12;
+    private final int DEPARTMENTS = 13;
     private int currentScreen, lastscreen;
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
-    private LinearLayout llTasks, llUsers, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger;
+    private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
+    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard;
     private ScrollView theirTasksCard;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7;
     private Spinner addTaskTaskerSpinner, addTaskNTimes;
-    private ListView usersListView, theirTasksListView, myTasksListView;
+    private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
-            addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle;
+            addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
+            departmentsCardTitle;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -194,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
     private final String loginPHP = "https://www.solvaelys.com/taskit/login.php";
     private final String addUserPHP = "https://www.solvaelys.com/taskit/add_user.php";
     private final String loadUsersPHP = "https://www.solvaelys.com/taskit/load_users.php";
+    private final String loadDepartmentsPHP = "https://www.solvaelys.com/taskit/load_departments.php";
     private final String loadTheirTasksPHP = "https://www.solvaelys.com/taskit/load_their_tasks.php";
     private final String loadMyTasksPHP = "https://www.solvaelys.com/taskit/load_my_tasks.php";
     private final String addTaskPHP = "https://www.solvaelys.com/taskit/add_task.php";
@@ -260,15 +266,18 @@ public class MainActivity extends AppCompatActivity {
         }
         if (!admin) {
             llUsers.setVisibility(View.GONE);
+            llDepartments.setVisibility(View.GONE);
             llDeleteDone.setVisibility(View.GONE);
         }
 
         if (myID.isEmpty()) {
             changeScreen(LOGIN);
         } else if (taskMaster) {
+            loadDepartments();
             loadUsers();
             changeScreen(TASK_MASTER_TASKS);
         } else {
+            loadDepartments();
             loadUsers();
             changeScreen(TASKER_TASKS);
         }
@@ -294,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
         llTasks = findViewById(R.id.ll_tasks);
         llUsers = findViewById(R.id.ll_users);
+        llDepartments = findViewById(R.id.ll_departments);
         llMyTasks = findViewById(R.id.ll_my_tasks);
         llDeleteDone = findViewById(R.id.ll_delete_done);
         llChangePass = findViewById(R.id.ll_change_pass);
@@ -314,6 +324,8 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTaskersCardButton = findViewById(R.id.task_master_taskers_card_button);
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
         addUserCardButton = findViewById(R.id.add_user_card_button);
+        departmentsCardButton = findViewById(R.id.departments_card_button);
+        departmentsCardButtonText = findViewById(R.id.departments_card_button_text);
         changePassCardButton = findViewById(R.id.change_pass_card_button);
         changePassCardButtonText = findViewById(R.id.change_pass_card_button_text);
         deleteDoneButton = findViewById(R.id.delete_done_button);
@@ -332,6 +344,11 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementAdmin = findViewById(R.id.tasker_management_admin);
         deleteUserButton = findViewById(R.id.delete_user_button);
         updateUserButton = findViewById(R.id.update_user_button);
+
+        departmentsCard = findViewById(R.id.departments_card);
+        departmentsCardTitle = findViewById(R.id.departments_card_title);
+        addDepartmentCardButton = findViewById(R.id.add_department_card_button);
+        departmentsListView = findViewById(R.id.departments_listview);
 
         addTaskCard = findViewById(R.id.add_task_card);
         theirTasksReload = findViewById(R.id.their_tasks_reload);
@@ -487,6 +504,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASKER_TASKS);
+            }
+        });
+
+        departmentsCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(DEPARTMENTS);
+            }
+        });
+        departmentsCardButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(DEPARTMENTS);
             }
         });
 
@@ -909,6 +939,13 @@ public class MainActivity extends AppCompatActivity {
                 changePassword();
             }
         });
+
+        addDepartmentCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setFonts() {
@@ -923,6 +960,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setTypeface(font1);
 
         taskMasterTaskersCardButtonText.setTypeface(font1);
+        departmentsCardButtonText.setTypeface(font1);
         taskMasterTasksCardButtonText.setTypeface(font1);
 
         taskerTasksCardButtonText.setTypeface(font1);
@@ -949,6 +987,9 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementAdmin.setTypeface(font1);
         deleteUserButton.setTypeface(font1);
         updateUserButton.setTypeface(font1);
+
+        departmentsCardTitle.setTypeface(font1);
+        addDepartmentCardButton.setTypeface(font1);
 
         taskMasterTasksCardTitle.setTypeface(font1);
         addTaskCardButton.setTypeface(font1);
@@ -1040,6 +1081,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case TASKER_MANAGEMENT:
                 taskerManagementCard.setVisibility(View.VISIBLE);
+                break;
+            case DEPARTMENTS:
+                departmentsCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
                 loadTheirTasks();
@@ -1152,6 +1196,7 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(lastscreen);
                 break;
             case TASK_MASTER_TASKERS:
+            case DEPARTMENTS:
             case TASK_MASTER_TASKS:
             case TASKER_TASKS:
                 askExitOrLogout();
@@ -1205,6 +1250,7 @@ public class MainActivity extends AppCompatActivity {
         loginCard.setVisibility(View.GONE);
         menuCard.setVisibility(View.GONE);
         taskMasterTaskersCard.setVisibility(View.GONE);
+        departmentsCard.setVisibility(View.GONE);
         taskMasterTasksCard.setVisibility(View.GONE);
         taskerTasksCard.setVisibility(View.GONE);
         changePasswordCard.setVisibility(View.GONE);
@@ -1382,10 +1428,12 @@ public class MainActivity extends AppCompatActivity {
                 if (temp[3].contains("0")) {
                     admin = false;
                     llUsers.setVisibility(View.GONE);
+                    llDepartments.setVisibility(View.GONE);
                     llDeleteDone.setVisibility(View.GONE);
                 } else {
                     admin = true;
                     llUsers.setVisibility(View.VISIBLE);
+                    llDepartments.setVisibility(View.VISIBLE);
                     llDeleteDone.setVisibility(View.VISIBLE);
                 }
                 signInButton.setEnabled(true);
@@ -1646,6 +1694,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, 100);
+    }
+
+    private void loadDepartments() {
+        departmentNames = new ArrayList<>();
+        departmentObs = new ArrayList<>();
+        String response = contactServer(loadDepartmentsPHP, Java_AES_Cipher.encryptSimple(emptyData));
+        if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+            String[] lines = response.split(newLine);
+            String[] line;
+            for (int i = 0; i < lines.length; i ++) {
+                line = lines[i].split(fS);
+                if (line.length == 2) {
+                    departmentNames.add(line[0]);
+                    departmentObs.add(line[1]);
+                }
+            }
+
+            DepartmentsListAdapter departmentsListAdapter = new DepartmentsListAdapter(activityContext, departmentNames);
+            departmentsListView.setAdapter(departmentsListAdapter);
+            departmentsListView.setDivider(null);
+        } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void loadUsers() {
@@ -2369,6 +2440,40 @@ public class MainActivity extends AppCompatActivity {
 
             text1.setTypeface(font1);
             text2.setTypeface(font1);
+
+            return view;
+        }
+    }
+
+    public class DepartmentsListAdapter extends ArrayAdapter {
+        private Activity activityContext;
+        private ArrayList<String> name;
+
+        public DepartmentsListAdapter(@NonNull Activity activityContext, ArrayList<String> name) {
+            super(context, R.layout.departments_list, name);
+            this.activityContext = activityContext;
+            this.name = name;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            LayoutInflater inflater = activityContext.getLayoutInflater();
+            if (convertView == null) view = inflater.inflate(R.layout.departments_list, null, true);
+
+            LinearLayout trigger = (LinearLayout) view.findViewById(R.id.departments_trigger);
+            TextView text1 = (TextView) view.findViewById(R.id.text1);
+
+            trigger.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedDepartment = position;
+                    //changeScreen(DEPARTMENT_MANAGEMENT);
+                    //populateDepartmentManagement();
+                }
+            });
+            text1.setText(name.get(position));
+            text1.setTypeface(font1);
 
             return view;
         }

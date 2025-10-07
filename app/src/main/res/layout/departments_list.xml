@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/tasker_trigger"
+        android:id="@+id/departments_trigger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
