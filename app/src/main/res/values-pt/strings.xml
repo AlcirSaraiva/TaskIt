@@ -53,6 +53,7 @@
 
     <string name="delete_picture">Excluir imagem?</string>
     <string name="delete_tasker_q">Excluir usuário?</string>
+    <string name="delete_department_q">Excluir departamento?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
 
@@ -75,6 +76,7 @@
     <string name="user_id_exists">ID de usuário já existe\nGere um novo ID e tente novamente</string>
     <string name="user_updated">Usuário atualizado</string>
     <string name="user_deleted">Usuário excluído</string>
+    <string name="department_deleted">Departamento excluído</string>
     <string name="task_created">Nova tarefa criada com sucesso</string>
     <string name="task_updated">Tarefa atualizada com sucesso</string>
     <string name="picture_uploaded">Imagem enviada com sucesso</string>

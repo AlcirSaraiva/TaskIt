@@ -53,6 +53,7 @@
 
     <string name="delete_picture">Bild löschen?</string>
     <string name="delete_tasker_q">Nutzer löschen?</string>
+    <string name="delete_department_q">Abteilung löschen?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
 
@@ -75,6 +76,7 @@
     <string name="user_id_exists">Nutzer-ID existiert bereits\nNeue ID generieren und erneut versuchen</string>
     <string name="user_updated">Nutzerdaten aktualisiert</string>
     <string name="user_deleted">Nutzer gelöscht</string>
+    <string name="department_deleted">Abteilung gelöscht</string>
     <string name="task_created">Neue Aufgabe erfolgreich erstellt</string>
     <string name="task_updated">Aufgabe erfolgreich aktualisiert</string>
     <string name="picture_uploaded">Bild erfolgreich hochgeladen</string>

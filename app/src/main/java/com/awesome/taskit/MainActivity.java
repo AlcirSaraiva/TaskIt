@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
     private final String updateAttachmentPHP = "https://www.solvaelys.com/taskit/update_attachment.php";
     private final String updateUserPHP = "https://www.solvaelys.com/taskit/update_user.php";
     private final String deleteUserPHP = "https://www.solvaelys.com/taskit/delete_user.php";
+    private final String deleteDepartmentPHP = "https://www.solvaelys.com/taskit/delete_department.php";
     private final String deleteDoneTasksPHP = "https://www.solvaelys.com/taskit/delete_done_tasks.php";
     private final String taskImagesRemote = "https://www.solvaelys.com/taskit/images/";
 
@@ -972,7 +973,7 @@ public class MainActivity extends AppCompatActivity {
         deleteDepartmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                deleteDepartment();
             }
         });
         updateDepartmentButton.setOnClickListener(new View.OnClickListener() {
@@ -2153,6 +2154,71 @@ public class MainActivity extends AppCompatActivity {
         };
         AlertDialog alertDialog = new AlertDialog.Builder(context)
                 .setMessage(getString(R.string.delete_tasker_q))
+                .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                .setNegativeButton(getString(R.string.cancel), dialogClickListener)
+                .show();
+
+        TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+        Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
+        Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
+
+        message.setTypeface(font1);
+        b1.setTypeface(font1);
+        b2.setTypeface(font1);
+
+        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+
+        b1.setTextColor(getColor(R.color.yes));
+        b2.setTextColor(getColor(R.color.no));
+    }
+
+    private void deleteDepartment() {
+        deleteDepartmentButton.setEnabled(false);
+        updateDepartmentButton.setEnabled(false);
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        String rawData = departmentNames.get(selectedDepartment);
+                        String response = contactServer(deleteDepartmentPHP, Java_AES_Cipher.encryptSimple(rawData));
+                        response = response.replaceAll(newLine, "\n");
+
+                        if (response.contains("Department deleted")) {
+                            Toast.makeText(context, getString(R.string.department_deleted), Toast.LENGTH_LONG).show();
+                            changeScreen(DEPARTMENTS);
+                            loadDepartments();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deleteDepartmentButton.setEnabled(true);
+                                    updateDepartmentButton.setEnabled(true);
+                                }
+                            }, 2000);
+                        } else {
+                            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deleteDepartmentButton.setEnabled(true);
+                                    updateDepartmentButton.setEnabled(true);
+                                }
+                            }, 2000);
+                        }
+
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        deleteDepartmentButton.setEnabled(true);
+                        updateDepartmentButton.setEnabled(true);
+                        break;
+                }
+            }
+        };
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setMessage(getString(R.string.delete_department_q))
                 .setPositiveButton(getString(R.string.yes), dialogClickListener)
                 .setNegativeButton(getString(R.string.cancel), dialogClickListener)
                 .show();
