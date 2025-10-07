@@ -75,6 +75,7 @@
     <string name="department_exists">Nome de departamento já registrado</string>
     <string name="user_id_exists">ID de usuário já existe\nGere um novo ID e tente novamente</string>
     <string name="user_updated">Usuário atualizado</string>
+    <string name="department_updated">Departamento atualizado</string>
     <string name="user_deleted">Usuário excluído</string>
     <string name="department_deleted">Departamento excluído</string>
     <string name="task_created">Nova tarefa criada com sucesso</string>

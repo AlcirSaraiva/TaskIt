@@ -75,6 +75,7 @@
     <string name="department_exists">Department name already registered</string>
     <string name="user_id_exists">User ID already exists\nGenerate new ID and try again</string>
     <string name="user_updated">User record updated</string>
+    <string name="department_updated">Department record updated</string>
     <string name="user_deleted">User deleted</string>
     <string name="department_deleted">Department deleted</string>
     <string name="task_created">New task created successfully</string>

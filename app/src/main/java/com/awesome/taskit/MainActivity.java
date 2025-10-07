@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
     private final String uploadImagePHP = "https://www.solvaelys.com/taskit/upload_image.php";
     private final String updateAttachmentPHP = "https://www.solvaelys.com/taskit/update_attachment.php";
     private final String updateUserPHP = "https://www.solvaelys.com/taskit/update_user.php";
+    private final String updateDepartmentPHP = "https://www.solvaelys.com/taskit/update_department.php";
     private final String deleteUserPHP = "https://www.solvaelys.com/taskit/delete_user.php";
     private final String deleteDepartmentPHP = "https://www.solvaelys.com/taskit/delete_department.php";
     private final String deleteDoneTasksPHP = "https://www.solvaelys.com/taskit/delete_done_tasks.php";
@@ -979,7 +980,7 @@ public class MainActivity extends AppCompatActivity {
         updateDepartmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateDepartment();
             }
         });
     }
@@ -1582,8 +1583,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void addDepartment() {
         addDepartmentAddButton.setEnabled(false);
+        String tempObs = "";
+        if (addDepartmentObsField.getText().toString().isEmpty()) {
+            tempObs = " ";
+        } else {
+            tempObs = addDepartmentObsField.getText().toString();
+        }
         if (!addDepartmentNameField.getText().toString().isEmpty()) {
-            String rawData = addDepartmentNameField.getText().toString() + fS + addDepartmentObsField.getText().toString();
+            String rawData = addDepartmentNameField.getText().toString() + fS + tempObs;
             String response = contactServer(addDepartmentPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             if (response.contains("New record created successfully")) {
@@ -2239,6 +2246,56 @@ public class MainActivity extends AppCompatActivity {
         b2.setTextColor(getColor(R.color.no));
     }
 
+    private void updateDepartment() {
+        deleteDepartmentButton.setEnabled(false);
+        String tempObs = "";
+        if (departmentManagementObsField.getText().toString().isEmpty()) {
+            tempObs = " ";
+        } else {
+            tempObs = departmentManagementObsField.getText().toString();
+        }
+
+        if (!departmentManagementNameField.getText().toString().isEmpty()) {
+            String rawData = departmentNames.get(selectedDepartment) + fS +
+                    departmentManagementNameField.getText().toString() + fS +
+                    tempObs;
+
+            String response = contactServer(updateDepartmentPHP, Java_AES_Cipher.encryptSimple(rawData));
+            response = response.replaceAll(newLine, "\n");
+
+            if (response.contains("Department updated")) {
+                Toast.makeText(context, getString(R.string.department_updated), Toast.LENGTH_LONG).show();
+                changeScreen(DEPARTMENTS);
+                loadDepartments();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteDepartmentButton.setEnabled(true);
+                        updateDepartmentButton.setEnabled(true);
+                    }
+                }, 2000);
+            } else {
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteDepartmentButton.setEnabled(true);
+                        updateDepartmentButton.setEnabled(true);
+                    }
+                }, 2000);
+            }
+        } else {
+            Toast.makeText(context, getString(R.string.error_department_empty), Toast.LENGTH_LONG).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    deleteDepartmentButton.setEnabled(false);
+                    updateDepartmentButton.setEnabled(false);
+                }
+            }, 2000);
+        }
+    }
+
     private void deleteDoneTasks() {
         String rawData = myID + fS + emptyData; // TODO should send password instead of emptyData
         String response = contactServer(deleteDoneTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
@@ -2476,7 +2533,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateDepartmentManagement() {
         departmentManagementNameField.setText(departmentNames.get(selectedDepartment));
-        departmentManagementObsField.setText(departmentObs.get(selectedDepartment));
+        if (departmentObs.get(selectedDepartment).equals(" ")) {
+            departmentManagementObsField.setText("");
+        } else {
+            departmentManagementObsField.setText(departmentObs.get(selectedDepartment));
+        }
     }
 
     private void loadShowImage(boolean showTheirs) {
