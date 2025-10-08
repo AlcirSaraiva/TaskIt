@@ -88,6 +88,7 @@
     <string name="obs">Observação</string>
     <string name="department_management">Gerenciamento de departamento</string>
     <string name="delete_department">Excluir departmento</string>
+    <string name="can_assign">Pode atribuir tarefas para</string>
 
     <string name="repeat_task">Repetir tarefa</string>
     <string name="time_s">vez(es)</string>

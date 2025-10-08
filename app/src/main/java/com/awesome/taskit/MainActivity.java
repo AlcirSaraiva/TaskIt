@@ -172,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, taskerManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout loginCard, taskerManagementCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, addUserCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard;
-    private ScrollView theirTasksCard;
+    private LinearLayout loginCard, menuCard, taskMasterTaskersCard, taskMasterTasksCard, taskerTasksCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, taskerManagementDepartments;
+    private ScrollView addUserCard, theirTasksCard, taskerManagementCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
-            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUuserDepartmentText, taskerManagementDepartmentText;
+            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, taskerManagementDepartmentText, addUserDepartmentsText, taskerManagementDepartmentsText;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -194,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
     private Typeface font1, font2;
 
     private ArrayAdapter<String> taskerSpinnerAdapter, departmentsSpinnerAdapter;
+
+    private String[] departmentsArray;
 
     // network
     private boolean isOnline; //TODO check if is online before calls to server
@@ -342,8 +344,10 @@ public class MainActivity extends AppCompatActivity {
         addUserAdmin = findViewById(R.id.add_user_admin);
         addUserIdField = findViewById(R.id.add_user_id_field);
         addUserGenerateIdButton = findViewById(R.id.add_user_generate_id_button);
-        addUuserDepartmentText = findViewById(R.id.add_user_department_text);
+        addUserDepartmentText = findViewById(R.id.add_user_department_text);
         addUserDepartmentSpinner = findViewById(R.id.add_user_department_spinner);
+        addUserDepartmentsText = findViewById(R.id.add_user_departments_text);
+        addUserDepartments = findViewById(R.id.add_user_departments);
         addUserAddButton = findViewById(R.id.add_user_add_button);
 
         taskerManagementNameField = findViewById(R.id.tasker_management_name_field);
@@ -352,6 +356,8 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementDepartmentSpinner = findViewById(R.id.tasker_management_department_spinner);
         taskerManagementTaskMaster = findViewById(R.id.tasker_management_task_master);
         taskerManagementAdmin = findViewById(R.id.tasker_management_admin);
+        taskerManagementDepartmentsText = findViewById(R.id.tasker_management_departments_text);
+        taskerManagementDepartments = findViewById(R.id.tasker_management_departments);
         deleteUserButton = findViewById(R.id.delete_user_button);
         updateUserButton = findViewById(R.id.update_user_button);
 
@@ -644,6 +650,18 @@ public class MainActivity extends AppCompatActivity {
                 addUserIdField.setText(generateID());
             }
         });
+        addUserTaskMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    addUserDepartmentsText.setVisibility(View.VISIBLE);
+                    addUserDepartments.setVisibility(View.VISIBLE);
+                } else {
+                    addUserDepartmentsText.setVisibility(View.GONE);
+                    addUserDepartments.setVisibility(View.GONE);
+                }
+            }
+        });
         addUserAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -651,6 +669,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        taskerManagementTaskMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    taskerManagementDepartmentsText.setVisibility(View.VISIBLE);
+                    taskerManagementDepartments.setVisibility(View.VISIBLE);
+                } else {
+                    taskerManagementDepartmentsText.setVisibility(View.GONE);
+                    taskerManagementDepartments.setVisibility(View.GONE);
+                }
+            }
+        });
         deleteUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1020,7 +1050,8 @@ public class MainActivity extends AppCompatActivity {
         addUserAdmin.setTypeface(font1);
         addUserIdField.setTypeface(font2);
         addUserGenerateIdButton.setTypeface(font1);
-        addUuserDepartmentText.setTypeface(font1);
+        addUserDepartmentText.setTypeface(font1);
+        addUserDepartmentsText.setTypeface(font1);
         addUserAddButton.setTypeface(font1);
 
         taskerManagementCardTitle.setTypeface(font1);
@@ -1029,6 +1060,7 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementDepartmentText.setTypeface(font1);
         taskerManagementTaskMaster.setTypeface(font1);
         taskerManagementAdmin.setTypeface(font1);
+        taskerManagementDepartmentsText.setTypeface(font1);
         deleteUserButton.setTypeface(font1);
         updateUserButton.setTypeface(font1);
 
@@ -1162,6 +1194,8 @@ public class MainActivity extends AppCompatActivity {
                 addUserIdField.setText(generateID());
                 addUserTaskMaster.setChecked(false);
                 addUserAdmin.setChecked(false);
+                addUserDepartmentsText.setVisibility(View.GONE);
+                addUserDepartments.setVisibility(View.GONE);
                 break;
             case TASK_MASTER_NEW_TASK:
                 addTaskCard.setVisibility(View.VISIBLE);
@@ -1822,10 +1856,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            String[] items = departmentNames.toArray(new String[departmentNames.size()]);
-            departmentsSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
+            departmentsArray = departmentNames.toArray(new String[departmentNames.size()]);
+            departmentsSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, departmentsArray);
             addUserDepartmentSpinner.setAdapter(departmentsSpinnerAdapter);
             taskerManagementDepartmentSpinner.setAdapter(departmentsSpinnerAdapter);
+
+            for (String da : departmentsArray) {
+                CheckBox checkBox = new CheckBox(context);
+                checkBox.setText(da);
+                checkBox.setTypeface(font1);
+                //checkBox.setChecked(false);
+                addUserDepartments.addView(checkBox);
+            }
+
+            for (String da : departmentsArray) {
+                CheckBox checkBox = new CheckBox(context);
+                checkBox.setText(da);
+                checkBox.setTypeface(font1);
+                //checkBox.setChecked(false);
+                taskerManagementDepartments.addView(checkBox);
+            }
 
             DepartmentsListAdapter departmentsListAdapter = new DepartmentsListAdapter(activityContext, departmentNames);
             departmentsListView.setAdapter(departmentsListAdapter);
@@ -2545,6 +2595,13 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementDepartmentSpinner.setSelection(departmentsSpinnerAdapter.getPosition(usersDepartment.get(selectedUser)));
         taskerManagementTaskMaster.setChecked(usersTaskMaster.get(selectedUser));
         taskerManagementAdmin.setChecked(usersAdmin.get(selectedUser));
+        if (usersTaskMaster.get(selectedUser)) {
+            taskerManagementDepartmentsText.setVisibility(View.VISIBLE);
+            taskerManagementDepartments.setVisibility(View.VISIBLE);
+        } else {
+            taskerManagementDepartmentsText.setVisibility(View.GONE);
+            taskerManagementDepartments.setVisibility(View.GONE);
+        }
     }
 
     private void populateDepartmentManagement() {

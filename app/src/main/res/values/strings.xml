@@ -88,6 +88,7 @@
     <string name="obs">Remark</string>
     <string name="department_management">Department management</string>
     <string name="delete_department">Delete department</string>
+    <string name="can_assign">Can assign tasks to</string>
 
     <string name="repeat_task">Repeat task</string>
     <string name="time_s">time(s)</string>
