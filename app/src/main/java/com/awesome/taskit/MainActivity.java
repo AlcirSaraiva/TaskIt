@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> usersDepartment;
     private ArrayList<Boolean> usersTaskMaster;
     private ArrayList<Boolean> usersAdmin;
+    private ArrayList<String> userSubordinates;
 
     private ArrayList<String> theirTasksTaskId;
     private ArrayList<String> theirTasksTaskerId;
@@ -1581,7 +1582,12 @@ public class MainActivity extends AppCompatActivity {
 
         addUserAddButton.setEnabled(false);
         if (!addUserNameField.getText().toString().isEmpty()) {
-            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB + fS + addUserDepartmentSpinner.getSelectedItem().toString();
+
+
+            String tempSubordinates = " "; // TODO build according checkboxes
+
+
+            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB + fS + addUserDepartmentSpinner.getSelectedItem().toString() + fS + tempSubordinates;
             String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
             if (response.contains("New record created successfully")) {
@@ -1891,13 +1897,14 @@ public class MainActivity extends AppCompatActivity {
         usersDepartment = new ArrayList<>();
         usersTaskMaster = new ArrayList<>();
         usersAdmin = new ArrayList<>();
+        userSubordinates = new ArrayList<>();
         String response = contactServer(loadUsersPHP, Java_AES_Cipher.encryptSimple(emptyData));
         if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
             String[] lines = response.split(newLine);
             String[] line;
             for (int i = 0; i < lines.length; i ++) {
                 line = lines[i].split(fS);
-                if (line.length == 5) {
+                if (line.length == 6) {
                     usersNames.add(line[0]);
                     usersIds.add(line[1]);
                     if (line[2].contains("0")) {
@@ -1911,6 +1918,7 @@ public class MainActivity extends AppCompatActivity {
                         usersAdmin.add(true);
                     }
                     usersDepartment.add(line[4]);
+                    userSubordinates.add(line[5]);
                 }
             }
 
@@ -2134,6 +2142,9 @@ public class MainActivity extends AppCompatActivity {
         deleteUserButton.setEnabled(false);
         updateUserButton.setEnabled(false);
         if (!taskerManagementNameField.getText().toString().isEmpty()) {
+
+            String tempSubordinates = " "; // TODO build according checkboxes
+
             String tempTaskMaster = "0";
             if (taskerManagementTaskMaster.isChecked()) tempTaskMaster = "1";
             String tempAdmin = "0";
@@ -2143,7 +2154,8 @@ public class MainActivity extends AppCompatActivity {
                     taskerManagementNameField.getText().toString() + fS +
                     tempTaskMaster + fS +
                     tempAdmin + fS +
-                    taskerManagementDepartmentSpinner.getSelectedItem().toString();
+                    taskerManagementDepartmentSpinner.getSelectedItem().toString() + fS +
+                    tempSubordinates;
 
             String response = contactServer(updateUserPHP, Java_AES_Cipher.encryptSimple(rawData));
             response = response.replaceAll(newLine, "\n");
