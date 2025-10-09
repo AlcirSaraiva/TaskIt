@@ -1752,73 +1752,94 @@ public class MainActivity extends AppCompatActivity {
         theirTasksTaskerComment = new ArrayList<>();
         theirTasksTaskMasterComment = new ArrayList<>();
         theirTasksTaskMasterMarkedAsDone = new ArrayList<>();
-        String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(myID));
+        String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(emptyData));
         if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
             String[] lines = response.split(newLine);
             String[] line;
+            String[] tempDepartments = myDepartments.split(",");
+            int tempPosition;
+            boolean tempoDeptFound;
+
             for (int i = 0; i < lines.length; i ++) {
                 line = lines[i].split(fS);
+                tempoDeptFound = false;
                 if (showCompleted.isChecked()) {
                     if (line.length == 12) {
-                        theirTasksTaskId.add(line[0]);
-                        theirTasksTaskerId.add(line[1]);
-                        theirTasksTitle.add(line[2]);
-                        theirTasksDescription.add(line[3]);
-                        theirTasksDeadline.add(line[4]);
-                        if (line[5].contains("0")) {
-                            theirTasksTaskerMarkedAsDone.add(false);
-                        } else {
-                            theirTasksTaskerMarkedAsDone.add(true);
+                        tempPosition = usersIds.indexOf(line[1]);
+                        for (int j = 0; j < tempDepartments.length; j ++) {
+                            if (usersDepartment.get(tempPosition).contains(tempDepartments[j])) {
+                                tempoDeptFound = true;
+                            }
                         }
-                        if (line[6].contains("0")) {
-                            theirTasksAttachment1.add(false);
-                        } else {
-                            theirTasksAttachment1.add(true);
-                        }
-                        if (line[7].contains("0")) {
-                            theirTasksAttachment2.add(false);
-                        } else {
-                            theirTasksAttachment2.add(true);
-                        }
-                        theirTasksTaskerComment.add(line[8]);
-                        theirTasksTaskMasterComment.add(line[9]);
+                        if (tempoDeptFound) {
+                            theirTasksTaskId.add(line[0]);
+                            theirTasksTaskerId.add(line[1]);
+                            theirTasksTitle.add(line[2]);
+                            theirTasksDescription.add(line[3]);
+                            theirTasksDeadline.add(line[4]);
+                            if (line[5].contains("0")) {
+                                theirTasksTaskerMarkedAsDone.add(false);
+                            } else {
+                                theirTasksTaskerMarkedAsDone.add(true);
+                            }
+                            if (line[6].contains("0")) {
+                                theirTasksAttachment1.add(false);
+                            } else {
+                                theirTasksAttachment1.add(true);
+                            }
+                            if (line[7].contains("0")) {
+                                theirTasksAttachment2.add(false);
+                            } else {
+                                theirTasksAttachment2.add(true);
+                            }
+                            theirTasksTaskerComment.add(line[8]);
+                            theirTasksTaskMasterComment.add(line[9]);
 
-                        if (line[10].contains("0")) {
-                            theirTasksTaskMasterMarkedAsDone.add(false);
-                        } else {
-                            theirTasksTaskMasterMarkedAsDone.add(true);
-                        }
+                            if (line[10].contains("0")) {
+                                theirTasksTaskMasterMarkedAsDone.add(false);
+                            } else {
+                                theirTasksTaskMasterMarkedAsDone.add(true);
+                            }
 
-                        theirTasksLastModifiedDateTime.add(line[11]);
+                            theirTasksLastModifiedDateTime.add(line[11]);
+                        }
                     }
                 } else {
                     if (line.length == 12 && line[10].contains("0")) {
-                        theirTasksTaskId.add(line[0]);
-                        theirTasksTaskerId.add(line[1]);
-                        theirTasksTitle.add(line[2]);
-                        theirTasksDescription.add(line[3]);
-                        theirTasksDeadline.add(line[4]);
-                        if (line[5].contains("0")) {
-                            theirTasksTaskerMarkedAsDone.add(false);
-                        } else {
-                            theirTasksTaskerMarkedAsDone.add(true);
+                        tempPosition = usersIds.indexOf(line[1]);
+                        for (int j = 0; j < tempDepartments.length; j ++) {
+                            if (usersDepartment.get(tempPosition).contains(tempDepartments[j])) {
+                                tempoDeptFound = true;
+                            }
                         }
-                        if (line[6].contains("0")) {
-                            theirTasksAttachment1.add(false);
-                        } else {
-                            theirTasksAttachment1.add(true);
-                        }
-                        if (line[7].contains("0")) {
-                            theirTasksAttachment2.add(false);
-                        } else {
-                            theirTasksAttachment2.add(true);
-                        }
-                        theirTasksTaskerComment.add(line[8]);
-                        theirTasksTaskMasterComment.add(line[9]);
+                        if (tempoDeptFound) {
+                            theirTasksTaskId.add(line[0]);
+                            theirTasksTaskerId.add(line[1]);
+                            theirTasksTitle.add(line[2]);
+                            theirTasksDescription.add(line[3]);
+                            theirTasksDeadline.add(line[4]);
+                            if (line[5].contains("0")) {
+                                theirTasksTaskerMarkedAsDone.add(false);
+                            } else {
+                                theirTasksTaskerMarkedAsDone.add(true);
+                            }
+                            if (line[6].contains("0")) {
+                                theirTasksAttachment1.add(false);
+                            } else {
+                                theirTasksAttachment1.add(true);
+                            }
+                            if (line[7].contains("0")) {
+                                theirTasksAttachment2.add(false);
+                            } else {
+                                theirTasksAttachment2.add(true);
+                            }
+                            theirTasksTaskerComment.add(line[8]);
+                            theirTasksTaskMasterComment.add(line[9]);
 
-                        theirTasksTaskMasterMarkedAsDone.add(false);
+                            theirTasksTaskMasterMarkedAsDone.add(false);
 
-                        theirTasksLastModifiedDateTime.add(line[11]);
+                            theirTasksLastModifiedDateTime.add(line[11]);
+                        }
                     }
                 }
             }
