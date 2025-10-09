@@ -1521,6 +1521,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] resp = response.split(newLine);
                 String[] temp = resp[0].split(fS);
                 myID = temp[1];
+                loadDepartments();
                 loadUsers();
                 if (temp[2].contains("0")) {
                     taskMaster = false;
@@ -2697,14 +2698,6 @@ public class MainActivity extends AppCompatActivity {
             taskerManagementDepartmentsText.setVisibility(View.GONE);
             taskerManagementDepartments.setVisibility(View.GONE);
         }
-
-
-
-
-
-
-
-
     }
 
     private void populateDepartmentManagement() {
