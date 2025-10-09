@@ -28,10 +28,14 @@
     <string name="generate_new_id">Neue ID</string>
     <string name="tasker_management">Nutzer-Verwaltung</string>
     <string name="delete_tasker">Nutzer löschen</string>
+    <string name="delete_task">Aufgabe löschen</string>
+    <string name="delete_task_q">Aufgabe löschen?</string>
+    <string name="task_deleted">Aufgabe gelöscht</string>
     <string name="save">Speichern</string>
     <string name="title">Titel</string>
     <string name="description">Beschreibung</string>
     <string name="deadline">Aufgabenfrist</string>
+    <string name="pictures">Bilder</string>
     <string name="my_comments">Meine Kommentare</string>
     <string name="task_is_complete">Aufgabe als erledigt markieren</string>
     <string name="ive_completed_this_task">Ich habe diese Aufgabe erledigt</string>

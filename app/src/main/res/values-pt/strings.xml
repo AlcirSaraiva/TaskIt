@@ -28,10 +28,14 @@
     <string name="generate_new_id">Nova ID</string>
     <string name="tasker_management">Gerenciamento de usuário</string>
     <string name="delete_tasker">Excluir usuário</string>
+    <string name="delete_task">Excluir tarefa</string>
+    <string name="delete_task_q">Excluir tarefa?</string>
+    <string name="task_deleted">Tarefa excluída</string>
     <string name="save">Salvar</string>
     <string name="title">Título</string>
     <string name="description">Descrição</string>
     <string name="deadline">Prazo</string>
+    <string name="pictures">Imagens</string>
     <string name="my_comments">Meus comentários</string>
     <string name="task_is_complete">Marcar tarefa como concluída</string>
     <string name="ive_completed_this_task">Eu concluí a tarefa</string>
