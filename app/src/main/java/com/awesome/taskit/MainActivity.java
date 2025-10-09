@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private Activity activityContext;
     private SharedPreferences sharedPref;
-    private String myID;
+    private String myID, myDepartments;
     private boolean taskMaster;
     private boolean admin;
 
@@ -1941,16 +1941,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                     usersDepartment.add(line[4]);
                     userSubordinates.add(line[5]);
+
+                    if (myID.equals(line[1])) {
+                        myDepartments = line[5];
+                        if (myDepartments.equals(" ")) myDepartments = "";
+                    }
                 }
             }
 
             ArrayList<String> tempUsersNames = new ArrayList<>();
             ArrayList<String> tempUsersIds = new ArrayList<>();
+            String[] tempDepartments = myDepartments.split(",");
 
             for (int i = 0; i < usersIds.size(); i ++) {
                 if (!usersIds.get(i).equals(myID)) {
-                    tempUsersNames.add(usersNames.get(i));
-                    tempUsersIds.add(usersIds.get(i));
+                    for (int j = 0; j < tempDepartments.length; j ++) {
+                        if (tempDepartments[j].equals(usersDepartment.get(i))) {
+                            tempUsersNames.add(usersNames.get(i));
+                            tempUsersIds.add(usersIds.get(i));
+                        }
+                    }
                 }
             }
 
