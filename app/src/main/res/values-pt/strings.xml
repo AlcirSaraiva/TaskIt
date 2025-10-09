@@ -67,6 +67,7 @@
     <string name="error_title_empty">O campo Título não pode estar vazio</string>
     <string name="error_new_pass_do_not_match">As novas senhas não coincidem</string>
     <string name="error_new_pass_8_chars">A nova senha deve ter pelo menos 8 caracteres</string>
+    <string name="error_no_department_selected">Nenhum departamento selecionado</string>
 
     <string name="pass_changed">Senha alterada</string>
     <string name="user_created">Novo usuário criado com sucesso</string>

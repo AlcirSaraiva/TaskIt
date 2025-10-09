@@ -67,6 +67,7 @@
     <string name="error_title_empty">Title field cannot be empty</string>
     <string name="error_new_pass_do_not_match">New password fields do not match</string>
     <string name="error_new_pass_8_chars">New password must have at least 8 characters</string>
+    <string name="error_no_department_selected">No department selected</string>
 
     <string name="pass_changed">Password changed</string>
     <string name="user_created">New user created successfully</string>

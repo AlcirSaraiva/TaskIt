@@ -1583,33 +1583,55 @@ public class MainActivity extends AppCompatActivity {
         addUserAddButton.setEnabled(false);
         if (!addUserNameField.getText().toString().isEmpty()) {
 
-
-            String tempSubordinates = " "; // TODO build according checkboxes
-
-
-            String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB + fS + addUserDepartmentSpinner.getSelectedItem().toString() + fS + tempSubordinates;
-            String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
-            response = response.replaceAll(newLine, "\n");
-            if (response.contains("New record created successfully")) {
-                Toast.makeText(context, getString(R.string.user_created), Toast.LENGTH_LONG).show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addUserAddButton.setEnabled(true);
-                        loadUsers();
-                        changeScreen(TASK_MASTER_TASKERS);
+            String tempSubordinates = "";
+            if (addUserTaskMaster.isChecked()) {
+                for (int i = 0; i < addUserDepartments.getChildCount(); i++) {
+                    View view = addUserDepartments.getChildAt(i);
+                    if (view instanceof CheckBox) {
+                        CheckBox cb = (CheckBox) view;
+                        if (cb.isChecked()) {
+                            tempSubordinates += cb.getText().toString() + ",";
+                        }
                     }
-                }, 1500);
-            } else if (response.contains("User name already registered")) {
-                Toast.makeText(context, getString(R.string.user_exists), Toast.LENGTH_LONG).show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addUserAddButton.setEnabled(true);
-                    }
-                }, 2000);
-            } else if (response.contains("User ID already exists")) {
-                Toast.makeText(context, getString(R.string.user_id_exists), Toast.LENGTH_LONG).show();
+                }
+            }
+            if (tempSubordinates.endsWith(",")) tempSubordinates = tempSubordinates.substring(0, tempSubordinates.length() - 1);
+            if (tempSubordinates.isEmpty()) tempSubordinates = " ";
+
+            if ((addUserTaskMaster.isChecked() && !tempSubordinates.equals(" ")) ||
+                    !addUserTaskMaster.isChecked()) {
+                String rawData = addUserNameField.getText().toString() + fS + addUserIdField.getText().toString() + fS + taskMasterCB + fS + adminCB + fS + addUserDepartmentSpinner.getSelectedItem().toString() + fS + tempSubordinates;
+                String response = contactServer(addUserPHP, Java_AES_Cipher.encryptSimple(rawData));
+                response = response.replaceAll(newLine, "\n");
+                if (response.contains("New record created successfully")) {
+                    Toast.makeText(context, getString(R.string.user_created), Toast.LENGTH_LONG).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addUserAddButton.setEnabled(true);
+                            loadUsers();
+                            changeScreen(TASK_MASTER_TASKERS);
+                        }
+                    }, 1500);
+                } else if (response.contains("User name already registered")) {
+                    Toast.makeText(context, getString(R.string.user_exists), Toast.LENGTH_LONG).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addUserAddButton.setEnabled(true);
+                        }
+                    }, 2000);
+                } else if (response.contains("User ID already exists")) {
+                    Toast.makeText(context, getString(R.string.user_id_exists), Toast.LENGTH_LONG).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addUserAddButton.setEnabled(true);
+                        }
+                    }, 2000);
+                }
+            } else {
+                Toast.makeText(context, getString(R.string.error_no_department_selected), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -2143,36 +2165,61 @@ public class MainActivity extends AppCompatActivity {
         updateUserButton.setEnabled(false);
         if (!taskerManagementNameField.getText().toString().isEmpty()) {
 
-            String tempSubordinates = " "; // TODO build according checkboxes
+            String tempSubordinates = "";
+            if (taskerManagementTaskMaster.isChecked()) {
+                for (int i = 0; i < taskerManagementDepartments.getChildCount(); i++) {
+                    View view = taskerManagementDepartments.getChildAt(i);
+                    if (view instanceof CheckBox) {
+                        CheckBox cb = (CheckBox) view;
+                        if (cb.isChecked()) {
+                            tempSubordinates += cb.getText().toString() + ",";
+                        }
+                    }
+                }
+            }
+            if (tempSubordinates.endsWith(",")) tempSubordinates = tempSubordinates.substring(0, tempSubordinates.length() - 1);
+            if (tempSubordinates.isEmpty()) tempSubordinates = " ";
 
             String tempTaskMaster = "0";
             if (taskerManagementTaskMaster.isChecked()) tempTaskMaster = "1";
             String tempAdmin = "0";
             if (taskerManagementAdmin.isChecked()) tempAdmin = "1";
 
-            String rawData = usersIds.get(selectedUser) + fS +
-                    taskerManagementNameField.getText().toString() + fS +
-                    tempTaskMaster + fS +
-                    tempAdmin + fS +
-                    taskerManagementDepartmentSpinner.getSelectedItem().toString() + fS +
-                    tempSubordinates;
+            if ((taskerManagementTaskMaster.isChecked() && !tempSubordinates.equals(" ")) ||
+                    !taskerManagementTaskMaster.isChecked()) {
+                String rawData = usersIds.get(selectedUser) + fS +
+                        taskerManagementNameField.getText().toString() + fS +
+                        tempTaskMaster + fS +
+                        tempAdmin + fS +
+                        taskerManagementDepartmentSpinner.getSelectedItem().toString() + fS +
+                        tempSubordinates;
 
-            String response = contactServer(updateUserPHP, Java_AES_Cipher.encryptSimple(rawData));
-            response = response.replaceAll(newLine, "\n");
+                String response = contactServer(updateUserPHP, Java_AES_Cipher.encryptSimple(rawData));
+                response = response.replaceAll(newLine, "\n");
 
-            if (response.contains("User updated")) {
-                Toast.makeText(context, getString(R.string.user_updated), Toast.LENGTH_LONG).show();
-                changeScreen(TASK_MASTER_TASKERS);
-                loadUsers();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteUserButton.setEnabled(true);
-                        updateUserButton.setEnabled(true);
-                    }
-                }, 2000);
+                if (response.contains("User updated")) {
+                    Toast.makeText(context, getString(R.string.user_updated), Toast.LENGTH_LONG).show();
+                    changeScreen(TASK_MASTER_TASKERS);
+                    loadUsers();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteUserButton.setEnabled(true);
+                            updateUserButton.setEnabled(true);
+                        }
+                    }, 2000);
+                } else {
+                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteUserButton.setEnabled(true);
+                            updateUserButton.setEnabled(true);
+                        }
+                    }, 2000);
+                }
             } else {
-                Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.error_no_department_selected), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -2607,13 +2654,47 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementDepartmentSpinner.setSelection(departmentsSpinnerAdapter.getPosition(usersDepartment.get(selectedUser)));
         taskerManagementTaskMaster.setChecked(usersTaskMaster.get(selectedUser));
         taskerManagementAdmin.setChecked(usersAdmin.get(selectedUser));
+        for (int i = 0; i < taskerManagementDepartments.getChildCount(); i++) {
+            View view = taskerManagementDepartments.getChildAt(i);
+            if (view instanceof CheckBox) {
+                CheckBox cb = (CheckBox) view;
+                cb.setChecked(false);
+            }
+        }
         if (usersTaskMaster.get(selectedUser)) {
             taskerManagementDepartmentsText.setVisibility(View.VISIBLE);
             taskerManagementDepartments.setVisibility(View.VISIBLE);
+
+            String[] tempSubordinates = userSubordinates.get(selectedUser).split(",");
+
+            for (int i = 0; i < taskerManagementDepartments.getChildCount(); i++) {
+                View view = taskerManagementDepartments.getChildAt(i);
+                if (view instanceof CheckBox) {
+                    CheckBox cb = (CheckBox) view;
+                    for (int j = 0; j < tempSubordinates.length; j ++) {
+                        if (cb.getText().toString().equals(tempSubordinates[j])) {
+                            cb.setChecked(true);
+                        }
+                    }
+                }
+            }
+
+
+
+
+
         } else {
             taskerManagementDepartmentsText.setVisibility(View.GONE);
             taskerManagementDepartments.setVisibility(View.GONE);
         }
+
+
+
+
+
+
+
+
     }
 
     private void populateDepartmentManagement() {
