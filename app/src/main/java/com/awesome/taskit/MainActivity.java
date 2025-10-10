@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -3064,10 +3065,12 @@ public class MainActivity extends AppCompatActivity {
                 if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
                     text3.setTextColor(getColor(R.color.today));
                     text3.setTypeface(font1);
-                }
-                if (nowMil > taskMil) {
+                } else if (nowMil > taskMil) {
                     text3.setTextColor(getColor(R.color.task_late));
                     text3.setTypeface(font1);
+                } else {
+                    text3.setTextColor(getColor(R.color.text_grey));
+                    text3.setTypeface(font2);
                 }
             } else {
                 text3.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
@@ -3132,23 +3135,25 @@ public class MainActivity extends AppCompatActivity {
                 long taskMil = taskDate.getTimeInMillis();
                 if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
                     text2.setTextColor(getColor(R.color.today));
+                    text1.setTypeface(font1);
+                    text2.setTypeface(font1);
+                } else if (nowMil > taskMil) {
+                    text2.setTextColor(getColor(R.color.task_late));
+                    openMyTaskTrigger.setEnabled(true);
+                    text1.setTypeface(font2);
+                    text2.setTypeface(font1);
                 } else {
                     text1.setTextColor(getColor(R.color.not_today));
                     text2.setTextColor(getColor(R.color.not_today));
                     check.setAlpha(0.3f);
                     openMyTaskTrigger.setEnabled(false);
-                }
-                if (nowMil > taskMil) {
-                    text2.setTextColor(getColor(R.color.task_late));
-                    openMyTaskTrigger.setEnabled(true);
+                    text1.setTypeface(font2);
+                    text2.setTypeface(font2);
                 }
             } else {
                 text2.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
             }
             check.setChecked(done.get(position));
-
-            text1.setTypeface(font1);
-            text2.setTypeface(font1);
 
             return view;
         }
@@ -3427,6 +3432,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return result;
+    }
+
+    private String calendarToStr(Calendar date) {
+        return date.get(Calendar.DAY_OF_MONTH) + "/" + String.format("%02d", (date.get(Calendar.MONTH) + 1)) + "/" + date.get(Calendar.YEAR) + " " + date.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", date.get(Calendar.MINUTE));
     }
 
     private void askExit() {
