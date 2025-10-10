@@ -96,6 +96,7 @@
     <string name="can_assign">Pode atribuir tarefas para</string>
 
     <string name="repeat_task">Repetir tarefa</string>
+    <string name="today_s_tasks">Mostrar apenas tarefas para hoje</string>
     <string name="time_s">vez(es)</string>
     <string name="weekdays">Dias da semana</string>
     <string name="monday">S</string>

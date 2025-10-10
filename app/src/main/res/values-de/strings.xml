@@ -96,6 +96,7 @@
     <string name="can_assign">Kann Aufgaben zuweisen an</string>
 
     <string name="repeat_task">Aufgabe wiederholen</string>
+    <string name="today_s_tasks">Nur die Aufgaben für heute zeigen</string>
     <string name="time_s">Mal</string>
     <string name="weekdays">Wochentage</string>
     <string name="monday">M</string>

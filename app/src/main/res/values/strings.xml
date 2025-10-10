@@ -96,6 +96,7 @@
     <string name="can_assign">Can assign tasks to</string>
 
     <string name="repeat_task">Repeat task</string>
+    <string name="today_s_tasks">Show only today\'s tasks</string>
     <string name="time_s">time(s)</string>
     <string name="weekdays">Weekdays</string>
     <string name="monday">M</string>
