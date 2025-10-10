@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
-            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, taskerManagementDepartmentText, addUserDepartmentsText, taskerManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText;
+            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, taskerManagementDepartmentText, addUserDepartmentsText, taskerManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -423,12 +423,14 @@ public class MainActivity extends AppCompatActivity {
         myTaskTitle = findViewById(R.id.my_task_title);
         myTaskDescription = findViewById(R.id.my_task_description);
         myTaskDeadline = findViewById(R.id.my_task_deadline);
+        myTaskPicturesTitle = findViewById(R.id.my_task_pictures_title);
         myTaskAttachment1 = findViewById(R.id.my_task_attachment_1);
         myTaskAttachment1TakePic = findViewById(R.id.my_task_attachment_1_take_pic);
         myTaskAttachment1DelPic = findViewById(R.id.my_task_attachment_1_del_pic);
         myTaskAttachment2 = findViewById(R.id.my_task_attachment_2);
         myTaskAttachment2TakePic = findViewById(R.id.my_task_attachment_2_take_pic);
         myTaskAttachment2DelPic = findViewById(R.id.my_task_attachment_2_del_pic);
+        myTaskMyCommentsTitle = findViewById(R.id.my_task_my_comments_title);
         myTaskMyComments = findViewById(R.id.my_task_my_comments);
         myTaskTmComments = findViewById(R.id.my_task_tm_comments);
         myTaskDone = findViewById(R.id.my_task_done);
@@ -1089,10 +1091,10 @@ public class MainActivity extends AppCompatActivity {
 
         addUserCardTitle.setTypeface(font1);
         addUserNameField.setTypeface(font2);
-        addUserTaskMaster.setTypeface(font1);
-        addUserAdmin.setTypeface(font1);
         addUserIdField.setTypeface(font2);
         addUserGenerateIdButton.setTypeface(font1);
+        addUserTaskMaster.setTypeface(font2);
+        addUserAdmin.setTypeface(font2);
         addUserDepartmentText.setTypeface(font1);
         addUserDepartmentsText.setTypeface(font1);
         addUserAddButton.setTypeface(font1);
@@ -1101,8 +1103,8 @@ public class MainActivity extends AppCompatActivity {
         taskerManagementNameField.setTypeface(font2);
         taskerManagementId.setTypeface(font2);
         taskerManagementDepartmentText.setTypeface(font1);
-        taskerManagementTaskMaster.setTypeface(font1);
-        taskerManagementAdmin.setTypeface(font1);
+        taskerManagementTaskMaster.setTypeface(font2);
+        taskerManagementAdmin.setTypeface(font2);
         taskerManagementDepartmentsText.setTypeface(font1);
         deleteUserButton.setTypeface(font1);
         updateUserButton.setTypeface(font1);
@@ -1128,13 +1130,15 @@ public class MainActivity extends AppCompatActivity {
         taskerTasksCardTitle.setTypeface(font1);
 
         myTaskTitle.setTypeface(font1);
-        myTaskDescription.setTypeface(font1);
+        myTaskDescription.setTypeface(font2);
         myTaskDeadlineTitle.setTypeface(font1);
         myTaskDeadline.setTypeface(font1);
+        myTaskPicturesTitle.setTypeface(font1);
+        myTaskMyCommentsTitle.setTypeface(font1);
         myTaskMyComments.setTypeface(font2);
         myTaskTmCommentsTitle.setTypeface(font1);
-        myTaskTmComments.setTypeface(font1);
-        myTaskDone.setTypeface(font1);
+        myTaskTmComments.setTypeface(font2);
+        myTaskDone.setTypeface(font2);
         myTaskSaveButton.setTypeface(font1);
 
         addTaskCardTitle.setTypeface(font1);
@@ -1960,7 +1964,7 @@ public class MainActivity extends AppCompatActivity {
             for (String da : departmentsArray) {
                 CheckBox checkBox = new CheckBox(context);
                 checkBox.setText(da);
-                checkBox.setTypeface(font1);
+                checkBox.setTypeface(font2);
                 //checkBox.setChecked(false);
                 addUserDepartments.addView(checkBox);
             }
@@ -1968,7 +1972,7 @@ public class MainActivity extends AppCompatActivity {
             for (String da : departmentsArray) {
                 CheckBox checkBox = new CheckBox(context);
                 checkBox.setText(da);
-                checkBox.setTypeface(font1);
+                checkBox.setTypeface(font2);
                 //checkBox.setChecked(false);
                 taskerManagementDepartments.addView(checkBox);
             }
@@ -2938,7 +2942,7 @@ public class MainActivity extends AppCompatActivity {
             text2.setText(id.get(position));
 
             text1.setTypeface(font1);
-            text2.setTypeface(font1);
+            text2.setTypeface(font2);
 
             return view;
         }
