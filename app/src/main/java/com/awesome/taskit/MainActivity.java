@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private Activity activityContext;
     private SharedPreferences sharedPref;
-    private String myID, myDepartments;
+    private String myID, myDepartments, myName;
     private boolean taskMaster;
     private boolean admin;
 
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, taskerManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
-    private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardTitle, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
+    private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
             departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, taskerManagementDepartmentText, addUserDepartmentsText, taskerManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle;
     private String templateName = "";
@@ -453,7 +453,8 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTaskersCardButtonText = findViewById(R.id.task_master_taskers_card_button_text);
         taskMasterTasksCardButtonText = findViewById(R.id.task_master_tasks_card_button_text);
         taskerTasksCardButtonText = findViewById(R.id.tasker_tasks_card_button_text);
-        menuCardTitle = findViewById(R.id.menu_card_title);
+        menuCardName = findViewById(R.id.menu_card_name);
+        menuCardId = findViewById(R.id.menu_card_id);
         taskMasterTaskersCardTitle = findViewById(R.id.task_master_taskers_card_title);
         addUserCardTitle = findViewById(R.id.add_user_card_title);
         taskerManagementCardTitle = findViewById(R.id.tasker_management_card_title);
@@ -1082,7 +1083,8 @@ public class MainActivity extends AppCompatActivity {
 
         taskerTasksCardButtonText.setTypeface(font1);
 
-        menuCardTitle.setTypeface(font1);
+        menuCardName.setTypeface(font1);
+        menuCardId.setTypeface(font2);
         changePassCardButtonText.setTypeface(font1);
         deleteDoneButtonText.setTypeface(font1);
 
@@ -1203,6 +1205,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MAIN_MENU:
                 menuButton.setImageResource(R.drawable.menu_opened);
+                menuCardName.setText(myName);
+                menuCardId.setText(myID);
                 if (admin) {
                     addUserCardButton.setVisibility(View.VISIBLE);
                     deleteDoneButton.setVisibility(View.VISIBLE);
@@ -2015,6 +2019,7 @@ public class MainActivity extends AppCompatActivity {
                     userSubordinates.add(line[5]);
 
                     if (myID.equals(line[1])) {
+                        myName = line[0];
                         myDepartments = line[5];
                         if (myDepartments.equals(" ")) myDepartments = "";
                     }
