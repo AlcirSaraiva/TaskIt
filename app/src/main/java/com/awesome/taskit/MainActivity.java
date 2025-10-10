@@ -1716,35 +1716,28 @@ public class MainActivity extends AppCompatActivity {
         if (!addDepartmentNameField.getText().toString().isEmpty()) {
             String rawData = addDepartmentNameField.getText().toString() + fS + tempObs;
             String response = contactServer(addDepartmentPHP, Java_AES_Cipher.encryptSimple(rawData));
-            response = response.replaceAll(newLine, "\n");
+
             if (response.contains("New record created successfully")) {
                 Toast.makeText(context, getString(R.string.department_created), Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        addDepartmentAddButton.setEnabled(true);
                         loadDepartments();
                         changeScreen(DEPARTMENTS);
                     }
                 }, 1500);
             } else if (response.contains("Department name already registered")) {
                 Toast.makeText(context, getString(R.string.department_exists), Toast.LENGTH_LONG).show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addDepartmentAddButton.setEnabled(true);
-                    }
-                }, 2000);
             }
         } else {
             Toast.makeText(context, getString(R.string.error_department_empty), Toast.LENGTH_LONG).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    addDepartmentAddButton.setEnabled(true);
-                }
-            }, 2000);
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addDepartmentAddButton.setEnabled(true);
+            }
+        }, 2000);
     }
 
     private void loadTheirTasks() {
@@ -1965,6 +1958,7 @@ public class MainActivity extends AppCompatActivity {
             addUserDepartmentSpinner.setAdapter(departmentsSpinnerAdapter);
             taskerManagementDepartmentSpinner.setAdapter(departmentsSpinnerAdapter);
 
+            addUserDepartments.removeAllViews();
             for (String da : departmentsArray) {
                 CheckBox checkBox = new CheckBox(context);
                 checkBox.setText(da);
@@ -1973,6 +1967,7 @@ public class MainActivity extends AppCompatActivity {
                 addUserDepartments.addView(checkBox);
             }
 
+            taskerManagementDepartments.removeAllViews();
             for (String da : departmentsArray) {
                 CheckBox checkBox = new CheckBox(context);
                 checkBox.setText(da);
