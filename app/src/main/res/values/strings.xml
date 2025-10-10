@@ -94,6 +94,7 @@
     <string name="department_management">Department management</string>
     <string name="delete_department">Delete department</string>
     <string name="can_assign">Can assign tasks to</string>
+    <string name="for_me">For me</string>
 
     <string name="repeat_task">Repeat task</string>
     <string name="today_s_tasks">Show only today\'s tasks</string>

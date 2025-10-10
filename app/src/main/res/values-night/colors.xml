@@ -10,6 +10,7 @@
     <color name="today">#FFa6de8a</color>
     <color name="not_today">#40FFFFFF</color>
     <color name="task_late">#FFFF4040</color>
+    <color name="my_task">#FF8ab4ee</color>
 
     <color name="grey_list_bg">#FFBBBBBB</color>
     <color name="grey_input_bg">#FFAAAAAA</color>

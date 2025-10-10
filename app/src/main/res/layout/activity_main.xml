@@ -1280,13 +1280,31 @@
             android:background="@drawable/panel_bg"
             android:visibility="gone" >
 
-            <TextView
-                android:id="@+id/add_task_card_title"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/new_task"
-                android:layout_marginBottom="20dp"
-                android:textSize="@dimen/title" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/add_task_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_task"
+                    android:textSize="@dimen/title" />
+
+                <CheckBox
+                    android:id="@+id/personal_task"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layoutDirection="rtl"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/checkbox_text"
+                    android:text="@string/for_me"
+                    android:buttonTint="@color/checkbox_bg"
+                    android:buttonTintMode="multiply" />
+
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/add_task_tasker_spinner"
@@ -1297,6 +1315,18 @@
                 android:textSize="@dimen/input"
                 android:paddingStart="5dp"
                 android:layout_marginBottom="15dp" />
+
+            <TextView
+                android:id="@+id/add_task_my_name"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/input_bg_50"
+                android:textSize="@dimen/text"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"/>
 
             <EditText
                 android:id="@+id/add_task_title"
@@ -1607,7 +1637,7 @@
             android:layout_marginBottom="10dp"
             android:padding="20dp"
             android:background="@drawable/panel_bg"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"

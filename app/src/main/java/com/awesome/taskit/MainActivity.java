@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> userSubordinates;
 
     private ArrayList<String> theirTasksTaskId;
+    private ArrayList<String> theirTasksTaskMasterId;
     private ArrayList<String> theirTasksTaskerId;
     private ArrayList<String> theirTasksTitle;
     private ArrayList<String> theirTasksDescription;
@@ -179,13 +180,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, taskerManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, taskerManagementTaskMaster, taskerManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday, personalTask;
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, taskerManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, taskMasterTaskersCardTitle, addUserCardTitle, taskerManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
-            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, taskerManagementDepartmentText, addUserDepartmentsText, taskerManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle;
+            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, taskerManagementDepartmentText, addUserDepartmentsText, taskerManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -273,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         prepareCamera();
 
         if (!taskMaster) {
-            llTasks.setVisibility(View.GONE);
+            personalTask.setEnabled(false);
         }
         if (!admin) {
             llUsers.setVisibility(View.GONE);
@@ -406,7 +407,9 @@ public class MainActivity extends AppCompatActivity {
         theirTasksDeleteButton = findViewById(R.id.their_tasks_delete_button);
         theirTasksSaveButton = findViewById(R.id.their_tasks_save_button);
 
+        personalTask = findViewById(R.id.personal_task);
         addTaskTaskerSpinner = findViewById(R.id.add_task_tasker_spinner);
+        addTaskMyName = findViewById(R.id.add_task_my_name);
         addTaskTitle = findViewById(R.id.add_task_title);
         addTaskDescription = findViewById(R.id.add_task_description);
         addTaskDate = findViewById(R.id.add_task_date);
@@ -710,6 +713,20 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 showCompleted.setEnabled(false);
                 loadTheirTasks();
+            }
+        });
+
+        personalTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    addTaskTaskerSpinner.setVisibility(View.GONE);
+                    addTaskMyName.setVisibility(View.VISIBLE);
+                    addTaskMyName.setText(myName);
+                } else {
+                    addTaskTaskerSpinner.setVisibility(View.VISIBLE);
+                    addTaskMyName.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1160,7 +1177,9 @@ public class MainActivity extends AppCompatActivity {
         myTaskSaveButton.setTypeface(font1);
 
         addTaskCardTitle.setTypeface(font1);
+        personalTask.setTypeface(font2);
         // TODO set typeface of spinner addTaskTaskerSpinner
+        addTaskMyName.setTypeface(font2);
         addTaskTitle.setTypeface(font2);
         addTaskDescription.setTypeface(font2);
         addTaskDate.setTypeface(font2);
@@ -1270,6 +1289,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case TASK_MASTER_NEW_TASK:
                 addTaskCard.setVisibility(View.VISIBLE);
+
+                if (!taskMaster) {
+                    personalTask.setChecked(true);
+                }
+
+                if (personalTask.isChecked()) {
+                    addTaskTaskerSpinner.setVisibility(View.GONE);
+                    addTaskMyName.setVisibility(View.VISIBLE);
+                    addTaskMyName.setText(myName);
+                } else {
+                    addTaskTaskerSpinner.setVisibility(View.VISIBLE);
+                    addTaskMyName.setVisibility(View.GONE);
+                }
 
                 if (!templateName.isEmpty()) addTaskTaskerSpinner.setSelection(taskerSpinnerAdapter.getPosition(templateName));
                 if (!templateTitle.isEmpty()) {
@@ -1595,10 +1627,10 @@ public class MainActivity extends AppCompatActivity {
                 loadUsers();
                 if (temp[2].contains("0")) {
                     taskMaster = false;
-                    llTasks.setVisibility(View.GONE);
+                    personalTask.setEnabled(false);
                 } else {
                     taskMaster = true;
-                    llTasks.setVisibility(View.VISIBLE);
+                    personalTask.setEnabled(true);
                 }
                 if (temp[3].contains("0")) {
                     admin = false;
@@ -1760,6 +1792,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadTheirTasks() {
         theirTasksTaskId = new ArrayList<>();
+        theirTasksTaskMasterId = new ArrayList<>();
         theirTasksTaskerId = new ArrayList<>();
         theirTasksTitle = new ArrayList<>();
         theirTasksDescription = new ArrayList<>();
@@ -1783,14 +1816,14 @@ public class MainActivity extends AppCompatActivity {
                 line = lines[i].split(fS);
                 tempoDeptFound = false;
                 if (showCompleted.isChecked()) {
-                    if (line.length == 12) {
+                    if (line.length == 13) {
                         tempPosition = usersIds.indexOf(line[1]);
                         for (int j = 0; j < tempDepartments.length; j ++) {
-                            if (usersDepartment.get(tempPosition).contains(tempDepartments[j])) {
+                            if (usersDepartment.get(tempPosition).contains(tempDepartments[j]) && myDepartments.length() > 1) {
                                 tempoDeptFound = true;
                             }
                         }
-                        if (tempoDeptFound) {
+                        if ( (line[12].equals(line[1]) && myID.equals(line[12])) || (tempoDeptFound && !line[1].equals(line[12]) && !myID.equals(line[1])) ) {
                             theirTasksTaskId.add(line[0]);
                             theirTasksTaskerId.add(line[1]);
                             theirTasksTitle.add(line[2]);
@@ -1821,17 +1854,18 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             theirTasksLastModifiedDateTime.add(line[11]);
+                            theirTasksTaskMasterId.add(line[12]);
                         }
                     }
                 } else {
-                    if (line.length == 12 && line[10].contains("0")) {
+                    if (line.length == 13 && line[10].contains("0")) {
                         tempPosition = usersIds.indexOf(line[1]);
                         for (int j = 0; j < tempDepartments.length; j ++) {
-                            if (usersDepartment.get(tempPosition).contains(tempDepartments[j])) {
+                            if (usersDepartment.get(tempPosition).contains(tempDepartments[j]) && myDepartments.length() > 1) {
                                 tempoDeptFound = true;
                             }
                         }
-                        if (tempoDeptFound) {
+                        if ( (line[12].equals(line[1]) && myID.equals(line[12])) || (tempoDeptFound && !line[1].equals(line[12]) && !myID.equals(line[1])) ) {
                             theirTasksTaskId.add(line[0]);
                             theirTasksTaskerId.add(line[1]);
                             theirTasksTitle.add(line[2]);
@@ -1858,6 +1892,7 @@ public class MainActivity extends AppCompatActivity {
                             theirTasksTaskMasterMarkedAsDone.add(false);
 
                             theirTasksLastModifiedDateTime.add(line[11]);
+                            theirTasksTaskMasterId.add(line[12]);
                         }
                     }
                 }
@@ -2077,13 +2112,20 @@ public class MainActivity extends AppCompatActivity {
             templateDescription = "";
             templateTime = "";
 
+            String tempUserId;
+            if (personalTask.isChecked()) {
+                tempUserId = myID;
+            } else {
+                tempUserId = usersIds.get(usersNames.indexOf(addTaskTaskerSpinner.getSelectedItem().toString()));
+            }
+
             int n = addTaskNTimes.getSelectedItemPosition() + 1;
             for (int i = 0; i < n; i ++) {
 
                 if (isValidWeekDay(calendar.get(Calendar.DAY_OF_WEEK))) {
                     rawData = generateID() + fS +                                                                          // task_id
                             myID + fS +                                                                                    // task_master_id
-                            usersIds.get(usersNames.indexOf(addTaskTaskerSpinner.getSelectedItem().toString())) + fS +     // tasker_id
+                            tempUserId + fS +     // tasker_id
                             addTaskTitle.getText().toString() + fS +                                                       // title
                             addTaskDescription.getText().toString() + fS +                                                 // description
                             year + "-" + month + "-" + day + " " + hour + ":" + String.format("%02d", minute) + ":00" + fS +                // deadline
@@ -2653,11 +2695,19 @@ public class MainActivity extends AppCompatActivity {
             myTaskMyComments.setText(myTasksTaskerComment.get(which));
         }
 
-        if (myTasksTaskMasterComment.get(which).equals(" ")) {
-            myTaskTmComments.setText(getString(R.string.no_comments));
+        if (myTasksTaskMasterId.get(which).contains(myID)) {
+            myTaskTmCommentsTitle.setVisibility(View.GONE);
+            myTaskTmComments.setVisibility(View.GONE);
         } else {
-            myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
+            myTaskTmCommentsTitle.setVisibility(View.VISIBLE);
+            myTaskTmComments.setVisibility(View.VISIBLE);
+            if (myTasksTaskMasterComment.get(which).equals(" ")) {
+                myTaskTmComments.setText(getString(R.string.no_comments));
+            } else {
+                myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
+            }
         }
+
         myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
     }
 
@@ -2769,6 +2819,22 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             theirTasksAttachmentIB2.setImageResource(R.drawable.fallback);
+        }
+
+        if (myID.contains(theirTasksTaskerId.get(which))) {
+            theirTasksLastModifiedTitle.setVisibility(View.GONE);
+            theirTasksLastModified.setVisibility(View.GONE);
+            theirTasksTCommentsTitle.setText(R.string.my_comments);
+            theirTasksMyCommentsTitle.setVisibility(View.GONE);
+            theirTasksMyComments.setVisibility(View.GONE);
+            theirTasksDone.setVisibility(View.GONE);
+        } else {
+            theirTasksLastModifiedTitle.setVisibility(View.VISIBLE);
+            theirTasksLastModified.setVisibility(View.VISIBLE);
+            theirTasksTCommentsTitle.setText(R.string.tasker_comments);
+            theirTasksMyCommentsTitle.setVisibility(View.VISIBLE);
+            theirTasksMyComments.setVisibility(View.VISIBLE);
+            theirTasksDone.setVisibility(View.VISIBLE);
         }
 
         if (theirTasksTaskerComment.get(which).equals(" ")) {
@@ -3062,15 +3128,18 @@ public class MainActivity extends AppCompatActivity {
                 long nowMil = now.getTimeInMillis();
                 long taskMil = taskDate.getTimeInMillis();
 
-                if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
-                    text3.setTextColor(getColor(R.color.today));
-                    text3.setTypeface(font1);
-                } else if (nowMil > taskMil) {
+                if (nowMil > taskMil) {
                     text3.setTextColor(getColor(R.color.task_late));
+                    text3.setTypeface(font1);
+                } else if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
+                    text3.setTextColor(getColor(R.color.today));
                     text3.setTypeface(font1);
                 } else {
                     text3.setTextColor(getColor(R.color.text_grey));
                     text3.setTypeface(font2);
+                }
+                if (myID.equals(theirTasksTaskMasterId.get(position)) && myID.equals(theirTasksTaskerId.get(position))) {
+                    text1.setText("\uD83D\uDC64 " + text1.getText().toString());
                 }
             } else {
                 text3.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
@@ -3149,6 +3218,10 @@ public class MainActivity extends AppCompatActivity {
                     openMyTaskTrigger.setEnabled(false);
                     text1.setTypeface(font2);
                     text2.setTypeface(font2);
+                }
+
+                if (myTasksTaskMasterId.get(position).contains(myID)) {
+                    text1.setText("\uD83D\uDC64 " + text1.getText().toString());
                 }
             } else {
                 text2.setText("00" + dS + "00" + dS + "0000 00" + hS + "00");
