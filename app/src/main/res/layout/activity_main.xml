@@ -56,6 +56,8 @@
         android:paddingBottom="10dp"
         android:orientation="vertical">
 
+        <!-- login -->
+
         <LinearLayout
             android:id="@+id/login_card"
             android:layout_width="match_parent"
@@ -137,6 +139,8 @@
 
         </LinearLayout>
 
+        <!-- menu -->
+
         <LinearLayout
             android:id="@+id/menu_card"
             android:layout_width="match_parent"
@@ -146,7 +150,7 @@
             android:layout_marginBottom="10dp"
             android:padding="20dp"
             android:background="@drawable/panel_menu_bg"
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -196,6 +200,35 @@
                     android:paddingEnd="20dp"
                     android:gravity="center_vertical"
                     android:text="@string/their_tasks"
+                    android:textSize="@dimen/icons_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_my_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:paddingStart="10dp" >
+
+                <ImageButton
+                    android:id="@+id/tasker_tasks_card_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/my_tasks"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:id="@+id/tasker_tasks_card_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/tasks_assigned_to_me"
                     android:textSize="@dimen/icons_text"/>
 
             </LinearLayout>
@@ -254,35 +287,6 @@
                     android:paddingEnd="20dp"
                     android:gravity="center_vertical"
                     android:text="@string/departments"
-                    android:textSize="@dimen/icons_text"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_my_tasks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="20dp"
-                android:paddingStart="10dp" >
-
-                <ImageButton
-                    android:id="@+id/tasker_tasks_card_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/my_tasks"
-                    android:scaleType="fitCenter"
-                    android:background="#00000000"/>
-
-                <TextView
-                    android:id="@+id/tasker_tasks_card_button_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/tasks_assigned_to_me"
                     android:textSize="@dimen/icons_text"/>
 
             </LinearLayout>
@@ -347,8 +351,10 @@
 
         </LinearLayout>
 
+        <!-- users -->
+
         <LinearLayout
-            android:id="@+id/task_master_taskers_card"
+            android:id="@+id/users_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -359,7 +365,7 @@
             android:visibility="gone" >
 
             <TextView
-                android:id="@+id/task_master_taskers_card_title"
+                android:id="@+id/users_card_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/taskers"
@@ -535,7 +541,7 @@
         </ScrollView>
 
         <ScrollView
-            android:id="@+id/tasker_management_card"
+            android:id="@+id/users_management_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
@@ -550,15 +556,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tasker_management_card_title"
+                    android:id="@+id/users_management_card_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tasker_management"
+                    android:text="@string/users_management"
                     android:layout_marginBottom="20dp"
                     android:textSize="@dimen/title" />
 
                 <EditText
-                    android:id="@+id/tasker_management_name_field"
+                    android:id="@+id/users_management_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/input_bg"
@@ -571,7 +577,7 @@
                     android:layout_marginBottom="15dp" />
 
                 <TextView
-                    android:id="@+id/tasker_management_id"
+                    android:id="@+id/users_management_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
@@ -582,14 +588,14 @@
                     android:layout_marginBottom="15dp" />
 
                 <TextView
-                    android:id="@+id/tasker_management_department_text"
+                    android:id="@+id/users_management_department_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/department"
                     android:textSize="@dimen/text" />
 
                 <Spinner
-                    android:id="@+id/tasker_management_department_spinner"
+                    android:id="@+id/users_management_department_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:background="@drawable/input_bg"
@@ -606,7 +612,7 @@
                     android:layout_marginTop="10dp">
 
                     <CheckBox
-                        android:id="@+id/tasker_management_task_master"
+                        android:id="@+id/users_management_task_master"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -616,7 +622,7 @@
                         android:buttonTintMode="multiply" />
 
                     <CheckBox
-                        android:id="@+id/tasker_management_admin"
+                        android:id="@+id/users_management_admin"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -628,7 +634,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tasker_management_departments_text"
+                    android:id="@+id/users_management_departments_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/can_assign"
@@ -636,7 +642,7 @@
                     android:layout_marginTop="10dp"/>
 
                 <LinearLayout
-                    android:id="@+id/tasker_management_departments"
+                    android:id="@+id/users_management_departments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -683,6 +689,8 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <!-- departments -->
 
         <LinearLayout
             android:id="@+id/departments_card"
@@ -869,6 +877,8 @@
 
         </LinearLayout>
 
+        <!-- taskmaster tasks -->
+
         <LinearLayout
             android:id="@+id/task_master_tasks_card"
             android:layout_width="match_parent"
@@ -959,313 +969,6 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/no_tasks"
                 android:background="@color/transparent"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tasker_tasks_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/tasker_tasks_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tasks_assigned_to_me"
-                    android:textSize="@dimen/title" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="end">
-
-                    <ImageButton
-                        android:id="@+id/my_tasks_reload"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/reload"
-                        android:scaleType="fitCenter"
-                        android:background="@color/transparent" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/tasker_tasks_card_today"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/checkbox_text"
-                android:text="@string/today_s_tasks"
-                android:buttonTint="@color/checkbox_bg"
-                android:buttonTintMode="multiply" />
-
-            <ListView
-                android:id="@+id/my_tasks_listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/no_tasks"
-                android:background="@color/transparent"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/my_task_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/my_task_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title"
-                android:layout_marginBottom="20dp"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/my_task_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/description"
-                android:textSize="@dimen/text"
-                android:layout_marginBottom="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp" >
-
-                <TextView
-                    android:id="@+id/my_task_deadline_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/deadline"
-                    android:textSize="@dimen/text"
-                    android:layout_marginEnd="6dp"/>
-
-                <TextView
-                    android:id="@+id/my_task_deadline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text"
-                    android:text="@string/deadline" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/my_task_pictures_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/pictures"
-                android:textSize="@dimen/text"
-                android:layout_marginBottom="5dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="5dp"
-                    android:weightSum="2">
-
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/input_bg"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1" />
-
-                    <ImageButton
-                        android:id="@+id/my_task_attachment_2"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/input_bg"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="5dp"
-                    android:weightSum="2">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/corners"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/corners"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:weightSum="4">
-
-                <ImageButton
-                    android:id="@+id/my_task_attachment_1_take_pic"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/camera"
-                    android:scaleType="centerInside"
-                    android:padding="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/input_bg"
-                    android:layout_weight="1" />
-
-                <ImageButton
-                    android:id="@+id/my_task_attachment_1_del_pic"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/delete"
-                    android:scaleType="centerInside"
-                    android:padding="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/input_bg"
-                    android:layout_weight="1" />
-
-                <ImageButton
-                    android:id="@+id/my_task_attachment_2_take_pic"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/camera"
-                    android:scaleType="centerInside"
-                    android:padding="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/input_bg"
-                    android:layout_weight="1" />
-
-                <ImageButton
-                    android:id="@+id/my_task_attachment_2_del_pic"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/delete"
-                    android:scaleType="centerInside"
-                    android:padding="5dp"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/input_bg"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/my_task_my_comments_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_comments"
-                android:textSize="@dimen/text"
-                android:layout_marginBottom="8dp" />
-
-            <EditText
-                android:id="@+id/my_task_my_comments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/input_bg"
-                android:hint="@string/my_comments"
-                android:inputType="textCapSentences"
-                android:maxLines="3"
-                android:padding="10dp"
-                android:gravity="top"
-                android:textSize="@dimen/input"
-                android:layout_marginBottom="20dp"/>
-
-            <TextView
-                android:id="@+id/my_task_tm_comments_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/task_master_comments"
-                android:textSize="@dimen/text"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/my_task_tm_comments"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:background="@drawable/input_bg_50"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textSize="@dimen/text"
-                android:layout_marginBottom="15dp" />
-
-            <CheckBox
-                android:id="@+id/my_task_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/checkbox_text"
-                android:text="@string/ive_completed_this_task"
-                android:buttonTint="@color/checkbox_bg"
-                android:buttonTintMode="multiply" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="bottom|end">
-
-                <Button
-                    android:id="@+id/my_task_save_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/buttons_text"
-                    android:background="@drawable/button_bg"
-                    app:backgroundTint="@color/button_bg"
-                    android:backgroundTintMode="multiply"
-                    android:text="@string/save" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -1918,6 +1621,317 @@
 
         </ScrollView>
 
+        <!-- user tasks -->
+
+        <LinearLayout
+            android:id="@+id/tasker_tasks_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tasker_tasks_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tasks_assigned_to_me"
+                    android:textSize="@dimen/title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <ImageButton
+                        android:id="@+id/my_tasks_reload"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/reload"
+                        android:scaleType="fitCenter"
+                        android:background="@color/transparent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/tasker_tasks_card_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/checkbox_text"
+                android:text="@string/today_s_tasks"
+                android:buttonTint="@color/checkbox_bg"
+                android:buttonTintMode="multiply" />
+
+            <ListView
+                android:id="@+id/my_tasks_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/no_tasks"
+                android:background="@color/transparent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/my_task_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/my_task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:layout_marginBottom="20dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/my_task_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp" >
+
+                <TextView
+                    android:id="@+id/my_task_deadline_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deadline"
+                    android:textSize="@dimen/text"
+                    android:layout_marginEnd="6dp"/>
+
+                <TextView
+                    android:id="@+id/my_task_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text"
+                    android:text="@string/deadline" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/my_task_pictures_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pictures"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="5dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="2">
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/input_bg"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/my_task_attachment_2"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/input_bg"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="2">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/corners"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/corners"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:weightSum="4">
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_1_take_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_1_del_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/delete"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_2_take_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/my_task_attachment_2_del_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/delete"
+                    android:scaleType="centerInside"
+                    android:padding="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/input_bg"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/my_task_my_comments_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_comments"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/my_task_my_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/my_comments"
+                android:inputType="textCapSentences"
+                android:maxLines="3"
+                android:padding="10dp"
+                android:gravity="top"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/my_task_tm_comments_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_master_comments"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/my_task_tm_comments"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/input_bg_50"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="@dimen/text"
+                android:layout_marginBottom="15dp" />
+
+            <CheckBox
+                android:id="@+id/my_task_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/checkbox_text"
+                android:text="@string/ive_completed_this_task"
+                android:buttonTint="@color/checkbox_bg"
+                android:buttonTintMode="multiply" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom|end">
+
+                <Button
+                    android:id="@+id/my_task_save_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/save" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- password -->
+
         <LinearLayout
             android:id="@+id/change_password_card"
             android:layout_width="match_parent"
@@ -1996,6 +2010,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- image preview -->
 
         <ImageView
             android:id="@+id/image_show"

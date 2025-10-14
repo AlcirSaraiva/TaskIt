@@ -26,7 +26,7 @@
     <string name="name">Nome</string>
     <string name="id">ID</string>
     <string name="generate_new_id">Nova ID</string>
-    <string name="tasker_management">Gerenciamento de usuário</string>
+    <string name="users_management">Gerenciamento de usuário</string>
     <string name="delete_tasker">Excluir usuário</string>
     <string name="delete_task">Excluir tarefa</string>
     <string name="delete_task_q">Excluir tarefa?</string>
