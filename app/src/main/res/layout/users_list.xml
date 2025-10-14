@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text"
+            android:textColor="@color/black"
             android:padding="10dp" />
 
         <TextView
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="@dimen/text"
+            android:textColor="@color/black"
             android:gravity="end"/>
 
     </LinearLayout>

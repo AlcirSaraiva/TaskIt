@@ -41,6 +41,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -76,6 +78,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -174,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
     private int currentScreen, lastscreen;
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
-    private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
+    private RelativeLayout topBar;
+    private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass, mainContainer;
     private LinearLayout loginCard, menuCard, usersCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
@@ -260,12 +264,12 @@ public class MainActivity extends AppCompatActivity {
         attachmentExecutor1 = Executors.newSingleThreadExecutor();
         attachmentExecutor2 = Executors.newSingleThreadExecutor();
 
-        placeholder = Image_androidKt.asImage(getDrawable(R.drawable.downloading));
-        placeholderBig = Image_androidKt.asImage(getDrawable(R.drawable.downloading_big));
-        fallback = Image_androidKt.asImage(getDrawable(R.drawable.fallback));
-        fallbackBig = Image_androidKt.asImage(getDrawable(R.drawable.fallback_big));
-        error = Image_androidKt.asImage(getDrawable(R.drawable.error));
-        errorBig = Image_androidKt.asImage(getDrawable(R.drawable.error_big));
+        placeholder = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.downloading)));
+        placeholderBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.downloading_big)));
+        fallback = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.fallback)));
+        fallbackBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.fallback_big)));
+        error = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.error)));
+        errorBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.error_big)));
 
         assignViews();
         assignViewListeners();
@@ -274,26 +278,36 @@ public class MainActivity extends AppCompatActivity {
         prepareNetwork();
         prepareCamera();
 
-        if (!taskMaster) {
-            personalTask.setEnabled(false);
-        }
-        if (!admin) {
-            llUsers.setVisibility(View.GONE);
-            llDepartments.setVisibility(View.GONE);
-            llDeleteDone.setVisibility(View.GONE);
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-        if (myID.isEmpty()) {
-            changeScreen(LOGIN);
-        } else if (taskMaster) {
-            loadDepartments();
-            loadUsers();
-            changeScreen(TASK_MASTER_TASKS);
-        } else {
-            loadDepartments();
-            loadUsers();
-            changeScreen(TASKER_TASKS);
-        }
+                topBar.setVisibility(View.VISIBLE);
+                mainContainer.setVisibility(View.VISIBLE);
+
+                if (!taskMaster) {
+                    personalTask.setEnabled(false);
+                }
+                if (!admin) {
+                    llUsers.setVisibility(View.GONE);
+                    llDepartments.setVisibility(View.GONE);
+                    llDeleteDone.setVisibility(View.GONE);
+                }
+
+
+                if (myID.isEmpty()) {
+                    changeScreen(LOGIN);
+                } else if (taskMaster) {
+                    loadDepartments();
+                    loadUsers();
+                    changeScreen(TASK_MASTER_TASKS);
+                } else {
+                    loadDepartments();
+                    loadUsers();
+                    changeScreen(TASKER_TASKS);
+                }
+            }
+        }, 100);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -306,6 +320,8 @@ public class MainActivity extends AppCompatActivity {
     // UI
 
     private void assignViews() {
+        topBar = findViewById(R.id.top_bar);
+        mainContainer = findViewById(R.id.main_containner);
         menuButton = findViewById(R.id.menu_button);
         appTitle = findViewById(R.id.app_title);
         backButton = findViewById(R.id.back_button);
@@ -3229,7 +3245,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (nowMil > taskMil) {
                     text2.setTextColor(getColor(R.color.task_late));
                     openMyTaskTrigger.setEnabled(true);
-                    text1.setTypeface(font2);
+                    text1.setTypeface(font1);
                     text2.setTypeface(font1);
                 } else {
                     text1.setTextColor(getColor(R.color.not_today));

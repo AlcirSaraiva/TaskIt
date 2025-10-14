@@ -7,18 +7,18 @@
 
     <color name="transparent">#00000000</color>
 
-    <color name="today">#4FB11D</color>
+    <color name="today">#3FA40D</color>
     <color name="not_today">#40FFFFFF</color>
     <color name="task_late">#FFFF4040</color>
     <color name="my_task">#FF2c84ff</color>
 
-    <color name="grey_list_bg">#FFBBBBBB</color>
+    <color name="grey_list_bg">#FFC3C3C3</color>
     <color name="grey_input_bg">#FFBBBBBB</color>
     <color name="grey_input_bg_50">#88BBBBBB</color>
     <color name="grey_panel_bg">#FFD5D5D5</color>
     <color name="grey_panel_menu_bg">#FFE0E0E0</color>
     <color name="grey_panel_disabled_bg">#FFE0E0E0</color>
-    <color name="grey_panel_disabled_shadow_bg">#FF999999</color>
+    <color name="grey_panel_disabled_shadow_bg">#FFBBBBBB</color>
 
     <color name="text_grey">#FF555555</color>
 

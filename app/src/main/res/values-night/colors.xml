@@ -18,7 +18,7 @@
     <color name="grey_panel_bg">#FF333333</color>
     <color name="grey_panel_menu_bg">#FF444444</color>
     <color name="grey_panel_disabled_bg">#FF444444</color>
-    <color name="grey_panel_disabled_shadow_bg">#FF212121</color>
+    <color name="grey_panel_disabled_shadow_bg">#FF333333</color>
 
     <color name="text_grey">#FFCCCCCC</color>
 
