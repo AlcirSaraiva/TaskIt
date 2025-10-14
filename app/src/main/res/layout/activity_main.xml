@@ -194,7 +194,7 @@
 
                 <TextView
                     android:id="@+id/task_master_tasks_card_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
@@ -223,7 +223,7 @@
 
                 <TextView
                     android:id="@+id/tasker_tasks_card_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
@@ -252,7 +252,7 @@
 
                 <TextView
                     android:id="@+id/task_master_taskers_card_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
@@ -281,7 +281,7 @@
 
                 <TextView
                     android:id="@+id/departments_card_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
@@ -310,7 +310,7 @@
 
                 <TextView
                     android:id="@+id/delete_done_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/delete_done"
                     android:paddingStart="20dp"
@@ -339,539 +339,13 @@
 
                 <TextView
                     android:id="@+id/change_pass_card_button_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:gravity="center_vertical"
                     android:text="@string/change_pass"
                     android:textSize="@dimen/icons_text"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- users -->
-
-        <LinearLayout
-            android:id="@+id/users_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/users_card_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/taskers"
-                android:layout_marginBottom="15dp"
-                android:textSize="@dimen/title" />
-
-            <Button
-                android:id="@+id/add_user_card_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_tasker"
-                android:textSize="@dimen/buttons_text"
-                android:background="@drawable/button_bg"
-                app:backgroundTint="@color/button_bg"
-                android:backgroundTintMode="multiply"
-                android:layout_marginBottom="15dp" />
-
-            <ListView
-                android:id="@+id/users_listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
-
-        <ScrollView
-            android:id="@+id/add_user_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/add_user_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_tasker"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/title" />
-
-                <EditText
-                    android:id="@+id/add_user_name_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/username"
-                    android:inputType="textCapWords"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/add_user_id_field"
-                        android:layout_width="180dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/id"
-                        android:background="@drawable/input_bg_50"
-                        android:textSize="@dimen/id"
-                        android:textColor="@color/text_50"
-                        android:padding="10dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end|center_vertical">
-
-                        <Button
-                            android:id="@+id/add_user_generate_id_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/buttons_text"
-                            android:background="@drawable/button_bg"
-                            app:backgroundTint="@color/button_bg"
-                            android:backgroundTintMode="multiply"
-                            android:text="@string/generate_new_id"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/add_user_department_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/department"
-                    android:textSize="@dimen/text"
-                    android:layout_marginTop="15dp"/>
-
-                <Spinner
-                    android:id="@+id/add_user_department_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:background="@drawable/input_bg"
-                    android:spinnerMode="dropdown"
-                    android:textSize="@dimen/input"
-                    android:paddingStart="5dp"
-                    android:layout_marginTop="10dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:layout_marginTop="10dp" >
-
-                    <CheckBox
-                        android:id="@+id/add_user_task_master"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_master"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply"/>
-
-                    <CheckBox
-                        android:id="@+id/add_user_admin"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/admin"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/add_user_departments_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/can_assign"
-                    android:textSize="@dimen/text"
-                    android:layout_marginTop="10dp"/>
-
-                <LinearLayout
-                    android:id="@+id/add_user_departments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp" />
-
-                <Button
-                    android:id="@+id/add_user_add_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/buttons_text"
-                    android:background="@drawable/button_bg"
-                    app:backgroundTint="@color/button_bg"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTintMode="multiply"
-                    android:text="@string/add_tasker" />
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <ScrollView
-            android:id="@+id/users_management_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/users_management_card_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/users_management"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/title" />
-
-                <EditText
-                    android:id="@+id/users_management_name_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/input_bg"
-                    android:hint="@string/username"
-                    android:inputType="textVisiblePassword"
-                    android:singleLine="true"
-                    android:lines="1"
-                    android:padding="10dp"
-                    android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp" />
-
-                <TextView
-                    android:id="@+id/users_management_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start|center_vertical"
-                    android:background="@drawable/input_bg_50"
-                    android:padding="10dp"
-                    android:textColor="@color/text_50"
-                    android:textSize="@dimen/id"
-                    android:layout_marginBottom="15dp" />
-
-                <TextView
-                    android:id="@+id/users_management_department_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/department"
-                    android:textSize="@dimen/text" />
-
-                <Spinner
-                    android:id="@+id/users_management_department_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:background="@drawable/input_bg"
-                    android:spinnerMode="dropdown"
-                    android:textSize="@dimen/input"
-                    android:paddingStart="5dp"
-                    android:layout_marginTop="10dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:layout_marginTop="10dp">
-
-                    <CheckBox
-                        android:id="@+id/users_management_task_master"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/task_master"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
-
-                    <CheckBox
-                        android:id="@+id/users_management_admin"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/admin"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/users_management_departments_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/can_assign"
-                    android:textSize="@dimen/text"
-                    android:layout_marginTop="10dp"/>
-
-                <LinearLayout
-                    android:id="@+id/users_management_departments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:layout_marginTop="10dp">
-
-                    <Button
-                        android:id="@+id/delete_user_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/delete_tasker" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
-
-                        <Button
-                            android:id="@+id/update_user_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/buttons_text"
-                            android:background="@drawable/button_bg"
-                            app:backgroundTint="@color/button_bg"
-                            android:backgroundTintMode="multiply"
-                            android:text="@string/save" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <!-- departments -->
-
-        <LinearLayout
-            android:id="@+id/departments_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/departments_card_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/departments"
-                android:layout_marginBottom="15dp"
-                android:textSize="@dimen/title" />
-
-            <Button
-                android:id="@+id/add_department_card_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_department"
-                android:textSize="@dimen/buttons_text"
-                android:background="@drawable/button_bg"
-                app:backgroundTint="@color/button_bg"
-                android:backgroundTintMode="multiply"
-                android:layout_marginBottom="15dp" />
-
-            <ListView
-                android:id="@+id/departments_listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/add_department_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/add_department_card_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_department"
-                android:layout_marginBottom="20dp"
-                android:textSize="@dimen/title" />
-
-            <EditText
-                android:id="@+id/add_department_name_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/input_bg"
-                android:hint="@string/department_name"
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                android:lines="1"
-                android:padding="10dp"
-                android:textSize="@dimen/input"
-                android:layout_marginBottom="15dp"/>
-
-            <EditText
-                android:id="@+id/add_department_obs_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/input_bg"
-                android:hint="@string/obs"
-                android:singleLine="false"
-                android:lines="3"
-                android:gravity="top"
-                android:padding="10dp"
-                android:textSize="@dimen/input"
-                android:layout_marginBottom="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="bottom">
-
-                <Button
-                    android:id="@+id/add_department_add_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/buttons_text"
-                    android:background="@drawable/button_bg"
-                    app:backgroundTint="@color/button_bg"
-                    android:backgroundTintMode="multiply"
-                    android:text="@string/add_department" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/department_management_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="20dp"
-            android:background="@drawable/panel_bg"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/department_management_card_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/department_management"
-                android:layout_marginBottom="20dp"
-                android:textSize="@dimen/title" />
-
-            <EditText
-                android:id="@+id/department_management_name_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/input_bg"
-                android:hint="@string/department_name"
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                android:lines="1"
-                android:padding="10dp"
-                android:textSize="@dimen/input"
-                android:layout_marginBottom="15dp"/>
-
-            <EditText
-                android:id="@+id/department_management_obs_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/input_bg"
-                android:hint="@string/obs"
-                android:singleLine="false"
-                android:lines="3"
-                android:gravity="top"
-                android:padding="10dp"
-                android:textSize="@dimen/input"
-                android:layout_marginBottom="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="bottom">
-
-                <Button
-                    android:id="@+id/delete_department_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/buttons_text"
-                    android:background="@drawable/button_bg"
-                    app:backgroundTint="@color/button_bg"
-                    android:backgroundTintMode="multiply"
-                    android:text="@string/delete_department" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="end">
-
-                    <Button
-                        android:id="@+id/update_department_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/buttons_text"
-                        android:background="@drawable/button_bg"
-                        app:backgroundTint="@color/button_bg"
-                        android:backgroundTintMode="multiply"
-                        android:text="@string/save" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -1925,6 +1399,532 @@
                     app:backgroundTint="@color/button_bg"
                     android:backgroundTintMode="multiply"
                     android:text="@string/save" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- users -->
+
+        <LinearLayout
+            android:id="@+id/users_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/users_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taskers"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/title" />
+
+            <Button
+                android:id="@+id/add_user_card_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_tasker"
+                android:textSize="@dimen/buttons_text"
+                android:background="@drawable/button_bg"
+                app:backgroundTint="@color/button_bg"
+                android:backgroundTintMode="multiply"
+                android:layout_marginBottom="15dp" />
+
+            <ListView
+                android:id="@+id/users_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/add_user_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/add_user_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_tasker"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/title" />
+
+                <EditText
+                    android:id="@+id/add_user_name_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_bg"
+                    android:hint="@string/username"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="10dp"
+                    android:textSize="@dimen/input"
+                    android:layout_marginBottom="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/add_user_id_field"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/id"
+                        android:background="@drawable/input_bg_50"
+                        android:textSize="@dimen/id"
+                        android:textColor="@color/text_50"
+                        android:padding="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end|center_vertical">
+
+                        <Button
+                            android:id="@+id/add_user_generate_id_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
+                            android:text="@string/generate_new_id"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/add_user_department_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/department"
+                    android:textSize="@dimen/text"
+                    android:layout_marginTop="15dp"/>
+
+                <Spinner
+                    android:id="@+id/add_user_department_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@drawable/input_bg"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/input"
+                    android:paddingStart="5dp"
+                    android:layout_marginTop="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginTop="10dp" >
+
+                    <CheckBox
+                        android:id="@+id/add_user_task_master"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/task_master"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply"/>
+
+                    <CheckBox
+                        android:id="@+id/add_user_admin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/admin"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/add_user_departments_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/can_assign"
+                    android:textSize="@dimen/text"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:id="@+id/add_user_departments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp" />
+
+                <Button
+                    android:id="@+id/add_user_add_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/add_tasker" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/users_management_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/users_management_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/users_management"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="@dimen/title" />
+
+                <EditText
+                    android:id="@+id/users_management_name_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input_bg"
+                    android:hint="@string/username"
+                    android:inputType="textVisiblePassword"
+                    android:singleLine="true"
+                    android:lines="1"
+                    android:padding="10dp"
+                    android:textSize="@dimen/input"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:id="@+id/users_management_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:background="@drawable/input_bg_50"
+                    android:padding="10dp"
+                    android:textColor="@color/text_50"
+                    android:textSize="@dimen/id"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:id="@+id/users_management_department_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/department"
+                    android:textSize="@dimen/text" />
+
+                <Spinner
+                    android:id="@+id/users_management_department_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@drawable/input_bg"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/input"
+                    android:paddingStart="5dp"
+                    android:layout_marginTop="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginTop="10dp">
+
+                    <CheckBox
+                        android:id="@+id/users_management_task_master"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/task_master"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                    <CheckBox
+                        android:id="@+id/users_management_admin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/admin"
+                        android:buttonTint="@color/checkbox_bg"
+                        android:buttonTintMode="multiply" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/users_management_departments_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/can_assign"
+                    android:textSize="@dimen/text"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:id="@+id/users_management_departments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:id="@+id/delete_user_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
+                        android:text="@string/delete_tasker" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <Button
+                            android:id="@+id/update_user_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
+                            android:text="@string/save" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!-- departments -->
+
+        <LinearLayout
+            android:id="@+id/departments_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/departments_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/departments"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/title" />
+
+            <Button
+                android:id="@+id/add_department_card_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_department"
+                android:textSize="@dimen/buttons_text"
+                android:background="@drawable/button_bg"
+                app:backgroundTint="@color/button_bg"
+                android:backgroundTintMode="multiply"
+                android:layout_marginBottom="15dp" />
+
+            <ListView
+                android:id="@+id/departments_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_department_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/add_department_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_department"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/add_department_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/department_name"
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/add_department_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/obs"
+                android:singleLine="false"
+                android:lines="3"
+                android:gravity="top"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/add_department_add_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/add_department" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/department_management_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:background="@drawable/panel_bg"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/department_management_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/department_management"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <EditText
+                android:id="@+id/department_management_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/department_name"
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:lines="1"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp"/>
+
+            <EditText
+                android:id="@+id/department_management_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg"
+                android:hint="@string/obs"
+                android:singleLine="false"
+                android:lines="3"
+                android:gravity="top"
+                android:padding="10dp"
+                android:textSize="@dimen/input"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/delete_department_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/buttons_text"
+                    android:background="@drawable/button_bg"
+                    app:backgroundTint="@color/button_bg"
+                    android:backgroundTintMode="multiply"
+                    android:text="@string/delete_department" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/update_department_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/buttons_text"
+                        android:background="@drawable/button_bg"
+                        app:backgroundTint="@color/button_bg"
+                        android:backgroundTintMode="multiply"
+                        android:text="@string/save" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
