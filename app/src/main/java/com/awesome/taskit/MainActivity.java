@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout loginCard, menuCard, usersCard, taskMasterTasksCard, taskerTasksCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments;
+    private LinearLayout loginCard, menuCard, usersCard, changePasswordCard, addTaskCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton;
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
-    private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, usersCardTitle, addUserCardTitle, usersManagementCardTitle, taskMasterTasksCardTitle, taskerTasksCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
+    private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, usersCardTitle, addUserCardTitle, usersManagementCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
             departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, usersManagementDepartmentText, addUserDepartmentsText, usersManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName;
     private String templateName = "";
@@ -463,8 +463,6 @@ public class MainActivity extends AppCompatActivity {
         usersCardTitle = findViewById(R.id.users_card_title);
         addUserCardTitle = findViewById(R.id.add_user_card_title);
         usersManagementCardTitle = findViewById(R.id.users_management_card_title);
-        taskMasterTasksCardTitle = findViewById(R.id.task_master_tasks_card_title);
-        taskerTasksCardTitle = findViewById(R.id.tasker_tasks_card_title);
         myTaskDeadlineTitle = findViewById(R.id.my_task_deadline_title);
         myTaskTmCommentsTitle = findViewById(R.id.my_task_tm_comments_title);
         addTaskCardTitle = findViewById(R.id.add_task_card_title);
@@ -1157,11 +1155,9 @@ public class MainActivity extends AppCompatActivity {
         deleteDepartmentButton.setTypeface(font1);
         updateDepartmentButton.setTypeface(font1);
 
-        taskMasterTasksCardTitle.setTypeface(font1);
         addTaskCardButton.setTypeface(font1);
         showCompleted.setTypeface(font2);
 
-        taskerTasksCardTitle.setTypeface(font1);
         taskerTasksCardToday.setTypeface(font2);
 
         myTaskTitle.setTypeface(font1);

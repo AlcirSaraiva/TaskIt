@@ -17,6 +17,8 @@
     <color name="grey_input_bg_50">#88BBBBBB</color>
     <color name="grey_panel_bg">#FFD5D5D5</color>
     <color name="grey_panel_menu_bg">#FFE0E0E0</color>
+    <color name="grey_panel_disabled_bg">#FFE0E0E0</color>
+    <color name="grey_panel_disabled_shadow_bg">#FF999999</color>
 
     <color name="text_grey">#FF555555</color>
 
