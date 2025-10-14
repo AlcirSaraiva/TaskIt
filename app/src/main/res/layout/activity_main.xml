@@ -369,6 +369,7 @@
                 android:weightSum="2">
 
                 <TextView
+                    android:id="@+id/their_tasks_tab1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -378,6 +379,7 @@
                     android:background="@drawable/tab_enabled" />
 
                 <TextView
+                    android:id="@+id/their_tasks_tab2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -1133,6 +1135,7 @@
                 android:weightSum="2">
 
                 <TextView
+                    android:id="@+id/users_tasks_tab1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -1144,6 +1147,7 @@
                     android:background="@drawable/tab_disabled" />
 
                 <TextView
+                    android:id="@+id/users_tasks_tab2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

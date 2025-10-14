@@ -186,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, usersCardTitle, addUserCardTitle, usersManagementCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
-            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, usersManagementDepartmentText, addUserDepartmentsText, usersManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName;
+            departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, usersManagementDepartmentText, addUserDepartmentsText, usersManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName,
+            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -480,6 +481,11 @@ public class MainActivity extends AppCompatActivity {
         theirTasksLastModifiedTitle = findViewById(R.id.their_tasks_last_modified_title);
         theirTasksTCommentsTitle = findViewById(R.id.their_tasks_t_comments_title);
         changePasswordCardTitle = findViewById(R.id.change_password_card_title);
+
+        theirTasksTab1 = findViewById(R.id.their_tasks_tab1);
+        theirTasksTab2 = findViewById(R.id.their_tasks_tab2);
+        userTasksTab1 = findViewById(R.id.users_tasks_tab1);
+        userTasksTab2 = findViewById(R.id.users_tasks_tab2);
     }
 
     private void assignViewListeners() {
@@ -1094,6 +1100,19 @@ public class MainActivity extends AppCompatActivity {
                 updateDepartment();
             }
         });
+
+        theirTasksTab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASKER_TASKS);
+            }
+        });
+        userTasksTab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(TASK_MASTER_TASKS);
+            }
+        });
     }
 
     private void setFonts() {
@@ -1216,6 +1235,11 @@ public class MainActivity extends AppCompatActivity {
         changePasswordNew1Field.setTypeface(font2);
         changePasswordNew2Field.setTypeface(font2);
         changePasswordChangeButton.setTypeface(font1);
+
+        theirTasksTab1.setTypeface(font1);
+        theirTasksTab2.setTypeface(font1);
+        userTasksTab1.setTypeface(font1);
+        userTasksTab2.setTypeface(font1);
     }
 
     private void changeScreen(int newScreen) {
