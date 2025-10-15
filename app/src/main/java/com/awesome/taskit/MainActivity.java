@@ -1983,31 +1983,33 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
                         if (line.length == 11 && line[10].equals("0")) {
-                            if (!taskerTasksCardToday.isChecked() || isToday(line[4])) {
-                                myTasksTaskId.add(line[0]);
-                                myTasksTaskMasterId.add(line[1]);
-                                myTasksTitle.add(line[2]);
-                                myTasksDescription.add(line[3]);
-                                myTasksDeadline.add(line[4]);
-                                if (line[5].equals("0")) {
-                                    myTasksTaskerMarkedAsDone.add(false);
-                                } else {
-                                    myTasksTaskerMarkedAsDone.add(true);
-                                }
-                                if (line[6].equals("0")) {
-                                    myTasksAttachment1.add(false);
-                                } else {
-                                    myTasksAttachment1.add(true);
-                                }
-                                if (line[7].equals("0")) {
-                                    myTasksAttachment2.add(false);
-                                } else {
-                                    myTasksAttachment2.add(true);
-                                }
-                                myTasksTaskerComment.add(line[8]);
-                                myTasksTaskMasterComment.add(line[9]);
+                            if (line[5].equals("0") || !myID.equals(line[1])) {
+                                if (!taskerTasksCardToday.isChecked() || isToday(line[4])) {
+                                    myTasksTaskId.add(line[0]);
+                                    myTasksTaskMasterId.add(line[1]);
+                                    myTasksTitle.add(line[2]);
+                                    myTasksDescription.add(line[3]);
+                                    myTasksDeadline.add(line[4]);
+                                    if (line[5].equals("0")) {
+                                        myTasksTaskerMarkedAsDone.add(false);
+                                    } else {
+                                        myTasksTaskerMarkedAsDone.add(true);
+                                    }
+                                    if (line[6].equals("0")) {
+                                        myTasksAttachment1.add(false);
+                                    } else {
+                                        myTasksAttachment1.add(true);
+                                    }
+                                    if (line[7].equals("0")) {
+                                        myTasksAttachment2.add(false);
+                                    } else {
+                                        myTasksAttachment2.add(true);
+                                    }
+                                    myTasksTaskerComment.add(line[8]);
+                                    myTasksTaskMasterComment.add(line[9]);
 
-                                myTasksTaskMasterMarkedAsDone.add(false);
+                                    myTasksTaskMasterMarkedAsDone.add(false);
+                                }
                             }
                         }
                     }
