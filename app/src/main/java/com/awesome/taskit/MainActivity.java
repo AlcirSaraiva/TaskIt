@@ -3239,13 +3239,14 @@ public class MainActivity extends AppCompatActivity {
                 taskDate.set(Calendar.MINUTE, mi);
                 long nowMil = now.getTimeInMillis();
                 long taskMil = taskDate.getTimeInMillis();
-                if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
-                    text2.setTextColor(getColor(R.color.today));
-                    text1.setTypeface(font1);
-                    text2.setTypeface(font1);
-                } else if (nowMil > taskMil) {
+
+                if (nowMil > taskMil) {
                     text2.setTextColor(getColor(R.color.task_late));
                     openMyTaskTrigger.setEnabled(true);
+                    text1.setTypeface(font1);
+                    text2.setTypeface(font1);
+                } else if (now.get(Calendar.DAY_OF_MONTH) == da && now.get(Calendar.MONTH) == mo && now.get(Calendar.YEAR) == ye) {
+                    text2.setTextColor(getColor(R.color.today));
                     text1.setTypeface(font1);
                     text2.setTypeface(font1);
                 } else {
