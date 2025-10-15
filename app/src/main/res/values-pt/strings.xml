@@ -9,11 +9,11 @@
     <string name="task_master">Autor de tarefas</string>
     <string name="tasker">Usuário</string>
     <string name="taskers">Usuários</string>
-    <string name="their_tasks">Gerenciamento de tarefas</string>
     <string name="my_tasks">Minhas tarefas</string>
     <string name="tasks">Tarefas</string>
     <string name="new_task">Nova tarefa</string>
-    <string name="tasks_assigned_to_me">Tarefas atribuídas a mim</string>
+    <string name="their_tasks">Gerenciamento</string>
+    <string name="tasks_assigned_to_me">Minhas tarefas</string>
     <string name="menu">Menu</string>
     <string name="admin">Administrador</string>
     <string name="change_pass">Mudar senha</string>
@@ -28,7 +28,7 @@
     <string name="generate_new_id">Nova ID</string>
     <string name="users_management">Gerenciamento de usuário</string>
     <string name="delete_tasker">Excluir usuário</string>
-    <string name="delete_task">Excluir tarefa</string>
+    <string name="delete_task">Excluir</string>
     <string name="delete_task_q">Excluir tarefa?</string>
     <string name="task_deleted">Tarefa excluída</string>
     <string name="save">Salvar</string>
@@ -97,7 +97,7 @@
     <string name="for_me">Para mim</string>
 
     <string name="repeat_task">Repetir tarefa</string>
-    <string name="today_s_tasks">Mostrar apenas tarefas para hoje</string>
+    <string name="today_s_tasks">Mostrar apenas hoje</string>
     <string name="time_s">vez(es)</string>
     <string name="weekdays">Dias da semana</string>
     <string name="monday">S</string>
