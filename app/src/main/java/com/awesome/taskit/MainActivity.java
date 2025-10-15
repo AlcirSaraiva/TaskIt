@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -179,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private RelativeLayout topBar;
     private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass, mainContainer;
-    private LinearLayout loginCard, menuCard, usersCard, changePasswordCard, myTaskCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
-    private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard;
+    private LinearLayout loginCard, menuCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
+    private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard, myTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
@@ -612,9 +611,9 @@ public class MainActivity extends AppCompatActivity {
                 b1.setTypeface(font1);
                 b2.setTypeface(font1);
 
-                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
                 b1.setTextColor(getColor(R.color.yes));
                 b2.setTextColor(getColor(R.color.no));
@@ -649,9 +648,9 @@ public class MainActivity extends AppCompatActivity {
                 b1.setTypeface(font1);
                 b2.setTypeface(font1);
 
-                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
                 b1.setTextColor(getColor(R.color.yes));
                 b2.setTextColor(getColor(R.color.no));
@@ -936,9 +935,9 @@ public class MainActivity extends AppCompatActivity {
                 b1.setTypeface(font1);
                 b2.setTypeface(font1);
 
-                message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
                 b1.setTextColor(getColor(R.color.yes));
                 b2.setTextColor(getColor(R.color.no));
@@ -1005,9 +1004,9 @@ public class MainActivity extends AppCompatActivity {
                     b1.setTypeface(font1);
                     b2.setTypeface(font1);
 
-                    message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                    b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                    b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
                     b1.setTextColor(getColor(R.color.yes));
                     b2.setTextColor(getColor(R.color.no));
@@ -1068,9 +1067,9 @@ public class MainActivity extends AppCompatActivity {
                     b1.setTypeface(font1);
                     b2.setTypeface(font1);
 
-                    message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                    b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-                    b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+                    //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
                     b1.setTextColor(getColor(R.color.yes));
                     b2.setTextColor(getColor(R.color.no));
@@ -2477,9 +2476,9 @@ public class MainActivity extends AppCompatActivity {
         b1.setTypeface(font1);
         b2.setTypeface(font1);
 
-        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
         b1.setTextColor(getColor(R.color.yes));
         b2.setTextColor(getColor(R.color.no));
@@ -2576,9 +2575,9 @@ public class MainActivity extends AppCompatActivity {
         b1.setTypeface(font1);
         b2.setTypeface(font1);
 
-        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
         b1.setTextColor(getColor(R.color.yes));
         b2.setTextColor(getColor(R.color.no));
@@ -3574,9 +3573,9 @@ public class MainActivity extends AppCompatActivity {
         b1.setTypeface(font1);
         b2.setTypeface(font1);
 
-        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
         b1.setTextColor(getColor(R.color.yes));
         b2.setTextColor(getColor(R.color.no));
@@ -3615,10 +3614,10 @@ public class MainActivity extends AppCompatActivity {
         b2.setTypeface(font1);
         b3.setTypeface(font1);
 
-        message.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
-        b3.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //message.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b1.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b2.setTextSize(getResources().getDimension(R.dimen.alert_text));
+        //b3.setTextSize(getResources().getDimension(R.dimen.alert_text));
 
         b1.setTextColor(getColor(R.color.yes));
         b2.setTextColor(getColor(R.color.no));

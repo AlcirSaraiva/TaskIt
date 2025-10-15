@@ -39,6 +39,7 @@
     <color name="icon_blue">#FF8ab4ee</color>
 
     <color name="icon_neutral">#FFDDDDDD</color>
+    <color name="icon_neutral_50">#88DDDDDD</color>
     <color name="icon_neutral2">#FFDDDDDD</color>
 
     <color name="no_task_icon">#88888888</color>
