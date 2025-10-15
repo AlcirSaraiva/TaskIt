@@ -1982,35 +1982,33 @@ public class MainActivity extends AppCompatActivity {
                     String[] line;
                     for (int i = 0; i < lines.length; i ++) {
                         line = lines[i].split(fS);
-                        if (line.length == 11 && line[10].equals("0")) {
-                            if (line[5].equals("0") || !myID.equals(line[1])) {
-                                if (!taskerTasksCardToday.isChecked() || isToday(line[4])) {
-                                    myTasksTaskId.add(line[0]);
-                                    myTasksTaskMasterId.add(line[1]);
-                                    myTasksTitle.add(line[2]);
-                                    myTasksDescription.add(line[3]);
-                                    myTasksDeadline.add(line[4]);
-                                    if (line[5].equals("0")) {
-                                        myTasksTaskerMarkedAsDone.add(false);
-                                    } else {
-                                        myTasksTaskerMarkedAsDone.add(true);
-                                    }
-                                    if (line[6].equals("0")) {
-                                        myTasksAttachment1.add(false);
-                                    } else {
-                                        myTasksAttachment1.add(true);
-                                    }
-                                    if (line[7].equals("0")) {
-                                        myTasksAttachment2.add(false);
-                                    } else {
-                                        myTasksAttachment2.add(true);
-                                    }
-                                    myTasksTaskerComment.add(line[8]);
-                                    myTasksTaskMasterComment.add(line[9]);
-
-                                    myTasksTaskMasterMarkedAsDone.add(false);
-                                }
+                        if ( line.length == 11 && line[10].equals("0") &&
+                                ( line[5].equals("0") || !myID.equals(line[1]) ) &&
+                                ( !taskerTasksCardToday.isChecked() || isToday(line[4]) ) ) {
+                            myTasksTaskId.add(line[0]);
+                            myTasksTaskMasterId.add(line[1]);
+                            myTasksTitle.add(line[2]);
+                            myTasksDescription.add(line[3]);
+                            myTasksDeadline.add(line[4]);
+                            if (line[5].equals("0")) {
+                                myTasksTaskerMarkedAsDone.add(false);
+                            } else {
+                                myTasksTaskerMarkedAsDone.add(true);
                             }
+                            if (line[6].equals("0")) {
+                                myTasksAttachment1.add(false);
+                            } else {
+                                myTasksAttachment1.add(true);
+                            }
+                            if (line[7].equals("0")) {
+                                myTasksAttachment2.add(false);
+                            } else {
+                                myTasksAttachment2.add(true);
+                            }
+                            myTasksTaskerComment.add(line[8]);
+                            myTasksTaskMasterComment.add(line[9]);
+
+                            myTasksTaskMasterMarkedAsDone.add(false);
                         }
                     }
 
@@ -3173,7 +3171,7 @@ public class MainActivity extends AppCompatActivity {
                     text3.setTextColor(getColor(R.color.today));
                     text3.setTypeface(font1);
                 } else {
-                    text3.setTextColor(getColor(R.color.text_grey));
+                    text3.setTextColor(getColor(R.color.black));
                     text3.setTypeface(font2);
                 }
                 if (myID.equals(theirTasksTaskMasterId.get(position)) && myID.equals(theirTasksTaskerId.get(position))) {
