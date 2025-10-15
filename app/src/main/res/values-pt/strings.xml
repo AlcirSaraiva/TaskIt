@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tasks</string>
+    <string name="app_name">Tarefas</string>
 
     <string name="login">Login</string>
     <string name="username">Usuário</string>

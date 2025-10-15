@@ -560,12 +560,20 @@
                     android:background="@drawable/input_bg"
                     android:hint="@string/description"
                     android:singleLine="false"
-                    android:lines="5"
+                    android:minLines="3"
                     android:textColor="@color/black"
                     android:gravity="top"
                     android:padding="10dp"
                     android:textSize="@dimen/input"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:id="@+id/add_task_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deadline"
+                    android:textSize="@dimen/text"
+                    android:layout_marginBottom="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -889,7 +897,7 @@
                     android:background="@drawable/input_bg"
                     android:hint="@string/description"
                     android:singleLine="false"
-                    android:maxLines="2"
+                    android:minLines="1"
                     android:textColor="@color/black"
                     android:gravity="top"
                     android:padding="10dp"

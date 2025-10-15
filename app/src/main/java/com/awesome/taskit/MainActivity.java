@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, usersCardTitle, addUserCardTitle, usersManagementCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
             departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, usersManagementDepartmentText, addUserDepartmentsText, usersManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName,
-            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2;
+            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2, addTaskDeadline;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -428,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskMyName = findViewById(R.id.add_task_my_name);
         addTaskTitle = findViewById(R.id.add_task_title);
         addTaskDescription = findViewById(R.id.add_task_description);
+        addTaskDeadline = findViewById(R.id.add_task_deadline);
         addTaskDate = findViewById(R.id.add_task_date);
         addTaskTime = findViewById(R.id.add_task_time);
         addTaskNTimes = findViewById(R.id.add_task_n_times);
@@ -1217,6 +1218,7 @@ public class MainActivity extends AppCompatActivity {
         repeatTask.setTypeface(font1);
         // TODO set typeface of spinner addTaskNTimes
         times.setTypeface(font1);
+        addTaskDeadline.setTypeface(font1);
         weekdays.setTypeface(font1);
         addTaskDay1Text.setTypeface(font1);
         addTaskDay2Text.setTypeface(font1);
