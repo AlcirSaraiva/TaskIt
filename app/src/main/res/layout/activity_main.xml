@@ -445,8 +445,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/refresh"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/buttons_text"
-                    android:layout_marginStart="5dp"/>
+                    android:textSize="@dimen/checkbox_text2"
+                    android:layout_marginStart="5dp"
+                    android:paddingEnd="5dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -458,9 +459,10 @@
                         android:id="@+id/show_completed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/checkbox_text"
+                        android:textSize="@dimen/checkbox_text2"
                         android:layoutDirection="rtl"
                         android:textAlignment="textEnd"
+                        android:paddingEnd="10dp"
                         android:text="@string/show_closed"
                         android:buttonTint="@color/checkbox_bg"
                         android:buttonTintMode="multiply" />
@@ -1223,8 +1225,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/refresh"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/buttons_text"
-                    android:layout_marginStart="5dp"/>
+                    android:textSize="@dimen/checkbox_text2"
+                    android:layout_marginStart="5dp"
+                    android:paddingEnd="5dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1236,9 +1239,11 @@
                         android:id="@+id/tasker_tasks_card_today"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/checkbox_text"
+                        android:textSize="@dimen/checkbox_text2"
                         android:textColor="@color/black"
                         android:layoutDirection="rtl"
+                        android:textAlignment="textEnd"
+                        android:paddingEnd="10dp"
                         android:text="@string/today_s_tasks"
                         android:buttonTint="@color/checkbox_bg"
                         android:buttonTintMode="multiply" />

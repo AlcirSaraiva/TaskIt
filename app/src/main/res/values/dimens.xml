@@ -7,5 +7,6 @@
     <dimen name="id">16sp</dimen>
     <dimen name="buttons_text">16sp</dimen>
     <dimen name="checkbox_text">16sp</dimen>
+    <dimen name="checkbox_text2">15sp</dimen>
     <dimen name="alert_text">6sp</dimen>
 </resources>
