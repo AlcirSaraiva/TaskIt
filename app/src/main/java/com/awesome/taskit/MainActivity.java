@@ -177,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private RelativeLayout topBar;
-    private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass, mainContainer;
-    private LinearLayout loginCard, menuCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
+    private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
+    private LinearLayout main, loginCard, menuCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard, myTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll;
@@ -281,9 +281,8 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
+                main.setBackground(AppCompatResources.getDrawable(context, R.drawable.none));
                 topBar.setVisibility(View.VISIBLE);
-                mainContainer.setVisibility(View.VISIBLE);
 
                 if (!taskMaster) {
                     personalTask.setEnabled(false);
@@ -293,7 +292,6 @@ public class MainActivity extends AppCompatActivity {
                     llDepartments.setVisibility(View.GONE);
                     llDeleteDone.setVisibility(View.GONE);
                 }
-
 
                 if (myID.isEmpty()) {
                     changeScreen(LOGIN);
@@ -320,8 +318,8 @@ public class MainActivity extends AppCompatActivity {
     // UI
 
     private void assignViews() {
+        main = findViewById(R.id.main);
         topBar = findViewById(R.id.top_bar);
-        mainContainer = findViewById(R.id.main_containner);
         menuButton = findViewById(R.id.menu_button);
         appTitle = findViewById(R.id.app_title);
         backButton = findViewById(R.id.back_button);
