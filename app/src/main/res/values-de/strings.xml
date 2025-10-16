@@ -41,7 +41,10 @@
     <string name="ive_completed_this_task">Ich habe diese Aufgabe erledigt</string>
     <string name="add_task_s">Aufgabe hinzufügen</string>
     <string name="add_more">Speichern &amp; weitere hinzufügen</string>
-    <string name="show_completed">Erledigte einblenden</string>
+    <string name="close_day">Tag erledigen</string>
+    <string name="close_day_q">Close the day?</string>
+    <string name="close_day_m">Alle vom Benutzer als erledigt markierten Aufgaben gelten als abgeschlossen</string>
+    <string name="show_closed">Alles einblenden</string>
     <string name="tasker_comments">Kommentare des Nutzers</string>
     <string name="task_master_comments">Kommentare des Aufgabenleiters</string>
     <string name="no_comments">Keine Kommentare</string>
@@ -49,6 +52,7 @@
     <string name="last_modified_on">Zuletzt geändert am</string>
     <string name="use_as_template">Als Vorlage verwenden</string>
     <string name="today">Heute</string>
+    <string name="refresh">Aktualisieren</string>
 
     <string name="system_messages">Systemmeldungen</string>
 
@@ -60,6 +64,7 @@
     <string name="delete_department_q">Abteilung löschen?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="not_yet">Noch nicht</string>
 
     <string name="close_app">App schließen?</string>
     <string name="cancel">Abbrechen</string>

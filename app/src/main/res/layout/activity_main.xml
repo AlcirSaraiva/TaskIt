@@ -20,7 +20,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingBottom="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageButton
             android:id="@+id/menu_button"
@@ -60,7 +60,7 @@
         android:paddingBottom="10dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!-- login -->
 
@@ -422,17 +422,19 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:gravity="end">
 
-                        <ImageButton
-                            android:id="@+id/their_tasks_reload"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/reload"
-                            android:scaleType="fitCenter"
-                            android:background="@color/transparent" />
+                        <Button
+                            android:id="@+id/add_task_mark_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/buttons_text"
+                            android:background="@drawable/button_bg"
+                            app:backgroundTint="@color/button_bg"
+                            android:backgroundTintMode="multiply"
+                            android:text="@string/close_day" />
 
                     </LinearLayout>
 
@@ -442,18 +444,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="end">
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
 
-                    <CheckBox
-                        android:id="@+id/show_completed"
+                    <ImageButton
+                        android:id="@+id/their_tasks_reload"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/reload"
+                        android:scaleType="fitCenter"
+                        android:background="@color/transparent" />
+
+                    <TextView
+                        android:id="@+id/their_tasks_reload_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layoutDirection="rtl"
-                        android:textAlignment="textEnd"
-                        android:textSize="@dimen/checkbox_text"
-                        android:text="@string/show_completed"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
+                        android:text="@string/refresh"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/buttons_text"
+                        android:layout_marginStart="5dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/show_completed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
+                            android:layoutDirection="rtl"
+                            android:textAlignment="textEnd"
+                            android:text="@string/show_closed"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -1151,7 +1179,7 @@
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1187,23 +1215,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20dp"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
                 android:background="@drawable/panel_with_tab">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal" >
 
-                    <CheckBox
-                        android:id="@+id/tasker_tasks_card_today"
+                    <ImageButton
+                        android:id="@+id/my_tasks_reload"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/reload"
+                        android:scaleType="fitCenter"
+                        android:background="@color/transparent" />
+
+                    <TextView
+                        android:id="@+id/my_tasks_reload_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/checkbox_text"
+                        android:text="@string/refresh"
                         android:textColor="@color/black"
-                        android:text="@string/today_s_tasks"
-                        android:buttonTint="@color/checkbox_bg"
-                        android:buttonTintMode="multiply" />
+                        android:textSize="@dimen/buttons_text"
+                        android:layout_marginStart="5dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -1211,13 +1251,16 @@
                         android:orientation="horizontal"
                         android:gravity="end">
 
-                        <ImageButton
-                            android:id="@+id/my_tasks_reload"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/reload"
-                            android:scaleType="fitCenter"
-                            android:background="@color/transparent" />
+                        <CheckBox
+                            android:id="@+id/tasker_tasks_card_today"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/checkbox_text"
+                            android:textColor="@color/black"
+                            android:layoutDirection="rtl"
+                            android:text="@string/today_s_tasks"
+                            android:buttonTint="@color/checkbox_bg"
+                            android:buttonTintMode="multiply" />
 
                     </LinearLayout>
 

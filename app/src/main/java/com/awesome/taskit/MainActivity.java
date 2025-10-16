@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout loginCard, menuCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard, myTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday, personalTask;
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner;
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, usersCardTitle, addUserCardTitle, usersManagementCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
             departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, usersManagementDepartmentText, addUserDepartmentsText, usersManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName,
-            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2, addTaskDeadline;
+            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2, addTaskDeadline, theirTasksReloadText, myTasksReloadText;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
     private final String deleteDepartmentPHP = "https://www.solvaelys.com/taskit/delete_department.php";
     private final String deleteDoneTasksPHP = "https://www.solvaelys.com/taskit/delete_done_tasks.php";
     private final String taskImagesRemote = "https://www.solvaelys.com/taskit/images/";
+    private final String markAllTasksPHP = "https://www.solvaelys.com/taskit/mark_all_tasks.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -400,7 +401,9 @@ public class MainActivity extends AppCompatActivity {
         updateDepartmentButton = findViewById(R.id.update_department_button);
 
         addTaskCard = findViewById(R.id.add_task_card);
+        addTaskMarkAll = findViewById(R.id.add_task_mark_all);
         theirTasksReload = findViewById(R.id.their_tasks_reload);
+        theirTasksReloadText = findViewById(R.id.their_tasks_reload_text);
         theirTasksListView = findViewById(R.id.their_tasks_listview);
         addTaskCardButton = findViewById(R.id.add_task_card_button);
         showCompleted = findViewById(R.id.show_completed);
@@ -441,6 +444,12 @@ public class MainActivity extends AppCompatActivity {
         addTaskDay7 = findViewById(R.id.add_task_day_7);
         addTaskButton = findViewById(R.id.add_one_task_button);
 
+        taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
+        taskerTasksCardToday = findViewById(R.id.tasker_tasks_card_today);
+        myTasksReload = findViewById(R.id.my_tasks_reload);
+        myTasksReloadText = findViewById(R.id.my_tasks_reload_text);
+        myTasksListView = findViewById(R.id.my_tasks_listview);
+
         myTaskTitle = findViewById(R.id.my_task_title);
         myTaskDescription = findViewById(R.id.my_task_description);
         myTaskDeadline = findViewById(R.id.my_task_deadline);
@@ -456,11 +465,6 @@ public class MainActivity extends AppCompatActivity {
         myTaskTmComments = findViewById(R.id.my_task_tm_comments);
         myTaskDone = findViewById(R.id.my_task_done);
         myTaskSaveButton = findViewById(R.id.my_task_save_button);
-
-        taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
-        taskerTasksCardToday = findViewById(R.id.tasker_tasks_card_today);
-        myTasksReload = findViewById(R.id.my_tasks_reload);
-        myTasksListView = findViewById(R.id.my_tasks_listview);
 
         usersListView = findViewById(R.id.users_listview);
 
@@ -728,14 +732,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        showCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                showCompleted.setEnabled(false);
-                loadTheirTasks();
-            }
-        });
-
         personalTask.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -756,12 +752,47 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(TASK_MASTER_NEW_TASK);
             }
         });
+        addTaskMarkAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                markAll();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog alertDialog = new AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.close_day_q))
+                        .setMessage(getString(R.string.close_day_m))
+                        .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.not_yet), dialogClickListener)
+                        .show();
 
+                TextView message = (TextView) alertDialog.findViewById(android.R.id.message);
+                Button b1 = (Button) alertDialog.findViewById(android.R.id.button1);
+                Button b2 = (Button) alertDialog.findViewById(android.R.id.button2);
+
+                message.setTypeface(font2);
+                b1.setTypeface(font1);
+                b2.setTypeface(font1);
+
+                b1.setTextColor(getColor(R.color.yes));
+                b2.setTextColor(getColor(R.color.no));
+            }
+        });
         theirTasksReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 theirTasksReload.setEnabled(false);
                 theirTasksReload.setImageResource(R.drawable.reload_disabled);
+                theirTasksReloadText.setEnabled(false);
+                theirTasksReloadText.setTextColor(getColor(R.color.text_50));
                 theirTasksListView.setVisibility(View.VISIBLE);
                 loadTheirTasks();
                 new Handler().postDelayed(new Runnable() {
@@ -769,9 +800,39 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         theirTasksReload.setEnabled(true);
                         theirTasksReload.setImageResource(R.drawable.reload);
+                        theirTasksReloadText.setEnabled(true);
+                        theirTasksReloadText.setTextColor(getColor(R.color.black));
                     }
                 }, 5000);
 
+            }
+        });
+        theirTasksReloadText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                theirTasksReload.setEnabled(false);
+                theirTasksReload.setImageResource(R.drawable.reload_disabled);
+                theirTasksReloadText.setEnabled(false);
+                theirTasksReloadText.setTextColor(getColor(R.color.text_50));
+                theirTasksListView.setVisibility(View.VISIBLE);
+                loadTheirTasks();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        theirTasksReload.setEnabled(true);
+                        theirTasksReload.setImageResource(R.drawable.reload);
+                        theirTasksReloadText.setEnabled(true);
+                        theirTasksReloadText.setTextColor(getColor(R.color.black));
+                    }
+                }, 5000);
+
+            }
+        });
+        showCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                showCompleted.setEnabled(false);
+                loadTheirTasks();
             }
         });
 
@@ -787,6 +848,27 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         myTasksReload.setEnabled(true);
                         myTasksReload.setImageResource(R.drawable.reload);
+                    }
+                }, 5000);
+
+            }
+        });
+        myTasksReloadText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myTasksReload.setEnabled(false);
+                myTasksReload.setImageResource(R.drawable.reload_disabled);
+                myTasksReloadText.setEnabled(false);
+                myTasksReloadText.setTextColor(getColor(R.color.text_50));
+                myTasksListView.setVisibility(View.VISIBLE);
+                loadMyTasks();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myTasksReload.setEnabled(true);
+                        myTasksReload.setImageResource(R.drawable.reload);
+                        myTasksReloadText.setEnabled(true);
+                        myTasksReloadText.setTextColor(getColor(R.color.black));
                     }
                 }, 5000);
 
@@ -1191,8 +1273,11 @@ public class MainActivity extends AppCompatActivity {
         updateDepartmentButton.setTypeface(font1);
 
         addTaskCardButton.setTypeface(font1);
+        addTaskMarkAll.setTypeface(font1);
+        theirTasksReloadText.setTypeface(font2);
         showCompleted.setTypeface(font2);
 
+        myTasksReloadText.setTypeface(font2);
         taskerTasksCardToday.setTypeface(font2);
 
         myTaskTitle.setTypeface(font1);
@@ -2640,6 +2725,14 @@ public class MainActivity extends AppCompatActivity {
         String response = contactServer(deleteDoneTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
         Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+    }
+
+    private void markAll() {
+        String rawData = myID + fS + emptyData; // TODO should send password instead of emptyData
+        String response = contactServer(markAllTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
+        response = response.replaceAll(newLine, "\n");
+        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        loadTheirTasks();
     }
 
     private void populateMyTaskCard(int which) {

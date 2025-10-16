@@ -41,7 +41,10 @@
     <string name="ive_completed_this_task">I have completed this task</string>
     <string name="add_task_s">Add task</string>
     <string name="add_more">Save one &amp; add more</string>
-    <string name="show_completed">Show completed</string>
+    <string name="close_day">Close day</string>
+    <string name="close_day_q">Close the day?</string>
+    <string name="close_day_m">All tasks marked by the user as completed will be considered done</string>
+    <string name="show_closed">Show all</string>
     <string name="tasker_comments">User comments</string>
     <string name="task_master_comments">Taskmaster comments</string>
     <string name="no_comments">No comments</string>
@@ -49,6 +52,7 @@
     <string name="last_modified_on">Last modified on</string>
     <string name="use_as_template">Use as template</string>
     <string name="today">Today</string>
+    <string name="refresh">Refresh</string>
 
     <string name="system_messages">System messages</string>
 
@@ -60,6 +64,7 @@
     <string name="delete_department_q">Delete department?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="not_yet">Not yet</string>
 
     <string name="close_app">Close app?</string>
     <string name="cancel">Cancel</string>
