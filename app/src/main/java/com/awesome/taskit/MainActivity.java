@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> myTasksTaskMasterComment;
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
-    private boolean showingImage;
+    private boolean showingImage, myTaskDoneClicked;
     private int selectedTask, selectedAttachment, selectedUser, selectedDepartment;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -270,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
         fallbackBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.fallback_big)));
         error = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.error)));
         errorBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.error_big)));
+
+        myTaskDoneClicked = true;
 
         assignViews();
         assignViewListeners();
@@ -981,6 +983,13 @@ public class MainActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+        theirTasksDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                theirTasksTaskMasterMarkedAsDone.set(selectedTask, isChecked);
+                updateTheirTasks();
+            }
+        });
         theirTasksTemplateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1154,6 +1163,15 @@ public class MainActivity extends AppCompatActivity {
 
                     b1.setTextColor(getColor(R.color.yes));
                     b2.setTextColor(getColor(R.color.no));
+                }
+            }
+        });
+        myTaskDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (myTaskDoneClicked) {
+                    myTasksTaskerMarkedAsDone.set(selectedTask, isChecked);
+                    updateMyTask();
                 }
             }
         });
@@ -2311,7 +2329,6 @@ public class MainActivity extends AppCompatActivity {
         myTaskAttachment2DelPic.setEnabled(false);
         myTaskSaveButton.setEnabled(false);
 
-        myTasksTaskerMarkedAsDone.set(selectedTask, myTaskDone.isChecked());
         if (myTaskMyComments.getText().toString().isEmpty()) {
             myTasksTaskerComment.set(selectedTask, " ");
         } else {
@@ -2376,16 +2393,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTheirTasks() {
+        theirTasksSaveButton.setEnabled(false);
+
         if (!theirTasksTitleField.getText().toString().isEmpty()) theirTasksTitle.set(selectedTask, theirTasksTitleField.getText().toString());
         if (!theirTasksDescriptionField.getText().toString().isEmpty()) theirTasksDescription.set(selectedTask, theirTasksDescriptionField.getText().toString());
         theirTasksDeadline.set(selectedTask, year + "-" + month + "-" + day + " " + hour + ":" + String.format("%02d", minute));
         if (!theirTasksMyComments.getText().toString().isEmpty()) theirTasksTaskMasterComment.set(selectedTask, theirTasksMyComments.getText().toString());
-        theirTasksTaskMasterMarkedAsDone.set(selectedTask, theirTasksDone.isChecked());
 
         String tempMarked = "0";
         if (theirTasksTaskMasterMarkedAsDone.get(selectedTask)) tempMarked = "1";
 
-        theirTasksSaveButton.setEnabled(false);
         String rawData = theirTasksTaskId.get(selectedTask) + fS +
                          theirTasksTitle.get(selectedTask) + fS +
                          theirTasksDescription.get(selectedTask) + fS +
@@ -2836,7 +2853,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        myTaskDoneClicked = false;
         myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
+        myTaskDoneClicked = true;
     }
 
     private void populateTheirTasksCard(int which) {
