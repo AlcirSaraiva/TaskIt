@@ -44,7 +44,7 @@
     <string name="close_day">Close day</string>
     <string name="close_day_q">Close the day?</string>
     <string name="close_day_m">All tasks marked by the user as completed will be considered done</string>
-    <string name="show_closed">Show all</string>
+    <string name="show_all_theirs">Show all</string>
     <string name="tasker_comments">User comments</string>
     <string name="task_master_comments">Taskmaster comments</string>
     <string name="no_comments">No comments</string>

@@ -44,7 +44,7 @@
     <string name="close_day">Tag erledigen</string>
     <string name="close_day_q">Close the day?</string>
     <string name="close_day_m">Alle vom Benutzer als erledigt markierten Aufgaben gelten als abgeschlossen</string>
-    <string name="show_closed">Alles einblenden</string>
+    <string name="show_all_theirs">Alles einblenden</string>
     <string name="tasker_comments">Kommentare des Nutzers</string>
     <string name="task_master_comments">Kommentare des Aufgabenleiters</string>
     <string name="no_comments">Keine Kommentare</string>

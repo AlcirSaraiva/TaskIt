@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showCompleted, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday, personalTask;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday, personalTask;
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksReloadText = findViewById(R.id.their_tasks_reload_text);
         theirTasksListView = findViewById(R.id.their_tasks_listview);
         addTaskCardButton = findViewById(R.id.add_task_card_button);
-        showCompleted = findViewById(R.id.show_completed);
+        showAllTheirs = findViewById(R.id.show_all_theirs);
 
         theirTasksNameField = findViewById(R.id.their_tasks_name);
         theirTasksTitleField = findViewById(R.id.their_tasks_title);
@@ -826,10 +826,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        showCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        showAllTheirs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                showCompleted.setEnabled(false);
+                showAllTheirs.setEnabled(false);
                 loadTheirTasks();
             }
         });
@@ -1273,7 +1273,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskCardButton.setTypeface(font1);
         addTaskMarkAll.setTypeface(font1);
         theirTasksReloadText.setTypeface(font2);
-        showCompleted.setTypeface(font2);
+        showAllTheirs.setTypeface(font2);
 
         myTasksReloadText.setTypeface(font2);
         taskerTasksCardToday.setTypeface(font2);
@@ -1935,7 +1935,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < lines.length; i ++) {
                 line = lines[i].split(fS);
                 tempoDeptFound = false;
-                if (showCompleted.isChecked()) {
+                if (showAllTheirs.isChecked()) {
                     if (line.length == 13) {
                         tempPosition = usersIds.indexOf(line[1]);
                         for (int j = 0; j < tempDepartments.length; j ++) {
@@ -1978,7 +1978,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 } else {
-                    if (line.length == 13 && line[10].contains("0")) {
+                    if (line.length == 13 && line[10].contains("0") && isToday(line[4])) {
                         tempPosition = usersIds.indexOf(line[1]);
                         for (int j = 0; j < tempDepartments.length; j ++) {
                             if (usersDepartment.get(tempPosition).contains(tempDepartments[j]) && myDepartments.length() > 1) {
@@ -2039,7 +2039,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                showCompleted.setEnabled(true);
+                showAllTheirs.setEnabled(true);
             }
         }, 2000);
     }
