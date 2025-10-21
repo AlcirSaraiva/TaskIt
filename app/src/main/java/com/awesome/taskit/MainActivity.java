@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> myTasksTaskMasterComment;
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
-    private boolean showingImage, myTaskDoneClicked;
+    private boolean showingImage;
     private int selectedTask, selectedAttachment, selectedUser, selectedDepartment;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
     private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday, personalTask;
+    private CompoundButton.OnCheckedChangeListener myTaskDoneListener, theirTasksDoneListener;
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
@@ -270,8 +271,6 @@ public class MainActivity extends AppCompatActivity {
         fallbackBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.fallback_big)));
         error = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.error)));
         errorBig = Image_androidKt.asImage(Objects.requireNonNull(AppCompatResources.getDrawable(context, R.drawable.error_big)));
-
-        myTaskDoneClicked = true;
 
         assignViews();
         assignViewListeners();
@@ -983,13 +982,13 @@ public class MainActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
-        theirTasksDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        theirTasksDoneListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 theirTasksTaskMasterMarkedAsDone.set(selectedTask, isChecked);
                 updateTheirTasks();
             }
-        });
+        };
         theirTasksTemplateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1166,15 +1165,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        myTaskDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        myTaskDoneListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (myTaskDoneClicked) {
-                    myTasksTaskerMarkedAsDone.set(selectedTask, isChecked);
-                    updateMyTask();
-                }
+                myTasksTaskerMarkedAsDone.set(selectedTask, isChecked);
+                updateMyTask();
             }
-        });
+        };
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2852,10 +2849,9 @@ public class MainActivity extends AppCompatActivity {
                 myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
             }
         }
-
-        myTaskDoneClicked = false;
+        myTaskDone.setOnCheckedChangeListener(null);
         myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
-        myTaskDoneClicked = true;
+        myTaskDone.setOnCheckedChangeListener(myTaskDoneListener);
     }
 
     private void populateTheirTasksCard(int which) {
@@ -2995,7 +2991,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             theirTasksMyComments.setText(theirTasksTaskMasterComment.get(which));
         }
+        theirTasksDone.setOnCheckedChangeListener(null);
         theirTasksDone.setChecked(theirTasksTaskMasterMarkedAsDone.get(which));
+        theirTasksDone.setOnCheckedChangeListener(theirTasksDoneListener);
     }
 
     private void populateTaskerManagement() {
