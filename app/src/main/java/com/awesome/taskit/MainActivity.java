@@ -183,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksCardToday, personalTask;
-    private CompoundButton.OnCheckedChangeListener myTaskDoneListener, theirTasksDoneListener;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksShowAll, personalTask;
+    private CompoundButton.OnCheckedChangeListener myTaskDoneListener, theirTasksDoneListener, taskerTasksShowAllListener;
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskButton = findViewById(R.id.add_one_task_button);
 
         taskerTasksCardButton = findViewById(R.id.tasker_tasks_card_button);
-        taskerTasksCardToday = findViewById(R.id.tasker_tasks_card_today);
+        taskerTasksShowAll = findViewById(R.id.tasker_tasks_show_all);
         myTasksReload = findViewById(R.id.my_tasks_reload);
         myTasksReloadText = findViewById(R.id.my_tasks_reload_text);
         myTasksListView = findViewById(R.id.my_tasks_listview);
@@ -873,19 +873,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        taskerTasksCardToday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        taskerTasksShowAll.setChecked(false);
+        taskerTasksShowAllListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                taskerTasksCardToday.setEnabled(false);
+                taskerTasksShowAll.setEnabled(false);
                 loadMyTasks();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        taskerTasksCardToday.setEnabled(true);
+                        taskerTasksShowAll.setEnabled(true);
                     }
                 }, 2000);
             }
-        });
+        };
+        taskerTasksShowAll.setOnCheckedChangeListener(taskerTasksShowAllListener);
 
         addTaskDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1291,7 +1293,7 @@ public class MainActivity extends AppCompatActivity {
         showAllTheirs.setTypeface(font2);
 
         myTasksReloadText.setTypeface(font2);
-        taskerTasksCardToday.setTypeface(font2);
+        taskerTasksShowAll.setTypeface(font2);
 
         myTaskTitle.setTypeface(font1);
         myTaskDescription.setTypeface(font2);
@@ -1787,7 +1789,9 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
                 }
 
-                taskerTasksCardToday.setChecked(false);
+                taskerTasksShowAll.setOnCheckedChangeListener(null);
+                taskerTasksShowAll.setChecked(false);
+                taskerTasksShowAll.setOnCheckedChangeListener(taskerTasksShowAllListener);
 
                 if (taskMaster) {
                     changeScreen(TASK_MASTER_TASKS);
@@ -2060,72 +2064,67 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMyTasks() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String response = contactServer(loadMyTasksPHP, Java_AES_Cipher.encryptSimple(myID));
-                if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
-                    myTasksTaskId = new ArrayList<>();
-                    myTasksTaskMasterId = new ArrayList<>();
-                    myTasksTitle = new ArrayList<>();
-                    myTasksDescription = new ArrayList<>();
-                    myTasksDeadline = new ArrayList<>();
-                    myTasksTaskerMarkedAsDone = new ArrayList<>();
-                    myTasksAttachment1 = new ArrayList<>();
-                    myTasksAttachment2 = new ArrayList<>();
-                    myTasksTaskerComment = new ArrayList<>();
-                    myTasksTaskMasterComment = new ArrayList<>();
-                    myTasksTaskMasterMarkedAsDone = new ArrayList<>();
+        String response = contactServer(loadMyTasksPHP, Java_AES_Cipher.encryptSimple(myID));
+        if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+            myTasksTaskId = new ArrayList<>();
+            myTasksTaskMasterId = new ArrayList<>();
+            myTasksTitle = new ArrayList<>();
+            myTasksDescription = new ArrayList<>();
+            myTasksDeadline = new ArrayList<>();
+            myTasksTaskerMarkedAsDone = new ArrayList<>();
+            myTasksAttachment1 = new ArrayList<>();
+            myTasksAttachment2 = new ArrayList<>();
+            myTasksTaskerComment = new ArrayList<>();
+            myTasksTaskMasterComment = new ArrayList<>();
+            myTasksTaskMasterMarkedAsDone = new ArrayList<>();
 
-                    String[] lines = response.split(newLine);
-                    String[] line;
-                    for (int i = 0; i < lines.length; i ++) {
-                        line = lines[i].split(fS);
-                        if ( line.length == 11 && line[10].equals("0") &&
-                                ( line[5].equals("0") || !myID.equals(line[1]) ) &&
-                                ( !taskerTasksCardToday.isChecked() || isToday(line[4]) ) ) {
-                            myTasksTaskId.add(line[0]);
-                            myTasksTaskMasterId.add(line[1]);
-                            myTasksTitle.add(line[2]);
-                            myTasksDescription.add(line[3]);
-                            myTasksDeadline.add(line[4]);
-                            if (line[5].equals("0")) {
-                                myTasksTaskerMarkedAsDone.add(false);
-                            } else {
-                                myTasksTaskerMarkedAsDone.add(true);
-                            }
-                            if (line[6].equals("0")) {
-                                myTasksAttachment1.add(false);
-                            } else {
-                                myTasksAttachment1.add(true);
-                            }
-                            if (line[7].equals("0")) {
-                                myTasksAttachment2.add(false);
-                            } else {
-                                myTasksAttachment2.add(true);
-                            }
-                            myTasksTaskerComment.add(line[8]);
-                            myTasksTaskMasterComment.add(line[9]);
-
-                            myTasksTaskMasterMarkedAsDone.add(false);
-                        }
-                    }
-
-                    MyTasksListAdapter myTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
-                    myTasksListAdapter.notifyDataSetChanged();
-                    myTasksListView.setAdapter(myTasksListAdapter);
-                    myTasksListView.setDivider(null);
-
-                    if (myTasksTitle.isEmpty()) {
-                        myTasksListView.setVisibility(View.GONE);
+            String[] lines = response.split(newLine);
+            String[] line;
+            for (int i = 0; i < lines.length; i ++) {
+                line = lines[i].split(fS);
+                if ( line.length == 11 && line[10].equals("0") &&
+                        ( line[5].equals("0") || !myID.equals(line[1]) ) &&
+                        ( taskerTasksShowAll.isChecked() || isToday(line[4]) ) ) {
+                    myTasksTaskId.add(line[0]);
+                    myTasksTaskMasterId.add(line[1]);
+                    myTasksTitle.add(line[2]);
+                    myTasksDescription.add(line[3]);
+                    myTasksDeadline.add(line[4]);
+                    if (line[5].equals("0")) {
+                        myTasksTaskerMarkedAsDone.add(false);
                     } else {
-                        myTasksListView.setVisibility(View.VISIBLE);
+                        myTasksTaskerMarkedAsDone.add(true);
                     }
-                } else {
-                    Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+                    if (line[6].equals("0")) {
+                        myTasksAttachment1.add(false);
+                    } else {
+                        myTasksAttachment1.add(true);
+                    }
+                    if (line[7].equals("0")) {
+                        myTasksAttachment2.add(false);
+                    } else {
+                        myTasksAttachment2.add(true);
+                    }
+                    myTasksTaskerComment.add(line[8]);
+                    myTasksTaskMasterComment.add(line[9]);
+
+                    myTasksTaskMasterMarkedAsDone.add(false);
                 }
             }
-        }, 100);
+
+            MyTasksListAdapter myTasksListAdapter = new MyTasksListAdapter(activityContext, myTasksTitle, myTasksDeadline, myTasksTaskerMarkedAsDone);
+            myTasksListAdapter.notifyDataSetChanged();
+            myTasksListView.setAdapter(myTasksListAdapter);
+            myTasksListView.setDivider(null);
+
+            if (myTasksTitle.isEmpty()) {
+                myTasksListView.setVisibility(View.GONE);
+            } else {
+                myTasksListView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void loadDepartments() {

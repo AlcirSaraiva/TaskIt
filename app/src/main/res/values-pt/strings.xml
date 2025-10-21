@@ -45,6 +45,7 @@
     <string name="close_day_q">Encerrar o dia?</string>
     <string name="close_day_m">Todas as tarefas marcadas pelo usuário como concluídas serão dadas como encerradas</string>
     <string name="show_all_theirs">Mostrar todos</string>
+    <string name="show_all_mine">Mostrar todos</string>
     <string name="tasker_comments">Comentários do usuário</string>
     <string name="task_master_comments">Comentários do autor da tarefa</string>
     <string name="no_comments">Sem comentários</string>

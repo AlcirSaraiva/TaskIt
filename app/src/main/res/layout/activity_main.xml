@@ -1236,7 +1236,7 @@
                     android:gravity="end">
 
                     <CheckBox
-                        android:id="@+id/tasker_tasks_card_today"
+                        android:id="@+id/tasker_tasks_show_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/checkbox_text2"
@@ -1244,7 +1244,7 @@
                         android:layoutDirection="rtl"
                         android:textAlignment="textEnd"
                         android:paddingEnd="10dp"
-                        android:text="@string/today_s_tasks"
+                        android:text="@string/show_all_mine"
                         android:buttonTint="@color/checkbox_bg"
                         android:buttonTintMode="multiply" />
 
