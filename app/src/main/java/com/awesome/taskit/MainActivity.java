@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -1267,7 +1269,7 @@ public class MainActivity extends AppCompatActivity {
         reportsCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                createReport(reportsAllUsers.isChecked());
             }
         });
     }
@@ -3103,6 +3105,119 @@ public class MainActivity extends AppCompatActivity {
             departmentManagementObsField.setText("");
         } else {
             departmentManagementObsField.setText(departmentObs.get(selectedDepartment));
+        }
+    }
+
+    private void createReport(boolean allUsers) {
+        String response = contactServer(loadTheirTasksPHP, Java_AES_Cipher.encryptSimple(emptyData));
+        String report = "";
+        if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
+
+            report = "Taskmaster ID|Taskmaster name|User ID|User name|Task ID|Title|Description|Deadline|User last interaction|User marked as done|Picture 1|Picture 2|User comments|Taskmaster comments|Taskmaster marked as done";
+
+            String[] lines = response.split(newLine);
+            String[] line;
+            String[] tempDepartments = myDepartments.split(",");
+            int tempPosition;
+            boolean tempoDeptFound;
+
+            for (int i = 0; i < lines.length; i ++) {
+                line = lines[i].split(fS);
+                tempoDeptFound = false;
+                if (line.length == 13) {
+                    tempPosition = usersIds.indexOf(line[1]);
+                    for (int j = 0; j < tempDepartments.length; j ++) {
+                        if (usersDepartment.get(tempPosition).contains(tempDepartments[j]) && myDepartments.length() > 1) {
+                            tempoDeptFound = true;
+                        }
+                    }
+                    line[2] = line[2].replace("\n", " ↵ ");
+                    line[3] = line[3].replace("\n", " ↵ ");
+                    line[8] = line[8].replace("\n", " ↵ ");
+                    line[9] = line[9].replace("\n", " ↵ ");
+                    if (allUsers) {
+                        if (tempoDeptFound && !line[1].equals(line[12]) && !myID.equals(line[1])) {
+                            report += "\n" + line[12] + "|" +
+                                    usersNames.get(usersIds.indexOf(line[12])) + "|" +
+                                    line[1] + "|" +
+                                    usersNames.get(usersIds.indexOf(line[1])) + "|" +
+                                    line[0] + "|" +
+                                    line[2] + "|" +
+                                    line[3] + "|" +
+                                    line[4] + "|" +
+                                    line[11] + "|" +
+                                    line[5] + "|" +
+                                    line[6] + "|" +
+                                    line[7] + "|" +
+                                    line[8] + "|" +
+                                    line[9] + "|" +
+                                    line[10];
+                        }
+                    } else {
+                        if (tempoDeptFound &&
+                                !line[1].equals(line[12])
+                                && !myID.equals(line[1]) &&
+                            reportsUsersSpinner.getItemAtPosition(reportsUsersSpinner.getSelectedItemPosition()).toString().equals(usersNames.get(usersIds.indexOf(line[1])))) {
+                            report += "\n" + line[12] + "|" +
+                                    usersNames.get(usersIds.indexOf(line[12])) + "|" +
+                                    line[1] + "|" +
+                                    usersNames.get(usersIds.indexOf(line[1])) + "|" +
+                                    line[0] + "|" +
+                                    line[2] + "|" +
+                                    line[3] + "|" +
+                                    line[4] + "|" +
+                                    line[11] + "|" +
+                                    line[5] + "|" +
+                                    line[6] + "|" +
+                                    line[7] + "|" +
+                                    line[8] + "|" +
+                                    line[9] + "|" +
+                                    line[10];
+                        }
+                    }
+                }
+            }
+
+            Calendar n = Calendar.getInstance();
+            int d = n.get(Calendar.DAY_OF_MONTH);
+            int m = n.get(Calendar.MONTH) + 1;
+            int y = n.get(Calendar.YEAR);
+            int h = n.get(Calendar.HOUR_OF_DAY);
+            int m2 = n.get(Calendar.MINUTE);
+            int s = n.get(Calendar.SECOND);
+
+            saveCSVToDownloads(report, myID + " " + y + "-" + String.format("%02d", m) + "-" + String.format("%02d", d) + " " + h + "-" + String.format("%02d", m2) + "-" + String.format("%02d", s));
+
+        } else {
+            Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void saveCSVToDownloads(String text, String fileName) {
+        // Use MediaStore to write into the public Downloads directory
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
+        values.put(MediaStore.Downloads.MIME_TYPE, "text/csv");
+        values.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+
+        Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+
+        if (uri == null) {
+            Toast.makeText(context, "Failed to create file entry", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try (OutputStream out = getContentResolver().openOutputStream(uri)) {
+            if (out != null) {
+                out.write(text.getBytes());
+                out.flush();
+                Toast.makeText(context, "File saved to Downloads as " + fileName, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Failed to open output stream", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Error saving file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
