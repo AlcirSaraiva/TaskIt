@@ -101,6 +101,9 @@
     <string name="delete_department">Excluir departmento</string>
     <string name="can_assign">Pode atribuir tarefas para</string>
     <string name="for_me">Para mim</string>
+    <string name="reports">Relatórios</string>
+    <string name="all_users">Todos os usuários</string>
+    <string name="create_report">Criar relatório</string>
 
     <string name="repeat_task">Repetir tarefa</string>
     <string name="today_s_tasks">Mostrar apenas hoje</string>

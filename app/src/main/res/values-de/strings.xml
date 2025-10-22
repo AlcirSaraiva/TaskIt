@@ -101,6 +101,9 @@
     <string name="delete_department">Abteilung löschen</string>
     <string name="can_assign">Kann Aufgaben zuweisen an</string>
     <string name="for_me">Für mich</string>
+    <string name="reports">Berichte</string>
+    <string name="all_users">Alle Benutzer</string>
+    <string name="create_report">Bericht erstellen</string>
 
     <string name="repeat_task">Aufgabe wiederholen</string>
     <string name="today_s_tasks">Nur heute zeigen</string>

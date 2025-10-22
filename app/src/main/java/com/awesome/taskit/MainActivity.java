@@ -173,25 +173,26 @@ public class MainActivity extends AppCompatActivity {
     private final int DEPARTMENTS = 13;
     private final int DEPARTMENT_ADD = 14;
     private final int DEPARTMENT_MANAGEMENT = 15;
+    private final int REPORTS = 16;
     private int currentScreen, lastscreen;
 
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private RelativeLayout topBar;
-    private LinearLayout llTasks, llUsers, llDepartments, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout main, loginCard, menuCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
+    private LinearLayout llTasks, llUsers, llReports, llDepartments, llMyTasks, llDeleteDone, llChangePass;
+    private LinearLayout main, loginCard, menuCard, reportsCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard, myTaskCard;
-    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton;
-    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll;
+    private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton, reportsCardButton;
+    private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll, reportsCreateButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksShowAll, personalTask;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksShowAll, personalTask, reportsAllUsers;
     private CompoundButton.OnCheckedChangeListener myTaskDoneListener, theirTasksDoneListener, taskerTasksShowAllListener;
-    private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner;
+    private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner, reportsUsersSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
     private ImageView imageShow;
     private TextView loginTitle, taskMasterTaskersCardButtonText, taskMasterTasksCardButtonText, taskerTasksCardButtonText, menuCardName, menuCardId, usersCardTitle, addUserCardTitle, usersManagementCardTitle, myTaskDeadlineTitle, myTaskTmCommentsTitle,
             addTaskCardTitle, repeatTask, times, weekdays, addTaskDay1Text, addTaskDay2Text, addTaskDay3Text, addTaskDay4Text, addTaskDay5Text, addTaskDay6Text, addTaskDay7Text, theirTasksDeadlineText, theirTasksLastModifiedTitle, theirTasksTCommentsTitle, changePasswordCardTitle, departmentsCardButtonText,
             departmentsCardTitle, addDepartmentCardTitle, departmentManagementCardTitle, addUserDepartmentText, usersManagementDepartmentText, addUserDepartmentsText, usersManagementDepartmentsText, theirTasksPicturesText, theirTasksMyCommentsTitle, theirTasksDescriptionText, myTaskPicturesTitle, myTaskMyCommentsTitle, addTaskMyName,
-            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2, addTaskDeadline, theirTasksReloadText, myTasksReloadText;
+            theirTasksTab1, theirTasksTab2, userTasksTab1, userTasksTab2, addTaskDeadline, theirTasksReloadText, myTasksReloadText, reportsCardButtonText, reportsCardTitle, reportsAllUsersText;
     private String templateName = "";
     private String templateTitle = "";
     private String templateDescription = "";
@@ -287,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!taskMaster) {
                     personalTask.setEnabled(false);
+                    llReports.setVisibility(View.GONE);
                 }
                 if (!admin) {
                     llUsers.setVisibility(View.GONE);
@@ -330,9 +332,10 @@ public class MainActivity extends AppCompatActivity {
         menuCard = findViewById(R.id.menu_card);
 
         llTasks = findViewById(R.id.ll_tasks);
+        llMyTasks = findViewById(R.id.ll_my_tasks);
+        llReports = findViewById(R.id.ll_reports);
         llUsers = findViewById(R.id.ll_users);
         llDepartments = findViewById(R.id.ll_departments);
-        llMyTasks = findViewById(R.id.ll_my_tasks);
         llDeleteDone = findViewById(R.id.ll_delete_done);
         llChangePass = findViewById(R.id.ll_change_pass);
 
@@ -341,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
         taskerTasksCard = findViewById(R.id.tasker_tasks_card);
         myTaskCard = findViewById(R.id.my_task_card);
         theirTasksCard = findViewById(R.id.their_tasks_card);
+        reportsCard = findViewById(R.id.reports_card);
         addUserCard = findViewById(R.id.add_user_card);
         changePasswordCard = findViewById(R.id.change_password_card);
 
@@ -351,6 +355,8 @@ public class MainActivity extends AppCompatActivity {
 
         taskMasterTaskersCardButton = findViewById(R.id.task_master_taskers_card_button);
         taskMasterTasksCardButton = findViewById(R.id.task_master_tasks_card_button);
+        reportsCardButton = findViewById(R.id.reports_card_button);
+        reportsCardButtonText = findViewById(R.id.reports_card_button_text);
         addUserCardButton = findViewById(R.id.add_user_card_button);
         departmentsCardButton = findViewById(R.id.departments_card_button);
         departmentsCardButtonText = findViewById(R.id.departments_card_button_text);
@@ -505,6 +511,12 @@ public class MainActivity extends AppCompatActivity {
         theirTasksTab2 = findViewById(R.id.their_tasks_tab2);
         userTasksTab1 = findViewById(R.id.users_tasks_tab1);
         userTasksTab2 = findViewById(R.id.users_tasks_tab2);
+
+        reportsCardTitle = findViewById(R.id.reports_card_title);
+        reportsAllUsers = findViewById(R.id.reports_all_users);
+        reportsUsersSpinner = findViewById(R.id.reports_users_spinner);
+        reportsAllUsersText = findViewById(R.id.reports_all_users_text);
+        reportsCreateButton = findViewById(R.id.reports_create_button);
     }
 
     private void assignViewListeners() {
@@ -557,6 +569,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(TASK_MASTER_TASKERS);
+            }
+        });
+
+        reportsCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(REPORTS);
+            }
+        });
+        reportsCardButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeScreen(REPORTS);
             }
         });
 
@@ -1226,6 +1251,25 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(TASK_MASTER_TASKS);
             }
         });
+
+        reportsAllUsers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    reportsUsersSpinner.setVisibility(View.GONE);
+                    reportsAllUsersText.setVisibility(View.VISIBLE);
+                } else {
+                    reportsUsersSpinner.setVisibility(View.VISIBLE);
+                    reportsAllUsersText.setVisibility(View.GONE);
+                }
+            }
+        });
+        reportsCreateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setFonts() {
@@ -1248,6 +1292,7 @@ public class MainActivity extends AppCompatActivity {
         menuCardName.setTypeface(font1);
         menuCardId.setTypeface(font2);
         changePassCardButtonText.setTypeface(font1);
+        reportsCardButtonText.setTypeface(font1);
         deleteDoneButtonText.setTypeface(font1);
 
         usersCardTitle.setTypeface(font1);
@@ -1357,6 +1402,11 @@ public class MainActivity extends AppCompatActivity {
         theirTasksTab2.setTypeface(font1);
         userTasksTab1.setTypeface(font1);
         userTasksTab2.setTypeface(font1);
+
+        reportsCardTitle.setTypeface(font1);
+        reportsAllUsers.setTypeface(font2);
+        reportsAllUsersText.setTypeface(font1);
+        reportsCreateButton.setTypeface(font1);
     }
 
     private void changeScreen(int newScreen) {
@@ -1389,6 +1439,12 @@ public class MainActivity extends AppCompatActivity {
                     deleteDoneButtonText.setVisibility(View.GONE);
                 }
                 menuCard.setVisibility(View.VISIBLE);
+                break;
+            case REPORTS:
+                reportsAllUsers.setChecked(false);
+                reportsUsersSpinner.setVisibility(View.VISIBLE);
+                reportsAllUsersText.setVisibility(View.GONE);
+                reportsCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKERS:
                 usersCard.setVisibility(View.VISIBLE);
@@ -1536,6 +1592,7 @@ public class MainActivity extends AppCompatActivity {
             case DEPARTMENTS:
             case TASK_MASTER_TASKS:
             case TASKER_TASKS:
+            case REPORTS:
                 askExitOrLogout();
                 break;
             case CHANGE_PASSWORD:
@@ -1591,6 +1648,7 @@ public class MainActivity extends AppCompatActivity {
         loginCard.setVisibility(View.GONE);
         menuCard.setVisibility(View.GONE);
         usersCard.setVisibility(View.GONE);
+        reportsCard.setVisibility(View.GONE);
         departmentsCard.setVisibility(View.GONE);
         addDepartmentCard.setVisibility(View.GONE);
         departmentManagementCard.setVisibility(View.GONE);
@@ -1765,9 +1823,11 @@ public class MainActivity extends AppCompatActivity {
                 if (temp[2].contains("0")) {
                     taskMaster = false;
                     personalTask.setEnabled(false);
+                    llReports.setVisibility(View.GONE);
                 } else {
                     taskMaster = true;
                     personalTask.setEnabled(true);
+                    llReports.setVisibility(View.VISIBLE);
                 }
                 if (temp[3].contains("0")) {
                     admin = false;
@@ -2228,6 +2288,7 @@ public class MainActivity extends AppCompatActivity {
             String[] items = tempUsersNames.toArray(new String[tempUsersNames.size()]);
             taskerSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
             addTaskTaskerSpinner.setAdapter(taskerSpinnerAdapter);
+            reportsUsersSpinner.setAdapter(taskerSpinnerAdapter);
 
             UsersListAdapter usersListAdapter = new UsersListAdapter(activityContext, tempUsersNames, tempUsersIds);
             usersListView.setAdapter(usersListAdapter);

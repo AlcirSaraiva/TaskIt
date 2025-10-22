@@ -225,6 +225,35 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_reports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:paddingStart="10dp" >
+
+            <ImageButton
+                android:id="@+id/reports_card_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/reports"
+                android:scaleType="fitCenter"
+                android:background="#00000000"/>
+
+            <TextView
+                android:id="@+id/reports_card_button_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:gravity="center_vertical"
+                android:text="@string/reports"
+                android:textSize="@dimen/icons_text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_users"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -1857,6 +1886,84 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <!-- reports -->
+
+    <LinearLayout
+        android:id="@+id/reports_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:background="@drawable/panel_bg"
+        android:layout_weight="3"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/reports_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reports"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/title" />
+
+            <CheckBox
+                android:id="@+id/reports_all_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/checkbox_text"
+                android:text="@string/all_users"
+                android:textColor="@color/black"
+                android:buttonTint="@color/checkbox_bg"
+                android:buttonTintMode="multiply" />
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/reports_users_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/input_bg"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/input"
+            android:paddingStart="5dp"
+            android:layout_marginBottom="15dp" />
+
+        <TextView
+            android:id="@+id/reports_all_users_text"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/input_bg_50"
+            android:textColor="@color/text_50"
+            android:textSize="@dimen/text"
+            android:text="@string/all_users"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"/>
+
+        <Button
+            android:id="@+id/reports_create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/buttons_text"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_bg"
+            app:backgroundTint="@color/button_bg"
+            android:backgroundTintMode="multiply"
+            android:text="@string/create_report"/>
+
+    </LinearLayout>
 
     <!-- departments -->
 
