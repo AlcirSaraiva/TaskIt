@@ -1011,6 +1011,14 @@ public class MainActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+        theirTasksMyComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    theirTasksCard.smoothScrollTo(0, 650);
+                }
+            }
+        });
         theirTasksDoneListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -1191,6 +1199,14 @@ public class MainActivity extends AppCompatActivity {
 
                     b1.setTextColor(getColor(R.color.yes));
                     b2.setTextColor(getColor(R.color.no));
+                }
+            }
+        });
+        myTaskMyComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    myTaskCard.smoothScrollTo(0, 450);
                 }
             }
         });
@@ -2810,6 +2826,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateMyTaskCard(int which) {
+        myTaskCard.scrollTo(0,0);
         myTaskTitle.setText(myTasksTitle.get(which));
 
         if (myTasksDescription.get(which).isEmpty()) {
@@ -2917,7 +2934,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateTheirTasksCard(int which) {
-        theirTasksCard.smoothScrollTo(0,0);
+        theirTasksCard.scrollTo(0,0);
         theirTasksNameField.setText(usersNames.get(usersIds.indexOf(theirTasksTaskerId.get(which))));
         theirTasksTitleField.setText(theirTasksTitle.get(which));
         theirTasksDescriptionField.setText(theirTasksDescription.get(which));
