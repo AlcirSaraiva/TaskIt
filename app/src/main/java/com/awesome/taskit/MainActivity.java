@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> myTasksTaskMasterComment;
     private ArrayList<Boolean> myTasksTaskMasterMarkedAsDone;
 
-    private boolean showingImage;
+    private boolean showingImage, freeToLoad, theirAlreadyLoaded, myAlreadyLoaded;
     private int selectedTask, selectedAttachment, selectedUser, selectedDepartment;
 
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -163,12 +163,12 @@ public class MainActivity extends AppCompatActivity {
     private final int MAIN_MENU = 1;
     private final int TASK_MASTER_TASKERS = 2;
     private final int TASK_MASTER_TASKS = 3;
-    private final int TASKER_TASKS = 4;
+    private final int USER_TASKS = 4;
     private final int USER_ADD = 5;
     private final int TASK_MASTER_NEW_TASK = 6;
     private final int CHANGE_PASSWORD = 7;
     private final int MY_TASK = 8;
-    private final int THEIR_TASKS = 9;
+    private final int THEIR_TASK = 9;
     private final int MY_TASK_IMAGE_SHOW = 10;
     private final int THEIR_TASKS_IMAGE_SHOW = 11;
     private final int TASKER_MANAGEMENT = 12;
@@ -282,6 +282,10 @@ public class MainActivity extends AppCompatActivity {
         prepareNetwork();
         prepareCamera();
 
+        freeToLoad = true;
+        theirAlreadyLoaded = false;
+        myAlreadyLoaded = false;
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -307,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     loadDepartments();
                     loadUsers();
-                    changeScreen(TASKER_TASKS);
+                    changeScreen(USER_TASKS);
                 }
             }
         }, 100);
@@ -551,13 +555,30 @@ public class MainActivity extends AppCompatActivity {
         taskMasterTasksCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                freeToLoad = false;
                 changeScreen(TASK_MASTER_TASKS);
             }
         });
         taskMasterTasksCardButtonText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                freeToLoad = false;
                 changeScreen(TASK_MASTER_TASKS);
+            }
+        });
+
+        taskerTasksCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                freeToLoad = false;
+                changeScreen(USER_TASKS);
+            }
+        });
+        taskerTasksCardButtonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                freeToLoad = false;
+                changeScreen(USER_TASKS);
             }
         });
 
@@ -584,19 +605,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeScreen(REPORTS);
-            }
-        });
-
-        taskerTasksCardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeScreen(TASKER_TASKS);
-            }
-        });
-        taskerTasksCardButtonText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeScreen(TASKER_TASKS);
             }
         });
 
@@ -1260,12 +1268,14 @@ public class MainActivity extends AppCompatActivity {
         theirTasksTab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeScreen(TASKER_TASKS);
+                freeToLoad = false;
+                changeScreen(USER_TASKS);
             }
         });
         userTasksTab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                freeToLoad = false;
                 changeScreen(TASK_MASTER_TASKS);
             }
         });
@@ -1482,11 +1492,31 @@ public class MainActivity extends AppCompatActivity {
                 departmentManagementCard.setVisibility(View.VISIBLE);
                 break;
             case TASK_MASTER_TASKS:
-                loadTheirTasks();
+                if (theirAlreadyLoaded) {
+                    if (freeToLoad) {
+                        loadTheirTasks();
+                    } else {
+                        freeToLoad = true;
+                    }
+                } else {
+                    loadTheirTasks();
+                    theirAlreadyLoaded = true;
+                }
+
                 taskMasterTasksCard.setVisibility(View.VISIBLE);
                 break;
-            case TASKER_TASKS:
-                loadMyTasks();
+            case USER_TASKS:
+                if (myAlreadyLoaded) {
+                    if (freeToLoad) {
+                        loadMyTasks();
+                    } else {
+                        freeToLoad = true;
+                    }
+                } else {
+                    loadMyTasks();
+                    myAlreadyLoaded = true;
+                }
+
                 taskerTasksCard.setVisibility(View.VISIBLE);
                 break;
             case USER_ADD:
@@ -1571,7 +1601,7 @@ public class MainActivity extends AppCompatActivity {
                     showingImage = false;
                 }
                 break;
-            case THEIR_TASKS:
+            case THEIR_TASK:
                 theirTasksCard.setVisibility(View.VISIBLE);
                 if (!showingImage) {
                     populateTheirTasksCard(selectedTask);
@@ -1609,11 +1639,12 @@ public class MainActivity extends AppCompatActivity {
             case TASK_MASTER_TASKERS:
             case DEPARTMENTS:
             case TASK_MASTER_TASKS:
-            case TASKER_TASKS:
+            case USER_TASKS:
             case REPORTS:
                 askExitOrLogout();
                 break;
             case CHANGE_PASSWORD:
+                freeToLoad = false;
                 changeScreen(lastscreen);
                 break;
             case USER_ADD:
@@ -1625,21 +1656,23 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(DEPARTMENTS);
                 break;
             case TASK_MASTER_NEW_TASK:
-            case THEIR_TASKS:
+            case THEIR_TASK:
                 templateName = "";
                 templateTitle = "";
                 templateDescription = "";
                 templateTime = "";
+                freeToLoad = false;
                 changeScreen(TASK_MASTER_TASKS);
                 break;
             case MY_TASK:
-                changeScreen(TASKER_TASKS);
+                freeToLoad = false;
+                changeScreen(USER_TASKS);
                 break;
             case MY_TASK_IMAGE_SHOW:
                 changeScreen(MY_TASK);
                 break;
             case THEIR_TASKS_IMAGE_SHOW:
-                changeScreen(THEIR_TASKS);
+                changeScreen(THEIR_TASK);
                 break;
         }
     }
@@ -1874,7 +1907,7 @@ public class MainActivity extends AppCompatActivity {
                 if (taskMaster) {
                     changeScreen(TASK_MASTER_TASKS);
                 } else {
-                    changeScreen(TASKER_TASKS);
+                    changeScreen(USER_TASKS);
                 }
             } else {
                 Toast.makeText(context, response, Toast.LENGTH_LONG).show();
@@ -2008,6 +2041,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTheirTasks() {
+        System.out.println(TAG + "loadTheirTasks() time: " + System.currentTimeMillis());
         theirTasksTaskId = new ArrayList<>();
         theirTasksTaskMasterId = new ArrayList<>();
         theirTasksTaskerId = new ArrayList<>();
@@ -2142,6 +2176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMyTasks() {
+        System.out.println(TAG + "loadMyTasks() time: " + System.currentTimeMillis());
         String response = contactServer(loadMyTasksPHP, Java_AES_Cipher.encryptSimple(myID));
         if (!response.contains("ERROR") && !response.contains("<br />")) { // no error response
             myTasksTaskId = new ArrayList<>();
@@ -2437,7 +2472,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (response.contains("Task updated successfully")) {
             Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
-            changeScreen(TASKER_TASKS);
+            changeScreen(USER_TASKS);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -3439,7 +3474,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selectedTask = position;
-                    changeScreen(THEIR_TASKS);
+                    changeScreen(THEIR_TASK);
                 }
             });
 
