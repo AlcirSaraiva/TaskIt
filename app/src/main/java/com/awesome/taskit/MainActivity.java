@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private RelativeLayout topBar;
     private LinearLayout llTasks, llUsers, llReports, llDepartments, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout main, loginCard, menuCard, reportsCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard, theirTasksPics;
+    private LinearLayout main, loginCard, menuCard, reportsCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard, theirTasksPics, theirTasksTCommentsLL;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard, myTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton, reportsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll, reportsCreateButton;
@@ -430,6 +430,7 @@ public class MainActivity extends AppCompatActivity {
         theirTasksPics = findViewById(R.id.their_tasks_pics);
         theirTasksAttachmentIB1 = findViewById(R.id.their_tasks_attachment_ib_1);
         theirTasksAttachmentIB2 = findViewById(R.id.their_tasks_attachment_ib_2);
+        theirTasksTCommentsLL = findViewById(R.id.their_tasks_t_comments_ll);
         theirTasksTComments = findViewById(R.id.their_tasks_t_comments);
         theirTasksMyCommentsTitle = findViewById(R.id.their_tasks_my_comments_title);
         theirTasksMyComments = findViewById(R.id.their_tasks_my_comments);
@@ -1906,6 +1907,7 @@ public class MainActivity extends AppCompatActivity {
                 taskerTasksShowAll.setOnCheckedChangeListener(taskerTasksShowAllListener);
 
                 if (taskMaster) {
+                    loadMyTasks();
                     changeScreen(TASK_MASTER_TASKS);
                 } else {
                     changeScreen(USER_TASKS);
@@ -2962,17 +2964,13 @@ public class MainActivity extends AppCompatActivity {
             myTaskMyComments.setText(myTasksTaskerComment.get(which));
         }
 
-        if (myTasksTaskMasterId.get(which).contains(myID)) {
+        if (myTasksTaskMasterId.get(which).contains(myID) || myTasksTaskMasterComment.get(which).equals(" ")) {
             myTaskTmCommentsTitle.setVisibility(View.GONE);
             myTaskTmComments.setVisibility(View.GONE);
         } else {
             myTaskTmCommentsTitle.setVisibility(View.VISIBLE);
             myTaskTmComments.setVisibility(View.VISIBLE);
-            if (myTasksTaskMasterComment.get(which).equals(" ")) {
-                myTaskTmComments.setText(getString(R.string.no_comments));
-            } else {
-                myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
-            }
+            myTaskTmComments.setText(myTasksTaskMasterComment.get(which));
         }
         myTaskDone.setOnCheckedChangeListener(null);
         myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
@@ -3101,6 +3099,7 @@ public class MainActivity extends AppCompatActivity {
             theirTasksMyCommentsTitle.setVisibility(View.GONE);
             theirTasksMyComments.setVisibility(View.GONE);
             theirTasksDone.setVisibility(View.GONE);
+            theirTasksTCommentsLL.setVisibility(View.VISIBLE);
         } else {
             theirTasksLastModifiedTitle.setVisibility(View.VISIBLE);
             theirTasksLastModified.setVisibility(View.VISIBLE);
@@ -3108,6 +3107,11 @@ public class MainActivity extends AppCompatActivity {
             theirTasksMyCommentsTitle.setVisibility(View.VISIBLE);
             theirTasksMyComments.setVisibility(View.VISIBLE);
             theirTasksDone.setVisibility(View.VISIBLE);
+            if (theirTasksTaskerComment.get(which).equals(" ")) {
+                theirTasksTCommentsLL.setVisibility(View.GONE);
+            } else {
+                theirTasksTCommentsLL.setVisibility(View.VISIBLE);
+            }
         }
 
         if (theirTasksTaskerComment.get(which).equals(" ")) {
