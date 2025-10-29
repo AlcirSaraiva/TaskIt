@@ -1013,64 +1013,72 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/their_tasks_pictures_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pictures"
-                android:textSize="@dimen/text" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp">
+                android:orientation="vertical"
+                android:id="@+id/their_tasks_pics">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/their_tasks_pictures_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pictures"
+                    android:textSize="@dimen/text" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:orientation="horizontal" >
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp">
 
-                    <ImageButton
-                        android:id="@+id/their_tasks_attachment_ib_1"
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/input_bg_50" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal" >
 
-                    <ImageButton
-                        android:id="@+id/their_tasks_attachment_ib_2"
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/input_bg_50" />
+                        <ImageButton
+                            android:id="@+id/their_tasks_attachment_ib_1"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/input_bg_50" />
 
-                </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/their_tasks_attachment_ib_2"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/input_bg_50" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:orientation="horizontal" >
+                    </LinearLayout>
 
-                    <View
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/corners" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal" >
 
-                    <View
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/corners" />
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/corners" />
 
-                </LinearLayout>
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/corners" />
 
-            </RelativeLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/their_tasks_t_comments_title"
