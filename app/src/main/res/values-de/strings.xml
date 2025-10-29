@@ -116,4 +116,9 @@
     <string name="friday">F</string>
     <string name="saturday">S</string>
     <string name="sunday">S</string>
+
+    <string name="csv_error_create">Dateieintrag-Fehler</string>
+    <string name="csv_saved">Datei unter Downloads gespeichert als&#160;</string>
+    <string name="csv_error_open">Ausgabestream-Fehler</string>
+    <string name="csv_error_saving">Fehler beim Speichern:&#160;</string>
 </resources>

@@ -3255,7 +3255,7 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
 
         if (uri == null) {
-            Toast.makeText(context, "Failed to create file entry", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.csv_error_create), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -3263,13 +3263,13 @@ public class MainActivity extends AppCompatActivity {
             if (out != null) {
                 out.write(text.getBytes());
                 out.flush();
-                Toast.makeText(context, "File saved to Downloads as " + fileName, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.csv_saved) + fileName, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(context, "Failed to open output stream", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getString(R.string.csv_error_open), Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Error saving file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.csv_error_saving) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
