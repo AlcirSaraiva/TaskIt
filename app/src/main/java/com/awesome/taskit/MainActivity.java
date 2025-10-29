@@ -3208,7 +3208,7 @@ public class MainActivity extends AppCompatActivity {
                     line[8] = line[8].replace("\n", " ↵ ");
                     line[9] = line[9].replace("\n", " ↵ ");
                     if (allUsers) {
-                        if (tempoDeptFound && !line[1].equals(line[12]) && !myID.equals(line[1])) {
+                        if ( tempoDeptFound || myID.equals(line[1]) || line[1].equals(line[12])) {
                             report += "\n" + line[12] + "|" +
                                     usersNames.get(usersIds.indexOf(line[12])) + "|" +
                                     line[1] + "|" +
