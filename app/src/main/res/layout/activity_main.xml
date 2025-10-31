@@ -1333,8 +1333,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title"
-                android:layout_marginBottom="20dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"/>
 
             <TextView
                 android:id="@+id/my_task_description"
@@ -1342,8 +1342,23 @@
                 android:layout_height="wrap_content"
                 android:text="@string/description"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text"
-                android:layout_marginBottom="15dp" />
+                android:textSize="@dimen/text" />
+
+            <LinearLayout
+                android:id="@+id/my_task_description_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/my_task_checkboxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Check boxes"
+                android:layoutDirection="rtl"
+                android:gravity="end|center_vertical"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

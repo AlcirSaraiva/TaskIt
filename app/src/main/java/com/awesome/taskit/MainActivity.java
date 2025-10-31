@@ -181,12 +181,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView appTitle, addUserIdField, addTaskDate, addTaskTime, myTaskTitle, myTaskDescription, myTaskDeadline, myTaskTmComments, theirTasksNameField, theirTasksDate, theirTasksTime, theirTasksTComments, usersManagementId, theirTasksLastModified, changePassCardButtonText, deleteDoneButtonText;
     private RelativeLayout topBar;
     private LinearLayout llTasks, llUsers, llReports, llDepartments, llMyTasks, llDeleteDone, llChangePass;
-    private LinearLayout main, loginCard, menuCard, reportsCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard, theirTasksPics, theirTasksTCommentsLL;
+    private LinearLayout main, loginCard, menuCard, reportsCard, usersCard, changePasswordCard, taskerTrigger, departmentsCard, addDepartmentCard, departmentManagementCard, addUserDepartments, usersManagementDepartments, taskMasterTasksCard, taskerTasksCard, theirTasksPics, theirTasksTCommentsLL, myTaskDescriptionContainer;
     private ScrollView addUserCard, theirTasksCard, usersManagementCard, addTaskCard, myTaskCard;
     private ImageButton backButton, taskMasterTaskersCardButton, taskMasterTasksCardButton, taskerTasksCardButton, myTaskAttachment1, myTaskAttachment2, myTaskAttachment1TakePic, myTaskAttachment1DelPic, myTaskAttachment2TakePic, myTaskAttachment2DelPic, theirTasksAttachmentIB1, theirTasksAttachmentIB2, changePassCardButton, deleteDoneButton, menuButton, myTasksReload, theirTasksReload, departmentsCardButton, reportsCardButton;
     private Button signInButton, addUserCardButton, addUserGenerateIdButton, addUserAddButton, addTaskCardButton, addTaskButton, changePasswordChangeButton, myTaskSaveButton, theirTasksSaveButton, deleteUserButton, updateUserButton, theirTasksTemplateButton, addDepartmentCardButton, addDepartmentAddButton, deleteDepartmentButton, updateDepartmentButton, theirTasksDeleteButton, addTaskMarkAll, reportsCreateButton;
     private EditText loginUsernameField, loginPasswordField, addUserNameField, changePasswordOldField, changePasswordNew1Field, changePasswordNew2Field, addTaskTitle, addTaskDescription, myTaskMyComments, theirTasksTitleField, theirTasksDescriptionField, theirTasksMyComments, usersManagementNameField, addDepartmentNameField, addDepartmentObsField, departmentManagementNameField, departmentManagementObsField;
-    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksShowAll, personalTask, reportsAllUsers;
+    private CheckBox loginKeep, addUserTaskMaster, addUserAdmin, myTaskDone, theirTasksDone, usersManagementTaskMaster, usersManagementAdmin, showAllTheirs, addTaskDay1, addTaskDay2, addTaskDay3, addTaskDay4, addTaskDay5, addTaskDay6, addTaskDay7, taskerTasksShowAll, personalTask, reportsAllUsers, myTaskCheckboxes;
     private CompoundButton.OnCheckedChangeListener myTaskDoneListener, theirTasksDoneListener, taskerTasksShowAllListener;
     private Spinner addTaskTaskerSpinner, addTaskNTimes, addUserDepartmentSpinner, usersManagementDepartmentSpinner, reportsUsersSpinner;
     private ListView usersListView, theirTasksListView, myTasksListView, departmentsListView;
@@ -465,6 +465,8 @@ public class MainActivity extends AppCompatActivity {
 
         myTaskTitle = findViewById(R.id.my_task_title);
         myTaskDescription = findViewById(R.id.my_task_description);
+        myTaskDescriptionContainer = findViewById(R.id.my_task_description_container);
+        myTaskCheckboxes = findViewById(R.id.my_task_checkboxes);
         myTaskDeadline = findViewById(R.id.my_task_deadline);
         myTaskPicturesTitle = findViewById(R.id.my_task_pictures_title);
         myTaskAttachment1 = findViewById(R.id.my_task_attachment_1);
@@ -1086,6 +1088,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        myTaskCheckboxes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                changeMyCheckBoxes(isChecked);
+            }
+        });
         myTaskAttachment1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1372,6 +1380,7 @@ public class MainActivity extends AppCompatActivity {
 
         myTaskTitle.setTypeface(font1);
         myTaskDescription.setTypeface(font2);
+        myTaskCheckboxes.setTypeface(font2);
         myTaskDeadlineTitle.setTypeface(font1);
         myTaskDeadline.setTypeface(font1);
         myTaskPicturesTitle.setTypeface(font1);
@@ -2467,18 +2476,34 @@ public class MainActivity extends AppCompatActivity {
         ho = tempNow.get(Calendar.HOUR_OF_DAY);
         mi = tempNow.get(Calendar.MINUTE);
 
+        String text = "";
+        if (myTaskCheckboxes.isChecked()) {
+            for (int i = 0; i < myTaskDescriptionContainer.getChildCount(); i ++) {
+                View child = myTaskDescriptionContainer.getChildAt(i);
+                if (child instanceof CheckBox) {
+                    CheckBox checkBox = (CheckBox) child;
+                    String prefix = checkBox.isChecked() ? "☑ " : "☐ ";
+                    text += prefix + checkBox.getText() + "\n";
+                }
+            }
+        } else {
+            text = myTaskDescription.getText().toString();
+        }
+
         String rawData = myTasksTaskId.get(selectedTask) + fS +
                 tempMarked + fS +
                 tempAttachment1 + fS +
                 tempAttachment2 + fS +
                 myTasksTaskerComment.get(selectedTask) + fS +
-                ye + "-" + String.format("%02d", mo) + "-" + String.format("%02d", da) + " " + String.format("%02d", ho) + ":" + String.format("%02d", mi) + ":00";
+                ye + "-" + String.format("%02d", mo) + "-" + String.format("%02d", da) + " " + String.format("%02d", ho) + ":" + String.format("%02d", mi) + ":00" + fS +
+                text;
 
         String response = contactServer(updateMyTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
 
         if (response.contains("Task updated successfully")) {
             Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
+            freeToLoad = true;
             if (myTasksTaskMasterId.get(selectedTask).contains(myID)) {
                 loadTheirTasks();
             }
@@ -2523,18 +2548,29 @@ public class MainActivity extends AppCompatActivity {
         String tempMarked = "0";
         if (theirTasksTaskMasterMarkedAsDone.get(selectedTask)) tempMarked = "1";
 
-        String rawData = theirTasksTaskId.get(selectedTask) + fS +
-                         theirTasksTitle.get(selectedTask) + fS +
-                         theirTasksDescription.get(selectedTask) + fS +
-                         theirTasksDeadline.get(selectedTask) + fS +
-                         theirTasksTaskMasterComment.get(selectedTask) + fS +
-                         tempMarked;
+        String rawData = "";
+        if (myID.equals(theirTasksTaskerId.get(selectedTask))) {
+            rawData = theirTasksTaskId.get(selectedTask) + fS +
+                    theirTasksTitle.get(selectedTask) + fS +
+                    theirTasksDescription.get(selectedTask) + fS +
+                    theirTasksDeadline.get(selectedTask) + fS +
+                    theirTasksTaskerComment.get(selectedTask) + fS +
+                    tempMarked;
+        } else {
+            rawData = theirTasksTaskId.get(selectedTask) + fS +
+                    theirTasksTitle.get(selectedTask) + fS +
+                    theirTasksDescription.get(selectedTask) + fS +
+                    theirTasksDeadline.get(selectedTask) + fS +
+                    " " + fS +
+                    tempMarked;
+        }
 
         String response = contactServer(updateTheirTasksPHP, Java_AES_Cipher.encryptSimple(rawData));
         response = response.replaceAll(newLine, "\n");
 
         if (response.contains("Task updated successfully")) {
             Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
+            freeToLoad = true;
             if (myID.equals(theirTasksTaskerId.get(selectedTask))) {
                 loadMyTasks();
             }
@@ -2878,9 +2914,16 @@ public class MainActivity extends AppCompatActivity {
         myTaskTitle.setText(myTasksTitle.get(which));
 
         if (myTasksDescription.get(which).isEmpty()) {
-            myTaskDescription.setText(getString(R.string.no_description));
+            myTaskDescription.setVisibility(View.GONE);
+            myTaskDescriptionContainer.setVisibility(View.GONE);
         } else {
             myTaskDescription.setText(myTasksDescription.get(which));
+            String text = myTasksDescription.get(which);
+            if (text.charAt(0) == '☑' || text.charAt(0) == '☐') {
+                myTaskCheckboxes.setChecked(true);
+            } else {
+                myTaskCheckboxes.setChecked(false);
+            }
         }
 
         String[] tempDeadline = myTasksDeadline.get(which).split(" ");
@@ -2975,6 +3018,43 @@ public class MainActivity extends AppCompatActivity {
         myTaskDone.setOnCheckedChangeListener(null);
         myTaskDone.setChecked(myTasksTaskerMarkedAsDone.get(which));
         myTaskDone.setOnCheckedChangeListener(myTaskDoneListener);
+    }
+
+    private void changeMyCheckBoxes(boolean checked) {
+        String text = myTasksDescription.get(selectedTask);
+        myTaskDescriptionContainer.removeAllViews();
+        if (checked) {
+            myTaskDescriptionContainer.setVisibility(View.VISIBLE);
+            myTaskDescription.setVisibility(View.GONE);
+            String[] lines = text.split("\\r?\\n");
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i].trim().isEmpty()) continue;
+                CheckBox checkBox = new CheckBox(context);
+                if (lines[i].charAt(0) == '☑') {
+                    checkBox.setChecked(true);
+                    lines[i] = lines[i].replace("☑ ", "");
+                } else if (lines[i].charAt(0) == '☐') {
+                    lines[i] = lines[i].replace("☐ ", "");
+                }
+                checkBox.setText(lines[i].trim());
+                myTaskDescriptionContainer.addView(checkBox);
+            }
+        } else {
+            myTaskDescriptionContainer.setVisibility(View.GONE);
+            myTaskDescription.setVisibility(View.VISIBLE);
+            String[] lines = text.split("\\r?\\n");
+            text = "";
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i].trim().isEmpty()) continue;
+                if (lines[i].charAt(0) == '☑') {
+                    lines[i] = lines[i].replace("☑ ", "");
+                } else if (lines[i].charAt(0) == '☐') {
+                    lines[i] = lines[i].replace("☐ ", "");
+                }
+                text += lines[i] + "\n";
+            }
+            myTaskDescription.setText(text);
+        }
     }
 
     private void populateTheirTasksCard(int which) {
