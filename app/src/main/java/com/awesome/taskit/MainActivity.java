@@ -2447,6 +2447,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMyTask() {
+        hideKeyboard();
         myTaskAttachment1.setEnabled(false);
         myTaskAttachment1TakePic.setEnabled(false);
         myTaskAttachment1DelPic.setEnabled(false);
@@ -2538,6 +2539,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTheirTasks() {
+        hideKeyboard();
         theirTasksSaveButton.setEnabled(false);
 
         if (!theirTasksTitleField.getText().toString().isEmpty()) theirTasksTitle.set(selectedTask, theirTasksTitleField.getText().toString());
@@ -2561,7 +2563,7 @@ public class MainActivity extends AppCompatActivity {
                     theirTasksTitle.get(selectedTask) + fS +
                     theirTasksDescription.get(selectedTask) + fS +
                     theirTasksDeadline.get(selectedTask) + fS +
-                    " " + fS +
+                    theirTasksTaskMasterComment.get(selectedTask) + fS +
                     tempMarked;
         }
 
@@ -2756,8 +2758,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (response.contains("Task deleted")) {
             Toast.makeText(context, getString(R.string.task_deleted), Toast.LENGTH_LONG).show();
+            if (myID.contains(theirTasksTaskerId.get(selectedTask))) {
+                loadMyTasks();
+            }
             changeScreen(TASK_MASTER_TASKS);
-            loadTheirTasks();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
