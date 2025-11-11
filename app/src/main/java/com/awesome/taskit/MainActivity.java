@@ -3043,6 +3043,14 @@ public class MainActivity extends AppCompatActivity {
                     lines[i] = lines[i].replace("☐ ", "");
                 }
                 checkBox.setText(lines[i].trim());
+
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        System.out.println(TAG + System.currentTimeMillis());
+                    }
+                });
+
                 myTaskDescriptionContainer.addView(checkBox);
             }
         } else {
