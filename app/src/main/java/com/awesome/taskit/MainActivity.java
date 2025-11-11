@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.TypedValue;
@@ -207,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> taskerSpinnerAdapter, departmentsSpinnerAdapter;
 
     private String[] departmentsArray;
+
+    private Handler cbHandler;
 
     // network
     private boolean isOnline; //TODO check if is online before calls to server
@@ -1238,6 +1241,10 @@ public class MainActivity extends AppCompatActivity {
         myTaskSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (cbHandler != null) {
+                    cbHandler.removeCallbacksAndMessages(null);
+                    cbHandler = null;
+                }
                 updateMyTask();
             }
         });
@@ -1676,6 +1683,10 @@ public class MainActivity extends AppCompatActivity {
                 changeScreen(TASK_MASTER_TASKS);
                 break;
             case MY_TASK:
+                if (cbHandler != null) {
+                    cbHandler.removeCallbacksAndMessages(null);
+                    cbHandler = null;
+                }
                 freeToLoad = false;
                 changeScreen(USER_TASKS);
                 break;
@@ -2540,6 +2551,86 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateMyTaskAndStay() {
+        hideKeyboard();
+        myTaskAttachment1.setEnabled(false);
+        myTaskAttachment1TakePic.setEnabled(false);
+        myTaskAttachment1DelPic.setEnabled(false);
+        myTaskAttachment2.setEnabled(false);
+        myTaskAttachment2TakePic.setEnabled(false);
+        myTaskAttachment2DelPic.setEnabled(false);
+        myTaskSaveButton.setEnabled(false);
+
+        if (myTaskMyComments.getText().toString().isEmpty()) {
+            myTasksTaskerComment.set(selectedTask, " ");
+        } else {
+            myTasksTaskerComment.set(selectedTask, myTaskMyComments.getText().toString());
+        }
+
+        String tempMarked = "0";
+        if (myTasksTaskerMarkedAsDone.get(selectedTask)) tempMarked = "1";
+        String tempAttachment1 = "0";
+        if (myTasksAttachment1.get(selectedTask)) tempAttachment1 = "1";
+        String tempAttachment2 = "0";
+        if (myTasksAttachment2.get(selectedTask)) tempAttachment2 = "1";
+
+        Calendar tempNow = Calendar.getInstance();
+        int da, mo, ye, ho, mi;
+        da = tempNow.get(Calendar.DAY_OF_MONTH);
+        mo = tempNow.get(Calendar.MONTH) + 1;
+        ye = tempNow.get(Calendar.YEAR);
+        ho = tempNow.get(Calendar.HOUR_OF_DAY);
+        mi = tempNow.get(Calendar.MINUTE);
+
+        String text = "";
+        if (myTaskCheckboxes.isChecked()) {
+            for (int i = 0; i < myTaskDescriptionContainer.getChildCount(); i ++) {
+                View child = myTaskDescriptionContainer.getChildAt(i);
+                if (child instanceof CheckBox) {
+                    CheckBox checkBox = (CheckBox) child;
+                    String prefix = checkBox.isChecked() ? "☑ " : "☐ ";
+                    text += prefix + checkBox.getText() + "\n";
+                }
+            }
+        } else {
+            text = myTaskDescription.getText().toString();
+        }
+
+        String rawData = myTasksTaskId.get(selectedTask) + fS +
+                tempMarked + fS +
+                tempAttachment1 + fS +
+                tempAttachment2 + fS +
+                myTasksTaskerComment.get(selectedTask) + fS +
+                ye + "-" + String.format("%02d", mo) + "-" + String.format("%02d", da) + " " + String.format("%02d", ho) + ":" + String.format("%02d", mi) + ":00" + fS +
+                text;
+
+        String response = contactServer(updateMyTaskPHP, Java_AES_Cipher.encryptSimple(rawData));
+        response = response.replaceAll(newLine, "\n");
+
+        if (response.contains("Task updated successfully")) {
+            Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_LONG).show();
+            freeToLoad = true;
+            if (myTasksTaskMasterId.get(selectedTask).contains(myID)) {
+                loadTheirTasks();
+            }
+            myTaskAttachment1.setEnabled(true);
+            myTaskAttachment1TakePic.setEnabled(true);
+            myTaskAttachment1DelPic.setEnabled(true);
+            myTaskAttachment2.setEnabled(true);
+            myTaskAttachment2TakePic.setEnabled(true);
+            myTaskAttachment2DelPic.setEnabled(true);
+            myTaskSaveButton.setEnabled(true);
+        } else {
+            myTaskAttachment1.setEnabled(true);
+            myTaskAttachment1TakePic.setEnabled(true);
+            myTaskAttachment1DelPic.setEnabled(true);
+            myTaskAttachment2.setEnabled(true);
+            myTaskAttachment2TakePic.setEnabled(true);
+            myTaskAttachment2DelPic.setEnabled(true);
+            myTaskSaveButton.setEnabled(true);
+        }
+    }
+
     private void updateTheirTasks() {
         hideKeyboard();
         theirTasksSaveButton.setEnabled(false);
@@ -3047,7 +3138,18 @@ public class MainActivity extends AppCompatActivity {
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                        System.out.println(TAG + System.currentTimeMillis());
+                        if (cbHandler != null) {
+                            //restart timer
+                            cbHandler.removeCallbacksAndMessages(null);
+                        }
+                        cbHandler = new Handler(Looper.getMainLooper());
+                        cbHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateMyTaskAndStay();
+                                cbHandler = null;
+                            }
+                        }, 3000);
                     }
                 });
 
