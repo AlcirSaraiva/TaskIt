@@ -39,7 +39,7 @@
     <string name="my_comments">Meus comentários</string>
     <string name="task_is_complete">Marcar tarefa como concluída</string>
     <string name="ive_completed_this_task">Eu concluí a tarefa</string>
-    <string name="add_task_s">Criar tarefa</string>
+    <string name="add_task_s">Salvar tarefa</string>
     <string name="add_more">Salvar e adicionar outra</string>
     <string name="close_day">Encerrar dia</string>
     <string name="close_day_q">Encerrar o dia?</string>

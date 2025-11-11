@@ -39,7 +39,7 @@
     <string name="my_comments">Meine Kommentare</string>
     <string name="task_is_complete">Aufgabe als erledigt markieren</string>
     <string name="ive_completed_this_task">Ich habe diese Aufgabe erledigt</string>
-    <string name="add_task_s">Aufgabe hinzufügen</string>
+    <string name="add_task_s">Aufgabe speichern</string>
     <string name="add_more">Speichern &amp; weitere hinzufügen</string>
     <string name="close_day">Tag erledigen</string>
     <string name="close_day_q">Close the day?</string>

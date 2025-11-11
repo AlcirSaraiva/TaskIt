@@ -39,7 +39,7 @@
     <string name="my_comments">My comments</string>
     <string name="task_is_complete">Mark task as completed</string>
     <string name="ive_completed_this_task">I have completed this task</string>
-    <string name="add_task_s">Add task</string>
+    <string name="add_task_s">Save task</string>
     <string name="add_more">Save one &amp; add more</string>
     <string name="close_day">Close day</string>
     <string name="close_day_q">Close the day?</string>
