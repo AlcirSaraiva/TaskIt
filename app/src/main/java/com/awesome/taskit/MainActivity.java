@@ -2074,7 +2074,7 @@ public class MainActivity extends AppCompatActivity {
             String[] tempDepartments = myDepartments.split(",");
             int tempPosition;
             boolean tempoDeptFound;
-
+            Calendar now = Calendar.getInstance();
             for (int i = 0; i < lines.length; i ++) {
                 line = lines[i].split(fS);
                 tempoDeptFound = false;
@@ -2086,38 +2086,40 @@ public class MainActivity extends AppCompatActivity {
                                 tempoDeptFound = true;
                             }
                         }
-                        if ( (line[12].equals(line[1]) && myID.equals(line[12])) || (tempoDeptFound && !line[1].equals(line[12]) && !myID.equals(line[1])) ) {
-                            theirTasksTaskId.add(line[0]);
-                            theirTasksTaskerId.add(line[1]);
-                            theirTasksTitle.add(line[2]);
-                            theirTasksDescription.add(line[3]);
-                            theirTasksDeadline.add(line[4]);
-                            if (line[5].contains("0")) {
-                                theirTasksTaskerMarkedAsDone.add(false);
-                            } else {
-                                theirTasksTaskerMarkedAsDone.add(true);
-                            }
-                            if (line[6].contains("0")) {
-                                theirTasksAttachment1.add(false);
-                            } else {
-                                theirTasksAttachment1.add(true);
-                            }
-                            if (line[7].contains("0")) {
-                                theirTasksAttachment2.add(false);
-                            } else {
-                                theirTasksAttachment2.add(true);
-                            }
-                            theirTasksTaskerComment.add(line[8]);
-                            theirTasksTaskMasterComment.add(line[9]);
+                        if (isCurrentMonth(line[4])) {
+                            if ((line[12].equals(line[1]) && myID.equals(line[12])) || (tempoDeptFound && !line[1].equals(line[12]) && !myID.equals(line[1]))) {
+                                theirTasksTaskId.add(line[0]);
+                                theirTasksTaskerId.add(line[1]);
+                                theirTasksTitle.add(line[2]);
+                                theirTasksDescription.add(line[3]);
+                                theirTasksDeadline.add(line[4]);
+                                if (line[5].contains("0")) {
+                                    theirTasksTaskerMarkedAsDone.add(false);
+                                } else {
+                                    theirTasksTaskerMarkedAsDone.add(true);
+                                }
+                                if (line[6].contains("0")) {
+                                    theirTasksAttachment1.add(false);
+                                } else {
+                                    theirTasksAttachment1.add(true);
+                                }
+                                if (line[7].contains("0")) {
+                                    theirTasksAttachment2.add(false);
+                                } else {
+                                    theirTasksAttachment2.add(true);
+                                }
+                                theirTasksTaskerComment.add(line[8]);
+                                theirTasksTaskMasterComment.add(line[9]);
 
-                            if (line[10].contains("0")) {
-                                theirTasksTaskMasterMarkedAsDone.add(false);
-                            } else {
-                                theirTasksTaskMasterMarkedAsDone.add(true);
-                            }
+                                if (line[10].contains("0")) {
+                                    theirTasksTaskMasterMarkedAsDone.add(false);
+                                } else {
+                                    theirTasksTaskMasterMarkedAsDone.add(true);
+                                }
 
-                            theirTasksLastModifiedDateTime.add(line[11]);
-                            theirTasksTaskMasterId.add(line[12]);
+                                theirTasksLastModifiedDateTime.add(line[11]);
+                                theirTasksTaskMasterId.add(line[12]);
+                            }
                         }
                     }
                 } else {
@@ -2209,8 +2211,8 @@ public class MainActivity extends AppCompatActivity {
                 line = lines[i].split(fS);
                 if ( line.length == 11 &&
                         (( line[10].equals("0") || myID.equals(line[1]) ) ||
-                        ( line[5].equals("0") || taskerTasksShowAll.isChecked() )) &&
-                        ( taskerTasksShowAll.isChecked() || isToday(line[4]) ) ) {
+                        ( line[5].equals("0") || (taskerTasksShowAll.isChecked() && isCurrentMonth(line[4])) )) &&
+                        ( (taskerTasksShowAll.isChecked() && isCurrentMonth(line[4])) || isToday(line[4]) ) ) {
                     myTasksTaskId.add(line[0]);
                     myTasksTaskMasterId.add(line[1]);
                     myTasksTitle.add(line[2]);
@@ -3979,6 +3981,26 @@ public class MainActivity extends AppCompatActivity {
             ye = Integer.parseInt(tempDate[0]);
 
             if (today.get(Calendar.DAY_OF_MONTH) == da && today.get(Calendar.MONTH) == mo && today.get(Calendar.YEAR) == ye) result = true;
+        }
+
+        return result;
+    }
+
+    private boolean isCurrentMonth(String deadline) {
+        boolean result = false;
+
+        Calendar today = Calendar.getInstance();
+
+        int mo, ye;
+        String[] deadlineFields = deadline.split(" ");
+        String[] tempDate;
+
+        if (deadlineFields.length == 2) {
+            tempDate = deadlineFields[0].split("-");
+            mo = Integer.parseInt(tempDate[1]) - 1;
+            ye = Integer.parseInt(tempDate[0]);
+
+            if (today.get(Calendar.MONTH) == mo && today.get(Calendar.YEAR) == ye) result = true;
         }
 
         return result;
